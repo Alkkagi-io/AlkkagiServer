@@ -179,9 +179,3 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
-
-# submodules
-# 서브모듈의 변경사항을 루트 레포에서 추적하지 않음
-AlkkagiData/
-
-# End of submodules
