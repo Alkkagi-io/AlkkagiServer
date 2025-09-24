@@ -1,0 +1,3 @@
+[submodule "AlkkagiData"]
+	path = AlkkagiData
+	url = https://github.com/Alkkagi-io/AlkkagiData.git
