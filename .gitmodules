@@ -1,3 +1,6 @@
 [submodule "AlkkagiData"]
 	path = AlkkagiData
 	url = https://github.com/Alkkagi-io/AlkkagiData.git
+[submodule "AlkkagiShared"]
+	path = AlkkagiShared
+	url = https://github.com/Alkkagi-io/AlkkagiShared.git
