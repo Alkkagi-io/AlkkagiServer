@@ -1,3 +1,6 @@
+// Libraries
+import express from 'express';
+
 // Modules
 import { logger } from '../AlkkagiShared/modules/logger.js';
 
@@ -14,6 +17,9 @@ const serverOptions = createServerOptions({
 
 const gameServer = new GameServer(serverOptions);
 gameServer.start();
+
+// serve static files
+gameServer.expressApp.use(express.static('public'));
 
 // handle shutdown
 process.on('SIGTERM', () => {
