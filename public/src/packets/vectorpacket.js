@@ -3,6 +3,12 @@ import { Vector } from "../modules/vector.js";
 import { VectorInt } from "../modules/vectorint.js";
 
 class VectorPacket extends Packet {
+    constructor() {
+        super();
+        this.vector = new Vector();
+        this.vectorInt = new VectorInt();
+    }
+
     constructor(vector, vectorInt) {
         super();
         this.vector = vector;

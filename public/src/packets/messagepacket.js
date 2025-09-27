@@ -1,6 +1,11 @@
 import { EPacketID, Packet, getFlexiableUTF8Size } from "./index.js";
 
 class MessagePacket extends Packet {
+    constructor() {
+        super();
+        this.message = '';
+    }
+
     constructor(message) {
         super();
         this.message = message;

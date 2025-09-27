@@ -1,6 +1,12 @@
 import { SerializableData } from './serializabledata.js';
 
 class Vector extends SerializableData {
+    constructor() {
+        super();
+        this.x = 0;
+        this.y = 0;
+    }
+
     constructor(x, y) {
         super();
         this.x = x;
