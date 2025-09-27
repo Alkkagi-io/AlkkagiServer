@@ -17,6 +17,7 @@ class Client extends EventEmitter {
             const packetID = readHandle.readUint8();
 
             globalThis.logger.info('GameServer', `Packet received. PacketID: ${packetID}`);
+            // globalThis.logger.info('GameServer', `Buffer: ${JSON.stringify(message)}`);
 
             try {
                 const packet = PacketManager.createPacket(packetID, buffer);

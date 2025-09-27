@@ -1,47 +1,28 @@
-import { BufferReadHandle, BufferWriteHandle } from "../index.js";
+import { SerializableData } from "../../modules/serializabledata.js";
 
-class Packet {
+class Packet extends SerializableData {
     constructor() {
+        super();
     }
 
     getPacketID() {
         throw new Error("Abstract method 'getPacketID' must be implemented");
     }
 
-    getFlexiablePacketSize() {
-        let packetSize = 0;
-        packetSize += 1; // packetID
+    getFlexiableSize() {
+        let size = 0;
+        
+        size += 1; // packetID
 
-        return packetSize;
-    }
-
-    serialize() {
-        const buffer = new ArrayBuffer(this.getFlexiablePacketSize());
-        const writeHandle = new BufferWriteHandle(buffer);
-
-        writeHandle.writeUint8(this.getPacketID());
-
-        this.onSerialize(writeHandle);
-
-        return writeHandle.build();
+        return size;
     }
 
     onSerialize(writeHandle) {
-        throw new Error("Abstract method 'onSerialize' must be implemented");
-    }
-
-    deserialize(data) {
-        const readHandle = new BufferReadHandle(data);
-
-        readHandle.readUint8(); // skip packetID
-
-        this.onDeserialize(readHandle);
-
-        return this;
+        writeHandle.writeUint8(this.getPacketID()); // write packetID
     }
 
     onDeserialize(readHandle) {
-        throw new Error("Abstract method 'onDeserialize' must be implemented");
+        readHandle.readUint8(); // skip packetID
     }
 }
 

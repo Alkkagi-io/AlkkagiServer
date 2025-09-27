@@ -10,19 +10,23 @@ class MessagePacket extends Packet {
         return EPacketID.MESSAGE;
     }
 
-    getFlexiablePacketSize() {
-        let packetSize = super.getFlexiablePacketSize();
+    getFlexiableSize() {
+        let size = super.getFlexiableSize();
 
-        packetSize += getFlexiableUTF8Size(this.message); // utf8 str (max 4 bytes)
+        size += getFlexiableUTF8Size(this.message); // utf8 str (max 4 bytes)
 
-        return packetSize;
+        return size;
     }
 
     onSerialize(writeHandle) {
+        super.onSerialize(writeHandle);
+
         writeHandle.writeStringUTF8(this.message);
     }
 
     onDeserialize(readHandle) {
+        super.onDeserialize(readHandle);
+
         this.message = readHandle.readStringUTF8();
     }
 }

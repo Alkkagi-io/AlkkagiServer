@@ -40,6 +40,39 @@ class BufferReadHandle {
         return value;
     }
 
+    readInt8() {
+        if(this.offset + 1 > this.buffer.byteLength) {
+            throw new Error('Error with readInt8: Out of bounds');
+        }
+
+        const value = this.view.getInt8(this.offset);
+        this.offset += 1;
+
+        return value;
+    }
+    
+    readInt16() {
+        if(this.offset + 2 > this.buffer.byteLength) {
+            throw new Error('Error with readInt16: Out of bounds');
+        }
+
+        const value = this.view.getInt16(this.offset, true);
+        this.offset += 2;
+
+        return value;
+    }
+    
+    readInt32() {
+        if(this.offset + 4 > this.buffer.byteLength) {
+            throw new Error('Error with readInt32: Out of bounds');
+        }
+
+        const value = this.view.getInt32(this.offset, true);
+        this.offset += 4;
+
+        return value;
+    }
+
     readFloat32() {
         if(this.offset + 4 > this.buffer.byteLength) {
             throw new Error('Error with readFloat32: Out of bounds');
@@ -85,6 +118,17 @@ class BufferReadHandle {
     
         return str;
     }
+
+    readBytes() {
+        const length = this.readUint16();
+        if(this.offset + length > this.buffer.byteLength) 
+            throw new Error('Error with readBytes: Out of bounds');
+
+        const bytes = new Uint8Array(this.buffer.slice(this.offset, this.offset + length));
+        this.offset += length;
+
+        return bytes;
+    }
 }
 
 class BufferWriteHandle {
@@ -118,6 +162,33 @@ class BufferWriteHandle {
         }
 
         this.view.setUint32(this.offset, value, true);
+        this.offset += 4;
+    }
+
+    writeInt8(value) {
+        if(this.offset + 1 > this.buffer.byteLength) {
+            throw new Error('Error with writeInt8: Out of bounds');
+        }
+
+        this.view.setInt8(this.offset, value);
+        this.offset += 1;
+    }
+    
+    writeInt16(value) {
+        if(this.offset + 2 > this.buffer.byteLength) {
+            throw new Error('Error with writeInt16: Out of bounds');
+        }
+
+        this.view.setInt16(this.offset, value, true);
+        this.offset += 2;
+    }
+    
+    writeInt32(value) {
+        if(this.offset + 4 > this.buffer.byteLength) {
+            throw new Error('Error with writeInt32: Out of bounds');
+        }
+
+        this.view.setInt32(this.offset, value, true);
         this.offset += 4;
     }
     
@@ -171,6 +242,17 @@ class BufferWriteHandle {
         this.offset += length;
     }
 
+    writeBytes(bytes) {
+        const length = bytes.length;
+        if(this.offset + length > this.buffer.byteLength) 
+            throw new Error('Error with writeBytes: Out of bounds');
+
+        this.writeUint16(length);
+        new Uint8Array(this.buffer, this.offset, length).set(bytes);
+
+        this.offset += length;
+    }
+
     build() {
         return this.buffer.slice(0, this.offset);
     }
@@ -184,5 +266,9 @@ function getFlexiableUTF16LESize(value) {
     return 2 + value.length * 4;
 }
 
+function getBytesHeaderSize() {
+    return 2;
+}
+
 export { BufferReadHandle, BufferWriteHandle };
-export { getFlexiableUTF8Size, getFlexiableUTF16LESize };
+export { getFlexiableUTF8Size, getFlexiableUTF16LESize, getBytesHeaderSize };

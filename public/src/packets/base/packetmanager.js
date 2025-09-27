@@ -1,7 +1,6 @@
 class PacketManager {
     static factories = { };
     static handlers = { };
-    static packetArgs = [ ];
     static handlerArgs = [ ];
 
     constructor() {
@@ -13,13 +12,13 @@ class PacketManager {
         this.handlers[packetID] = PacketHandlerType;
     }
 
-    static createPacket(packetID, buffer, ...args) {
+    static createPacket(packetID, buffer) {
         const factory = this.factories[packetID];
         if(factory === undefined) {
             throw new Error(`Factory for packetID ${packetID} not found`);
         }
 
-        const packet = new factory(...this.packetArgs, ...args);
+        const packet = new factory();
         packet.deserialize(buffer);
         return packet;
     }
@@ -31,10 +30,6 @@ class PacketManager {
         }
 
         return new handler(...this.handlerArgs, ...args);
-    }
-
-    static injectPacketArgs(...args) {
-        this.packetArgs = args;
     }
 
     static injectHandlerArgs(...args) {
