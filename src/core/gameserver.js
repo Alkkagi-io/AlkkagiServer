@@ -34,13 +34,10 @@ class GameServer {
         this.socketServer.on('connection', (socket, req) => {
             globalThis.logger.info('GameServer', 'Client connected');
 
-            var client = new Client(socket);
+            const client = new Client(socket);
             this.connectedClients.add(client);
 
             client.on('message', (message) => {
-
-                globalThis.logger.info('GameServer', `Message: ${JSON.stringify(message)}, message.buffer: ${message.buffer}`);
-
                 // test
                 if(message.length == 0)
                     return;

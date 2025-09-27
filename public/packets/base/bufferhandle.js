@@ -176,4 +176,13 @@ class BufferWriteHandle {
     }
 }
 
+function getFlexiableUTF8Size(value) {
+    return 2 + value.length * 4;
+}
+
+function getFlexiableUTF16LESize(value) {
+    return 2 + value.length * 4;
+}
+
 export { BufferReadHandle, BufferWriteHandle };
+export { getFlexiableUTF8Size, getFlexiableUTF16LESize };

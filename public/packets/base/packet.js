@@ -1,3 +1,5 @@
+import { BufferReadHandle, BufferWriteHandle } from "../index.js";
+
 class Packet {
     constructor() {
     }
@@ -6,16 +8,40 @@ class Packet {
         throw new Error("Abstract method 'getPacketID' must be implemented");
     }
 
-    getPacketSize() {
-        throw new Error("Abstract method 'getPacketSize' must be implemented");
+    getFlexiablePacketSize() {
+        let packetSize = 0;
+        packetSize += 1; // packetID
+
+        return packetSize;
     }
 
     serialize() {
-        throw new Error("Abstract method 'serialize' must be implemented");
+        const buffer = new ArrayBuffer(this.getFlexiablePacketSize());
+        const writeHandle = new BufferWriteHandle(buffer);
+
+        writeHandle.writeUint8(this.getPacketID());
+
+        this.onSerialize(writeHandle);
+
+        return writeHandle.build();
+    }
+
+    onSerialize(writeHandle) {
+        throw new Error("Abstract method 'onSerialize' must be implemented");
     }
 
     deserialize(data) {
-        throw new Error("Abstract method 'deserialize' must be implemented");
+        const readHandle = new BufferReadHandle(data);
+
+        readHandle.readUint8(); // skip packetID
+
+        this.onDeserialize(readHandle);
+
+        return this;
+    }
+
+    onDeserialize(readHandle) {
+        throw new Error("Abstract method 'onDeserialize' must be implemented");
     }
 }
 
