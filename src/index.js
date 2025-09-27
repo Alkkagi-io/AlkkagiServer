@@ -6,9 +6,13 @@ import { logger } from '../AlkkagiShared/modules/logger.js';
 
 // Projects
 import { GameServer, createServerOptions } from './core/gameserver.js';
+import { buildPacketFactory } from './core/packetfactory.js';
 
 // global variables
 globalThis.logger = logger;
+
+// build packet factory
+buildPacketFactory();
 
 const serverOptions = createServerOptions({
     port: 3000,

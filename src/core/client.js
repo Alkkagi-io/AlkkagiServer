@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { BufferReadHandle } from '../../AlkkagiShared/packets/index.js';
-import { MessagePacket, EPacketID } from '../../AlkkagiShared/packets/index.js';
+import { MessagePacket, EPacketID, PacketFactory } from '../../AlkkagiShared/packets/index.js';
 
 class Client extends EventEmitter {
     constructor(socket) {
@@ -16,11 +16,12 @@ class Client extends EventEmitter {
             const readHandle = new BufferReadHandle(buffer);
             const packetID = readHandle.readUint8();
 
-            globalThis.logger.info('GameServer', `Packet ID: ${packetID}`);
+            globalThis.logger.info('GameServer', `Packet received. PacketID: ${packetID}`);
+
+            const packet = PacketFactory.create(packetID, buffer);
+
             if(packetID === EPacketID.MESSAGE) {
-                const messagePacket = new MessagePacket();
-                messagePacket.deserialize(buffer);
-                globalThis.logger.info('GameServer', `Received message: ${messagePacket.message}`);
+                globalThis.logger.info('GameServer', `Received message: ${packet.message}`);
             }
         });
 
