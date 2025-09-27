@@ -6,13 +6,10 @@ import { logger } from '../AlkkagiShared/modules/logger.js';
 
 // Projects
 import { GameServer, createServerOptions } from './core/gameserver.js';
-import { buildPacketFactory } from './core/packetfactory.js';
+import { buildPacketManager } from './core/packetmanager.js';
 
 // global variables
 globalThis.logger = logger;
-
-// build packet factory
-buildPacketFactory();
 
 const serverOptions = createServerOptions({
     port: 3000,
@@ -21,9 +18,10 @@ const serverOptions = createServerOptions({
 
 const gameServer = new GameServer(serverOptions);
 gameServer.start();
-
-// serve static files
 gameServer.expressApp.use(express.static('public'));
+
+// build packet manager
+buildPacketManager(gameServer);
 
 // handle shutdown
 process.on('SIGTERM', () => {

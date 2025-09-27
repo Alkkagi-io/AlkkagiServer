@@ -73,10 +73,10 @@
 
     <script type="module">
         // 패킷 시스템 import
-        import { MessagePacket, BufferReadHandle, EPacketID, PacketFactory } from '../src/packets/index.js';
-        import { buildPacketFactory } from '../src/packetfactory.js';
+        import { MessagePacket, BufferReadHandle, EPacketID, PacketManager } from './src/packets/index.js';
+        import { buildPacketManager } from './src/packetmanager.js';
 
-        buildPacketFactory();
+        buildPacketManager();
 
         let ws = null;
 
@@ -99,12 +99,12 @@
                     const readHandle = new BufferReadHandle(event.data);
                     const packetID = readHandle.readUint8();
 
-                    const packet = PacketFactory.create(packetID, event.data);
-
-                    if (packetID === EPacketID.MESSAGE) {
-                        addMessage('서버: ' + packet.message, 'received');
-                    } else {
-                        addMessage('알 수 없는 패킷 ID: ' + packetID, 'system');
+                    try {
+                        const packet = PacketManager.createPacket(packetID, event.data);
+                        const handler = PacketManager.createHandler(packetID);
+                        handler.handle(packet);
+                    } catch (error) {
+                        addMessage('패킷 처리 오류: ' + error.message, 'system');
                     }
                 } catch (error) {
                     addMessage('패킷 파싱 오류: ' + error.message, 'system');

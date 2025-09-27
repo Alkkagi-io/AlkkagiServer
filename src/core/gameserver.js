@@ -5,8 +5,7 @@ import http from 'http';
 
 // Projects
 import Client from './client.js';
-import { MessagePacket, EPacketID } from '../../AlkkagiShared/packets/index.js';
-import { BufferReadHandle } from '../../AlkkagiShared/packets/index.js'; // test
+import { MessagePacket } from '../../AlkkagiShared/packets/index.js';
 
 const createServerOptions = (options = {}) => {
     return {
