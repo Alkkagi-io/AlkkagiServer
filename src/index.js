@@ -3,6 +3,7 @@ import express from 'express';
 
 // Modules
 import { logger } from '../AlkkagiShared/modules/logger.js';
+import { ResourceManager } from '../AlkkagiShared/Data/Resource/ResourceManager.js'
 
 // Projects
 import { GameServer, createServerOptions } from './core/gameserver.js';
@@ -19,6 +20,10 @@ const serverOptions = createServerOptions({
 const gameServer = new GameServer(serverOptions);
 gameServer.start();
 gameServer.expressApp.use(express.static('public'));
+
+// load resources
+const resourceManager = new ResourceManager();
+resourceManager.load(true);
 
 // build packet manager
 buildPacketManager(gameServer);
