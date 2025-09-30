@@ -2,8 +2,11 @@ import { Vector } from '../../AlkkagiShared/modules/vector.js';
 import { SerializableData } from '../../AlkkagiShared/modules/serializabledata.js';
 
 class Entity extends SerializableData {
-    constructor() {
+    constructor(world) {
         super();
+
+        this.world = world;
+
         this.entityID = 0;              // serialized property
         this.position = new Vector();   // serialized property
     }

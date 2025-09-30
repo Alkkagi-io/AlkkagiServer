@@ -1,9 +1,12 @@
 import { Entity } from './entity.js';
+import { Character } from './character.js';
+import { Unit } from './unit.js';
 
 class XPObject extends Entity {
-    constructor() {
-        super();
-        this.xpAmount = 0; // non-serialzed property
+    constructor(world, xpAmount) {
+        super(world);
+
+        this.xpAmount = xpAmount; // non-serialzed property
     }
 
     onCollision(otherEntity) {
@@ -11,7 +14,10 @@ class XPObject extends Entity {
 
         if(otherEntity instanceof Character) {
             otherEntity.gainXP(this.xpAmount);
-            this.xpAmount = 0;
+        }
+
+        if(otherEntity instanceof Unit) {
+            this.world.removeEntity(this);
         }
     }
 }

@@ -2,8 +2,9 @@ import { Entity } from './entity.js';
 import { Vector } from '../../AlkkagiShared/modules/vector.js';
 
 class Unit extends Entity {
-    constructor() {
-        super();
+    constructor(world) {
+        super(world);
+
         this.speed = 0; // non-serialzed property
         this.moveDirection = new Vector(); // non-serialzed property
     }

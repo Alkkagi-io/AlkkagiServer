@@ -1,8 +1,8 @@
 import { Unit } from './unit.js';
 
 class Character extends Unit {
-    constructor() {
-        super();
+    constructor(world) {
+        super(world);
 
         this.xpAmount = 0; // non-serialzed property
         // stat data...
