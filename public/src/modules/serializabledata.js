@@ -1,4 +1,4 @@
-import { BufferReadHandle, BufferWriteHandle } from "../packets/index.js";
+import { BufferReadHandle, BufferWriteHandle } from "./bufferhandle.js";
 
 class SerializableData {
     constructor() {

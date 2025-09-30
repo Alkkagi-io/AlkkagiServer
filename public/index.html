@@ -73,7 +73,8 @@
 
     <script type="module">
         // 패킷 시스템 import
-        import { MessagePacket, BufferReadHandle, EPacketID, PacketManager } from './src/packets/index.js';
+        import { BufferReadHandle } from './src/modules/bufferhandle.js';
+        import { MessagePacket, EPacketID, PacketManager } from './src/packets/index.js';
         import { buildPacketManager } from './src/packetmanager.js';
 
         buildPacketManager();

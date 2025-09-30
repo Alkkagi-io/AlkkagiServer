@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { BufferReadHandle } from '../../AlkkagiShared/packets/index.js';
+import { BufferReadHandle } from '../../AlkkagiShared/modules/bufferhandle.js';
 import { PacketManager } from '../../AlkkagiShared/packets/index.js';
 
 class Client extends EventEmitter {

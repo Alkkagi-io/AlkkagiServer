@@ -1,4 +1,4 @@
-import { encodeUTF8, decodeUTF8, encodeUTF16LE, decodeUTF16LE } from '../../modules/encodingutility.js';
+import { encodeUTF8, decodeUTF8, encodeUTF16LE, decodeUTF16LE } from './encodingutility.js';
 
 class BufferReadHandle {
     constructor(buffer) {
@@ -120,14 +120,19 @@ class BufferReadHandle {
     }
 
     readBytes() {
+        const bytes = new Uint8Array(this.readArrayBuffer());
+        return bytes;
+    }
+
+    readArrayBuffer() {
         const length = this.readUint16();
         if(this.offset + length > this.buffer.byteLength) 
-            throw new Error('Error with readBytes: Out of bounds');
+            throw new Error('Error with readArrayBuffer: Out of bounds');
 
-        const bytes = new Uint8Array(this.buffer.slice(this.offset, this.offset + length));
+        const arrayBuffer = this.buffer.slice(this.offset, this.offset + length);
         this.offset += length;
 
-        return bytes;
+        return arrayBuffer;
     }
 }
 
@@ -251,6 +256,11 @@ class BufferWriteHandle {
         new Uint8Array(this.buffer, this.offset, length).set(bytes);
 
         this.offset += length;
+    }
+
+    writeArrayBuffer(arrayBuffer) {
+        const bytes = new Uint8Array(arrayBuffer);
+        this.writeBytes(bytes);
     }
 
     build() {

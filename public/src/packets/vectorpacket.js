@@ -1,18 +1,11 @@
-import { EPacketID, Packet, getBytesHeaderSize } from "./index.js";
+import { EPacketID, Packet } from "./index.js";
+import { getBytesHeaderSize } from "../modules/bufferhandle.js";
 import { Vector } from "../modules/vector.js";
-import { VectorInt } from "../modules/vectorint.js";
 
 class VectorPacket extends Packet {
-    constructor() {
-        super();
-        this.vector = new Vector();
-        this.vectorInt = new VectorInt();
-    }
-
-    constructor(vector, vectorInt) {
+    constructor(vector = new Vector()) {
         super();
         this.vector = vector;
-        this.vectorInt = vectorInt;
     }
 
     getPacketID() {
@@ -23,7 +16,6 @@ class VectorPacket extends Packet {
         let size = super.getFlexiableSize();
 
         size += this.vector.getFlexiableSize() + getBytesHeaderSize(); // vector + header
-        size += this.vectorInt.getFlexiableSize() + getBytesHeaderSize(); // vectorInt + header
 
         return size;
     }
@@ -31,15 +23,13 @@ class VectorPacket extends Packet {
     onSerialize(writeHandle) {
         super.onSerialize(writeHandle);
 
-        writeHandle.writeBytes(new Uint8Array(this.vector.serialize()));
-        writeHandle.writeBytes(new Uint8Array(this.vectorInt.serialize()));
+        writeHandle.writeArrayBuffer(this.vector.serialize());
     }
 
     onDeserialize(readHandle) {
         super.onDeserialize(readHandle);
 
-        this.vector = new Vector().deserialize(readHandle.readBytes().buffer);
-        this.vectorInt = new VectorInt().deserialize(readHandle.readBytes().buffer);
+        this.vector = new Vector().deserialize(readHandle.readArrayBuffer());
     }
 }
 

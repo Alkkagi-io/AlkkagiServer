@@ -5,7 +5,7 @@ class VectorPacketHandler extends ClientPacketHandler {
         const messagesDiv = document.getElementById('messages');
         const messageDiv = document.createElement('div');
         messageDiv.className = `message received`;
-        messageDiv.textContent = `서버: vector: ${packet.vector.x}, ${packet.vector.y}, vectorInt: ${packet.vectorInt.x}, ${packet.vectorInt.y}`;
+        messageDiv.textContent = `서버: vector: ${packet.vector.x}, ${packet.vector.y}`;
         messagesDiv.appendChild(messageDiv);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }

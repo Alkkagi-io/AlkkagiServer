@@ -7,7 +7,9 @@ import { ResourceManager } from '../AlkkagiShared/Data/Resource/ResourceManager.
 
 // Projects
 import { GameServer, createServerOptions } from './core/gameserver.js';
+import { World, createWorldOptions } from './core/world.js';
 import { buildPacketManager } from './core/packetmanager.js';
+import { TestSystem } from './system/testsystem.js';
 
 // global variables
 globalThis.logger = logger;
@@ -25,8 +27,17 @@ gameServer.expressApp.use(express.static('public'));
 const resourceManager = new ResourceManager();
 resourceManager.load(true);
 
+// create world
+const worldOptions = createWorldOptions({
+    tickRate: 30,
+});
+const world = new World(worldOptions);
+world.addSystem(new TestSystem(world));
+world.addSystem(new TestSystem(world));
+world.startLoop();
+
 // build packet manager
-buildPacketManager(gameServer);
+buildPacketManager(gameServer, world);
 
 // handle shutdown
 process.on('SIGTERM', () => {

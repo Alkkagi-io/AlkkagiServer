@@ -1,9 +1,10 @@
 import { PacketHandler } from '../../../AlkkagiShared/packets/index.js';
 
 class ServerPacketHandler extends PacketHandler {
-    constructor(gameServer, client) {
+    constructor(gameServer, world, client) {
         super();
         this.gameServer = gameServer;
+        this.world = world;
         this.client = client;
     }
 
