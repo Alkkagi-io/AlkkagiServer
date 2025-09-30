@@ -4,7 +4,7 @@ import express from 'express';
 import http from 'http';
 
 // Projects
-import Client from './client.js';
+import ClientHandle from './clienthandle.js';
 import { MessagePacket } from '../../AlkkagiShared/packets/index.js';
 
 const createServerOptions = (options = {}) => {
@@ -65,17 +65,17 @@ class GameServer {
             return;
         }
 
-        const client = new Client(socket);
-        client.on('disconnect', () => {
-            this.connectedClients.delete(client);
+        const clientHandle = new ClientHandle(socket);
+        clientHandle.on('disconnect', () => {
+            this.connectedClients.delete(clientHandle);
             globalThis.logger.info('GameServer', 'Client disconnected');
         });
 
-        this.connectedClients.add(client);
+        this.connectedClients.add(clientHandle);
         globalThis.logger.info('GameServer', 'Client connected');
 
         // return response about connected successfully
-        client.send(new MessagePacket('Connected successfully'));
+        clientHandle.send(new MessagePacket('Connected successfully'));
     }
 
     handleServerError(error) {

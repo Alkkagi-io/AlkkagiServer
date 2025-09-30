@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { BufferReadHandle } from '../../AlkkagiShared/modules/bufferhandle.js';
 import { PacketManager } from '../../AlkkagiShared/packets/index.js';
 
-class Client extends EventEmitter {
+class ClientHandle extends EventEmitter {
     constructor(socket) {
         super();
         this.socket = socket;
@@ -50,4 +50,4 @@ class Client extends EventEmitter {
     }
 }
 
-export default Client;
+export default ClientHandle;
