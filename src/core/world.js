@@ -5,6 +5,8 @@ const createWorldOptions = (options = {}) => {
 };
 
 class World {
+    static entityCounter = 0;
+
     constructor(worldOptions) {
         this.worldOptions = worldOptions;
 
@@ -24,11 +26,11 @@ class World {
     }
 
     addEntity(entity) {
-        if(this.entities[entity.entityID] !== undefined || this.entityAddQueue.some(e => e.entityID === entity.entityID)) {
-            globalThis.logger.error('World', `Entity ${entity.constructor.name}(${entity.getID()}) already exists`);
-            return;
-        }
-
+        entity.entityID = World.entityCounter++;
+        // if(this.entities[entity.entityID] !== undefined || this.entityAddQueue.some(e => e.entityID === entity.entityID)) {
+        //     globalThis.logger.error('World', `Entity ${entity.constructor.name}(${entity.getID()}) already exists`);
+        //     return;
+        // }
         this.entityAddQueue.push(entity);
     }
 
