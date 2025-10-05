@@ -1,27 +1,35 @@
+import { ResourceStat } from "../../AlkkagiShared/Resource/ResourceStat.js";
+import path from "node:path";
+import fs from "node:fs/promises";
+import fss from "node:fs";
+
 class ResourceManager {
     constructor() {
         this.loaded = false;
     }
 
-    load(force = false) {
+    async load(force = false) {
         if (this.loaded && !force) 
             return;
         
-        // data load
+        logger.info('ResourceManager', 'start resource data load');
 
+        // data load
+        ResourceStat.load(await this._getJsonData('Stats.json'));
+        
         this.loaded = true;
+
+        logger.info('ResourceManager', 'resource data load successed complete');
     }
 
-    #getJsonData(fileName) {
-        const baseDir = join(process.cwd(), 'AlkkagiData');
+    async _getJsonData(fileName) {
+        logger.info('ResourceManager', `load [${fileName}] resource`);
 
-        const path = await import("node:path");
-        const fs = await import("node:fs/promises");
-        const fss = await import("node:fs");
+        const baseDir = path.join(process.cwd(), 'AlkkagiData');
 
         const p = path.resolve(baseDir, fileName);
         if (!fss.existsSync(p)) {
-            console.log(`[${ctor.name}] File not found: ${p}`);
+            logger.error('ResourceManager', `[${ctor.name}] File not found: ${p}`);
             return;
         }
 
@@ -29,9 +37,11 @@ class ResourceManager {
         try {
             text = await fs.readFile(p, "utf8");
         } catch (e) {
-            console.log(`[${ctor.name}] File read error: ${p}`);
+            logger.error('ResourceManager', `[${ctor.name}] File read error: ${p}`);
             return;
         }
+
+        return text;
     }
 }
 

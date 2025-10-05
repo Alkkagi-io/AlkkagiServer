@@ -25,7 +25,7 @@ gameServer.expressApp.use(express.static('public'));
 
 // load resources
 const resourceManager = new ResourceManager();
-resourceManager.load(true);
+await resourceManager.load(true);
 
 // create world
 const worldOptions = createWorldOptions({
