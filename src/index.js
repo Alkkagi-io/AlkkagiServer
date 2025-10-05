@@ -3,7 +3,7 @@ import express from 'express';
 
 // Modules
 import { logger } from '../AlkkagiShared/modules/logger.js';
-import { ResourceManager } from '../AlkkagiShared/Data/Resource/ResourceManager.js'
+import { ResourceManager } from './Resource/ResourceManager.js'
 
 // Projects
 import { GameServer, createServerOptions } from './core/gameserver.js';
