@@ -8,3 +8,5 @@ export { EPacketID } from './EPacketID.js';
 export { MessagePacket } from './MessagePacket.js';
 export { VectorPacket } from './VectorPacket.js';
 export { S2C_UpdateWorldPacket } from './S2C_UpdateWorldPacket.js'
+export { C2S_EnterWorldPacket } from './C2S_EnterWorldPacket.js'
+export { S2C_EnterWorldPacket } from './S2C_EnterWorldPacket.js'

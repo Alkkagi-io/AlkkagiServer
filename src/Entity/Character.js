@@ -1,4 +1,4 @@
-import { Unit } from './Unit.js/index.js';
+import { Unit } from './Unit.js';
 
 class Character extends Unit {
     constructor(world) {

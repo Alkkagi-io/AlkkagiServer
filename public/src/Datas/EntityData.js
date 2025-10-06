@@ -12,7 +12,7 @@ class EntityData extends SerializableData {
 
     getFlexibleSize() {
         let size = 0;
-        size += 2; // entityID uint16
+        size += 4; // entityID (uint32)
         size += this.position.getFlexibleSize() + getBytesHeaderSize(); // position
         return size;
     }

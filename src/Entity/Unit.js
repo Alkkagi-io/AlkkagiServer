@@ -1,4 +1,4 @@
-import { Entity } from './Entity.js/index.js';
+import { Entity } from './Entity.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
 class Unit extends Entity {

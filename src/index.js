@@ -33,10 +33,12 @@ const worldOptions = createWorldOptions({
     tickRate: 30,
 });
 const world = new World(worldOptions);
+
+// setup systems
 world.addSystem(new WorldNetworkUpdatorSystem(world, gameServer));
 
-world.addEntity(new Entity(world));
 
+// start world loop
 world.startLoop();
 
 // build packet manager

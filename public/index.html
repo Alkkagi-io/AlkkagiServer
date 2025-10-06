@@ -28,6 +28,7 @@
         }
         .connect { background: #28a745; color: white; }
         .disconnect { background: #dc3545; color: white; }
+        .enter { background: #28a745; color: white; }
         .send { background: #007bff; color: white; }
         input, textarea {
             width: 100%;
@@ -62,6 +63,7 @@
     <div>
         <button id="connectBtn" class="connect">연결</button>
         <button id="disconnectBtn" class="disconnect" disabled>연결 해제</button>
+        <button id="enterBtn" class="enter" disabled>게임 참가</button>
     </div>
     
     <div>
@@ -74,7 +76,7 @@
     <script type="module">
         // 패킷 시스템 import
         import { BufferReadHandle } from './src/Modules/BufferHandle.js';
-        import { MessagePacket, EPacketID, PacketManager } from './src/Packets/index.js';
+        import { MessagePacket, C2S_EnterWorldPacket, EPacketID, PacketManager } from './src/Packets/index.js';
         import { buildPacketManager } from './src/PacketManager.js';
 
         buildPacketManager();
@@ -129,6 +131,19 @@
             }
         }
 
+        function enter() {
+            const input = document.getElementById('messageInput');
+            const nickname = input.value.trim();
+
+            if (nickname && ws && ws.readyState === WebSocket.OPEN) {
+                const packet = new C2S_EnterWorldPacket(nickname);
+                const buffer = packet.serialize();
+                ws.send(buffer);
+                addMessage('나: ' + nickname + '참가 요청!', 'sent');
+                input.value = '';
+            }
+        }
+
         function sendMessage() {
             const input = document.getElementById('messageInput');
             const message = input.value.trim();
@@ -156,6 +171,7 @@
             const statusDiv = document.getElementById('status');
             const connectBtn = document.getElementById('connectBtn');
             const disconnectBtn = document.getElementById('disconnectBtn');
+            const enterBtn = document.getElementById('enterBtn');
             const messageInput = document.getElementById('messageInput');
             const sendBtn = document.getElementById('sendBtn');
             
@@ -164,6 +180,7 @@
                 statusDiv.textContent = '연결됨';
                 connectBtn.disabled = true;
                 disconnectBtn.disabled = false;
+                enterBtn.disabled = false;
                 messageInput.disabled = false;
                 sendBtn.disabled = false;
             } else {
@@ -171,6 +188,7 @@
                 statusDiv.textContent = '연결되지 않음';
                 connectBtn.disabled = false;
                 disconnectBtn.disabled = true;
+                enterBtn.disabled = true;
                 messageInput.disabled = true;
                 sendBtn.disabled = true;
             }
@@ -179,6 +197,7 @@
         // 버튼 이벤트 리스너 추가
         document.getElementById('connectBtn').addEventListener('click', connect);
         document.getElementById('disconnectBtn').addEventListener('click', disconnect);
+        document.getElementById('enterBtn').addEventListener('click', enter);
         document.getElementById('sendBtn').addEventListener('click', sendMessage);
 
         // Enter 키로 메시지 전송
