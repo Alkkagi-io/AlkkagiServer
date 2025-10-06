@@ -1,9 +1,9 @@
 // Modules
-export { Packet } from './base/packet.js';
-export { PacketHandler } from './base/packethandler.js';
-export { PacketManager } from './base/packetmanager.js';
+export { Packet } from './Base/Packet.js';
+export { PacketHandler } from './Base/PacketHandler.js';
+export { PacketManager } from './Base/PacketManager.js';
 
 // Packets
-export { EPacketID } from './epacketid.js';
-export { MessagePacket } from './messagepacket.js';
-export { VectorPacket } from './vectorpacket.js';
+export { EPacketID } from './EPacketID.js';
+export { MessagePacket } from './MessagePacket.js';
+export { VectorPacket } from './VectorPacket.js';

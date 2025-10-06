@@ -1,4 +1,4 @@
-import { SerializableData } from './serializabledata.js';
+import { SerializableData } from './SerializableData.js';
 
 class Vector extends SerializableData {
     constructor(x = 0, y = 0) {

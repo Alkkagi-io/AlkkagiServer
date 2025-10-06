@@ -2,14 +2,14 @@
 import express from 'express';
 
 // Modules
-import { logger } from '../AlkkagiShared/modules/logger.js';
+import { logger } from '../AlkkagiShared/Modules/Logger.js';
 import { ResourceManager } from './Resource/ResourceManager.js'
 
 // Projects
-import { GameServer, createServerOptions } from './core/gameserver.js';
-import { World, createWorldOptions } from './core/world.js';
-import { buildPacketManager } from './core/packetmanager.js';
-import { TestSystem } from './system/testsystem.js';
+import { GameServer, createServerOptions } from './Core/GameServer.js';
+import { World, createWorldOptions } from './Core/World.js';
+import { buildPacketManager } from './Core/PacketManager.js';
+import { TestSystem } from './System/TestSystem.js';
 
 // global variables
 globalThis.logger = logger;

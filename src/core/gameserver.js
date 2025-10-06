@@ -4,8 +4,8 @@ import express from 'express';
 import http from 'http';
 
 // Projects
-import ClientHandle from './clienthandle.js';
-import { MessagePacket } from '../../AlkkagiShared/packets/index.js';
+import ClientHandle from './ClientHandle.js';
+import { MessagePacket } from '../../AlkkagiShared/Packets/index.js';
 
 const createServerOptions = (options = {}) => {
     return {

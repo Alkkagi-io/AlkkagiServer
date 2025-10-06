@@ -1,3 +1,3 @@
-export { ClientPacketHandler } from './base/clientpackethandler.js';
-export { MessagePacketHandler } from './messagepackethandler.js';
-export { VectorPacketHandler } from './vectorpackethandler.js';
+export { ClientPacketHandler } from './Base/ClientPacketHandler.js';
+export { MessagePacketHandler } from './MessagePacketHandler.js';
+export { VectorPacketHandler } from './VectorPacketHandler.js';

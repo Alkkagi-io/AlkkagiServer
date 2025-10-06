@@ -1,5 +1,5 @@
 import { ServerPacketHandler } from './index.js';
-import { MessagePacket } from '../../AlkkagiShared/packets/index.js';
+import { MessagePacket } from '../../AlkkagiShared/Packets/index.js';
 
 class MessagePacketHandler extends ServerPacketHandler {
     handle(packet) {

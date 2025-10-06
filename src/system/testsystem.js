@@ -1,4 +1,4 @@
-import { System } from './system.js';
+import { System } from './System.js';
 
 class TestSystem extends System {
     constructor(world) {

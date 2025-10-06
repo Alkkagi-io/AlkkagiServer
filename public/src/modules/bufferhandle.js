@@ -1,4 +1,4 @@
-import { encodeUTF8, decodeUTF8, encodeUTF16LE, decodeUTF16LE } from './encodingutility.js';
+import { encodeUTF8, decodeUTF8, encodeUTF16LE, decodeUTF16LE } from './EncodingUtility.js';
 
 class BufferReadHandle {
     constructor(buffer) {

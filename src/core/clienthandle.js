@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
-import { BufferReadHandle } from '../../AlkkagiShared/modules/bufferhandle.js';
-import { PacketManager } from '../../AlkkagiShared/packets/index.js';
+import { BufferReadHandle } from '../../AlkkagiShared/Modules/BufferHandle.js';
+import { PacketManager } from '../../AlkkagiShared/Packets/index.js';
 
 class ClientHandle extends EventEmitter {
     constructor(socket) {

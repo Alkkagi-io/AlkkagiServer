@@ -1,6 +1,6 @@
 import { EPacketID, Packet } from "./index.js";
-import { getBytesHeaderSize } from "../modules/bufferhandle.js";
-import { Vector } from "../modules/vector.js";
+import { getBytesHeaderSize } from "../Modules/BufferHandle.js";
+import { Vector } from "../Modules/Vector.js";
 
 class VectorPacket extends Packet {
     constructor(vector = new Vector()) {

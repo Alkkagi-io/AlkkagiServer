@@ -1,5 +1,5 @@
-import { Entity } from './entity.js';
-import { Vector } from '../../AlkkagiShared/modules/vector.js';
+import { Entity } from './Entity.js/index.js';
+import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
 class Unit extends Entity {
     constructor(world) {

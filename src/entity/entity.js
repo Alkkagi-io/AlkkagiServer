@@ -1,35 +1,17 @@
-import { Vector } from '../../AlkkagiShared/modules/vector.js';
-import { SerializableData } from '../../AlkkagiShared/modules/serializabledata.js';
+import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
-class Entity extends SerializableData {
+class Entity {
     constructor(world) {
         super();
 
         this.world = world;
 
-        this.entityID = 0;              // serialized property
-        this.position = new Vector();   // serialized property
+        this.entityID = 0;
+        this.position = new Vector();
     }
 
     getID() {
         return this.entityID;
-    }
-
-    getFlexiableSize() {
-        let size = 0;
-        size += 2; // entityID uint16
-        size += this.position.getFlexiableSize(); // position
-        return size;
-    }
-
-    onSerialize(writeHandle) {
-        writeHandle.writeUint16(this.entityID);
-        writeHandle.writeArrayBuffer(this.position.serialize());
-    }
-
-    onDeserialize(readHandle) {
-        this.entityID = readHandle.readUint16();
-        this.position = new Vector().deserialize(readHandle.readArrayBuffer());
     }
 
     onAwake() { }                   // called when the entity is added to world

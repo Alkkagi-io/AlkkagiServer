@@ -1,6 +1,6 @@
-import { PacketManager } from '../../AlkkagiShared/packets/index.js';
-import * as Packets from '../../AlkkagiShared/packets/index.js';
-import * as PacketHandlers from '../packethandlers/index.js';
+import { PacketManager } from '../../AlkkagiShared/Packets/index.js';
+import * as Packets from '../../AlkkagiShared/Packets/index.js';
+import * as PacketHandlers from '../PacketHandlers/index.js';
 
 function buildPacketManager(gameServer, world) {
     PacketManager.on(Packets.EPacketID.MESSAGE, Packets.MessagePacket, PacketHandlers.MessagePacketHandler);

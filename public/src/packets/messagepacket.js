@@ -1,4 +1,4 @@
-import { getFlexiableUTF8Size } from "../modules/bufferhandle.js";
+import { getFlexiableUTF8Size } from "../Modules/BufferHandle.js";
 import { EPacketID, Packet } from "./index.js";
 
 class MessagePacket extends Packet {

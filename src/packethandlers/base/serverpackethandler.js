@@ -1,4 +1,4 @@
-import { PacketHandler } from '../../../AlkkagiShared/packets/index.js';
+import { PacketHandler } from '../../../AlkkagiShared/Packets/index.js';
 
 class ServerPacketHandler extends PacketHandler {
     constructor(gameServer, world, client) {

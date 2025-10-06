@@ -1,4 +1,4 @@
-import { SerializableData } from "../../modules/serializabledata.js";
+import { SerializableData } from "../../Modules/SerializableData.js";
 
 class Packet extends SerializableData {
     constructor() {
