@@ -168,7 +168,7 @@ class World {
         try {
             event.bind(object)(...args);
         } catch (error) {
-            globalThis.logger.error('World', `Error occurred while publishing event. ${object.constructor.name}(${object.getID()})::${event.name}.\n\t${error}`);
+            globalThis.logger.error('World', `Error occurred while publishing event. ${object.constructor.name}(${object.getID()})::${event.name}.\n${error.stack}`);
         }
     }
 }

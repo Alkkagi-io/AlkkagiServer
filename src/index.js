@@ -9,7 +9,8 @@ import { ResourceManager } from './Resource/ResourceManager.js'
 import { GameServer, createServerOptions } from './Core/GameServer.js';
 import { World, createWorldOptions } from './Core/World.js';
 import { buildPacketManager } from './Core/PacketManager.js';
-import { TestSystem } from './System/TestSystem.js';
+import { WorldNetworkUpdatorSystem } from './System/index.js';
+import { Entity } from './Entity/Entity.js';
 
 // global variables
 globalThis.logger = logger;
@@ -32,8 +33,10 @@ const worldOptions = createWorldOptions({
     tickRate: 30,
 });
 const world = new World(worldOptions);
-world.addSystem(new TestSystem(world));
-world.addSystem(new TestSystem(world));
+world.addSystem(new WorldNetworkUpdatorSystem(world, gameServer));
+
+world.addEntity(new Entity(world));
+
 world.startLoop();
 
 // build packet manager

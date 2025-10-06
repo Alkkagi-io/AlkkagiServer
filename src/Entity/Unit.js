@@ -5,8 +5,8 @@ class Unit extends Entity {
     constructor(world) {
         super(world);
 
-        this.speed = 0; // non-serialzed property
-        this.moveDirection = new Vector(); // non-serialzed property
+        this.speed = 0;
+        this.moveDirection = new Vector();
     }
 
     onUpdate(deltaTime) {

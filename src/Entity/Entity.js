@@ -2,8 +2,6 @@ import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
 class Entity {
     constructor(world) {
-        super();
-
         this.world = world;
 
         this.entityID = 0;

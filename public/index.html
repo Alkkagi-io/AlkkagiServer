@@ -105,7 +105,7 @@
                         const handler = PacketManager.createHandler(packetID);
                         handler.handle(packet);
                     } catch (error) {
-                        addMessage('패킷 처리 오류: ' + error.message, 'system');
+                        addMessage('패킷 처리 오류: ' + error.stack, 'system');
                     }
                 } catch (error) {
                     addMessage('패킷 파싱 오류: ' + error.message, 'system');

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { BufferReadHandle } from '../../AlkkagiShared/Modules/BufferHandle.js';
-import { PacketManager } from '../../AlkkagiShared/Packets/index.js';
+import { Packet, PacketManager } from '../../AlkkagiShared/Packets/index.js';
 
 class ClientHandle extends EventEmitter {
     constructor(socket) {
@@ -39,8 +39,16 @@ class ClientHandle extends EventEmitter {
         });
     }
 
-    send(packet) {
-        const buffer = packet.serialize();
+    send(data) {
+        let buffer = undefined;
+        if(data instanceof Packet)
+            buffer = data.serialize();
+        else if(data instanceof ArrayBuffer)
+            buffer = data;
+        
+        if(buffer === undefined)
+            throw new Error(`data is of invalid type. type : ${typeof(data)}`);
+
         this.socket.send(buffer, { binary: true });
     }
 

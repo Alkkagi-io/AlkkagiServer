@@ -1,0 +1,1 @@
+export { EntityData } from './EntityData.js'
