@@ -1,3 +1,4 @@
+import { StatManager } from '../Stat/StatManager.js';
 import { Unit } from './Unit.js';
 
 class Character extends Unit {
@@ -5,10 +6,20 @@ class Character extends Unit {
         super(world);
 
         this.xpAmount = 0; // non-serialzed property
+        this.statManager = new StatManager();
+        
         // stat data...
     }
 
     // character actions
+    
+    levelUpStat(type) {
+        var success = this.statManager.levelUp(type);
+        if (!success)
+            return;
+
+        // do somthing
+    }
 
     gainXP(xpAmount) {
         this.xpAmount += xpAmount;
