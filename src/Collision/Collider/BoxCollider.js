@@ -1,4 +1,5 @@
-import { Vector } from "../../../AlkkagiShared/Modules/Vector";
+import { Vector } from "../../../AlkkagiShared/Modules/Vector.js";
+import { Collider } from "./Collider.js";
 
 class BoxCollider extends Collider {
     constructor(owner) {
@@ -18,4 +19,4 @@ class BoxCollider extends Collider {
     }
 }
 
-export { BoxCollider }
+export { BoxCollider };

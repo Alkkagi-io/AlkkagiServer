@@ -11,7 +11,7 @@ import { World, createWorldOptions } from './Core/World.js';
 import { buildPacketManager } from './Core/PacketManager.js';
 import { WorldNetworkUpdatorSystem } from './System/index.js';
 import { Entity } from './Entity/Entity.js';
-import { registerCollisionRule } from './Collision/CollisinRules.js';
+import { CollisionSystem } from './System/CollisionSystem.js';
 
 // global variables
 globalThis.logger = logger;
@@ -29,9 +29,6 @@ gameServer.expressApp.use(express.static('public'));
 const resourceManager = new ResourceManager();
 await resourceManager.load(true);
 
-// collision rule register
-registerCollisionRule();
-
 // create world
 const worldOptions = createWorldOptions({
     tickRate: 30,
@@ -40,7 +37,7 @@ const world = new World(worldOptions);
 
 // setup systems
 world.addSystem(new WorldNetworkUpdatorSystem(world, gameServer));
-
+world.addSystem(new CollisionSystem(world));
 
 // start world loop
 world.startLoop();

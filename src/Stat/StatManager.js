@@ -1,4 +1,4 @@
-import { ResourceStat, EStatType } from "../../AlkkagiShared/Resource/ResourceStat";
+import { ResourceStat, EStatType } from "../../AlkkagiShared/Resource/ResourceStat.js";
 
 const 기본_무게 = 100;
 const 기본_최대_쳬력 = 100;

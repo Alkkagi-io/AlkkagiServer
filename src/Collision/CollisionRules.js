@@ -1,7 +1,7 @@
-const { Vector } = require("../../AlkkagiShared/Modules/Vector");
-const { BoxCollider } = require("./Collider/BoxCollider");
-const { SphereCollider } = require("./Collider/SphereCollider");
-const { Collision } = require("./Collision");
+import { Vector } from "../../AlkkagiShared/Modules/Vector.js";
+import { BoxCollider } from "./Collider/BoxCollider.js";
+import { SphereCollider } from "./Collider/SphereCollider.js";
+import { Collision } from "./Collision.js";
 
 function registerCollisionRule() {
     // Box : Box
@@ -36,4 +36,4 @@ function registerCollisionRule() {
     });
 }
 
-export { registerCollisionRule }
+export { registerCollisionRule };
