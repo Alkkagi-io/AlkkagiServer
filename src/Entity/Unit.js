@@ -9,6 +9,13 @@ class Unit extends Entity {
         this.moveDirection = new Vector();
     }
 
+    onPreUpdate(deltaTime) {
+        super.onPreUpdate(deltaTime);
+
+        if (this.rigidbody)
+            this.rigidbody.update(deltaTime);
+    }
+
     onUpdate(deltaTime) {
         super.onUpdate(deltaTime);
 

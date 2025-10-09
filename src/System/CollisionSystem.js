@@ -19,7 +19,7 @@ class CollisionSystem extends System {
         this.tree = new DynamicAABBTree({ fatMargin: 2 });
     }
 
-    onPreUpdate() {
+    onPreUpdate(deltaTime) {
         for (const leaf of this.tree.nodes) {
             if (!leaf?.isLeaf || !leaf.collider)
                 continue;
