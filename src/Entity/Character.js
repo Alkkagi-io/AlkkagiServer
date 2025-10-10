@@ -51,7 +51,7 @@ class Character extends Unit {
         const chargingTime = (Date.now() - this.chargingStartTime) * 0.001;
         const chargingPower = Math.min(chargingTime, this.statManager.getStatValue(EStatType.MAX_CHARGE_LEN));
 
-        let attackForce = direction.getNormalized();
+        let attackForce = Vector.normalize(direction);
         attackForce.multiply(chargingPower);
 
         this.propel(attackForce);
@@ -61,7 +61,7 @@ class Character extends Unit {
 
     // set velocity for locomotion
     setMoveDirection(moveDirection) {
-        this.moveDirection = moveDirection.getNormalized();
+        this.moveDirection = Vector.normalize(moveDirection);
     }
 
     // set velocity for propelled => boom!

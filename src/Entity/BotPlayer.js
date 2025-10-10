@@ -5,7 +5,6 @@ class BotPlayer extends Character {
         super(world);
     }
 
-    // ai actions
 }
 
 export { BotPlayer };
