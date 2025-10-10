@@ -1,4 +1,4 @@
-import { StatManager } from '../Stat/StatManager.js';
+import { EStatType, StatManager } from '../Stat/StatManager.js';
 import { Unit } from './Unit.js';
 
 class Character extends Unit {
@@ -9,6 +9,7 @@ class Character extends Unit {
         this.statManager = new StatManager();
         
         // stat data...
+        this.hp = this.statManager.getValue(EStatType.MAX_HP);
     }
 
     // character actions
