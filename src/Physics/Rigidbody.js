@@ -23,11 +23,11 @@ class Rigidbody {
         const v = this.velocity;
         const speed = this.velocity.getMagnitude();
         const forceDir = new Vector(
-            -(Vector.multiply(v, k1).x + Vector.multiply(v, k2 * speed).x),
-            -(Vector.multiply(v, k1).y + Vector.multiply(v, k2 * speed).y),
+            -(Vector.multiply(v, this.k1).x + Vector.multiply(v, this.k2 * speed).x),
+            -(Vector.multiply(v, this.k1).y + Vector.multiply(v, this.k2 * speed).y),
         );
 
-        const F = new Vector().add(this.force).add(forceDir);
+        const F = Vector.add(this.force, forceDir);
         const a = Vector.divide(F, this.mass);
 
         v.add(Vector.multiply(a, deltaTime));
