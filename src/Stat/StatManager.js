@@ -40,15 +40,15 @@ class StatManager {
 
         switch (type) {
             case EStatType.WEIGHT:
-                return 기본_무게 + (기본_무게 * (levelUpValue / 100));
+                return 기본_무게 + (기본_무게 * (levelValue / 100));
             case EStatType.MAX_HP:
-                return 기본_최대_쳬력 + (기본_최대_쳬력 * (levelUpValue / 100));
+                return 기본_최대_쳬력 + (기본_최대_쳬력 * (levelValue / 100));
             case EStatType.ATK_COOLTIME:
-                return 기본_공격_쿨타임 + (기본_공격_쿨타임 * (levelUpValue / 100));
+                return 기본_공격_쿨타임 + (기본_공격_쿨타임 * (levelValue / 100));
             case EStatType.MAX_CHARGE_LEN:
-                return 기본_최대_차징_거리 + (기본_최대_차징_거리 * (levelUpValue / 100));
+                return 기본_최대_차징_거리 + (기본_최대_차징_거리 * (levelValue / 100));
             case EStatType.MOVE_SPEED:
-                return 기본_이동_속도 + (기본_이동_속도 * (levelUpValue / 100));
+                return 기본_이동_속도 + (기본_이동_속도 * (levelValue / 100));
         }
 
         return 0;

@@ -21,7 +21,7 @@ class Entity {
     onPostUpdate(deltaTime) { }       // called after update
     onLateUpdate(deltaTime) { }       // called after system update
 
-    onCollisionEntity(other) { }    // called once when collision with another entity begins
+    onCollisionEnter(other) { }    // called once when collision with another entity begins
     onCollisionStay(other) { }      // called every frame while colliding with another entity
     onCollisionExit(other) { }      // called once when collision with another entity ends
 }
