@@ -1,8 +1,20 @@
 import { SerializableData } from './SerializableData.js';
 
 class Vector extends SerializableData {
+    static Zero = new Vector(0, 0);
+    static One = new Vector(1, 1);
+    static Up = new Vector(0, 1);
+    static Down = new Vector(0, -1);
+    static Left = new Vector(-1, 0);
+    static Right = new Vector(1, 0);
+
     constructor(x = 0, y = 0) {
         super();
+        this.x = x;
+        this.y = y;
+    }
+
+    set(x, y) {
         this.x = x;
         this.y = y;
     }
@@ -34,14 +46,6 @@ class Vector extends SerializableData {
         return this.x * this.x + this.y * this.y;
     }
 
-    getNormalized() {
-        const length = this.getMagnitude();
-        if(length === 0) 
-            return new Vector(0, 0);
-
-        return new Vector(this.x / length, this.y / length);
-    }
-
     normalize() {
         const length = this.getMagnitude();
         if(length === 0) 
@@ -51,17 +55,9 @@ class Vector extends SerializableData {
         this.y /= length;
     }
 
-    getAdded(vector) {
-        return new Vector(this.x + vector.x, this.y + vector.y);
-    }
-
     add(vector) {
         this.x += vector.x;
         this.y += vector.y;
-    }
-
-    getSubtracted(vector) {
-        return new Vector(this.x - vector.x, this.y - vector.y);
     }
 
     subtract(vector) {
@@ -69,22 +65,40 @@ class Vector extends SerializableData {
         this.y -= vector.y;
     }
 
-    getMultiplied(value) {
-        return new Vector(this.x * value, this.y * value);
-    }
-
     multiply(value) {
         this.x *= value;
         this.y *= value;
     }
 
-    getDivided(value) {
-        return new Vector(this.x / value, this.y / value);
-    }
-
     divide(value) {
         this.x /= value;
         this.y /= value;
+    }
+
+    // -- static methods --
+        
+    static normalize(vector) {
+        const length = vector.getMagnitude();
+        if(length === 0) 
+            return new Vector(0, 0);
+
+        return new Vector(vector.x / length, vector.y / length);
+    }
+
+    static add(a, b) {
+        return new Vector(a.x + b.x, a.y + b.y);
+    }
+
+    static subtract(a, b) {
+        return new Vector(a.x - b.x, a.y - b.y);
+    }
+
+    static multiply(vector, value) {
+        return new Vector(vector.x * value, vector.y * value);
+    }
+
+    static divide(vector, value) {
+        return new Vector(vector.x / value, vector.y / value);
     }
 }
 

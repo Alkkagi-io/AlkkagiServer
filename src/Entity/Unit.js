@@ -1,26 +1,15 @@
 import { Entity } from './Entity.js';
-import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { Rigidbody } from '../Physics/Rigidbody.js';
 
 class Unit extends Entity {
     constructor(world) {
         super(world);
-
-        this.speed = 0;
-        this.moveDirection = new Vector();
+        this.rigidbody = new Rigidbody(this);
     }
 
     onPreUpdate(deltaTime) {
         super.onPreUpdate(deltaTime);
-
-        if (this.rigidbody)
-            this.rigidbody.update(deltaTime);
-    }
-
-    onUpdate(deltaTime) {
-        super.onUpdate(deltaTime);
-
-        const movement = this.moveDirection.getMultiplied(this.speed * deltaTime);
-        this.position.add(movement);
+        this.rigidbody.update(deltaTime);
     }
 }
 
