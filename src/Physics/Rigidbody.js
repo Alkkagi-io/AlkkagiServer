@@ -16,28 +16,28 @@ class Rigidbody {
     }
 
     impulse(f) {
-        this.velocity.add(f.getMultiplied(1 / this.mass));
+        this.velocity.add(Vector.multiply(f, 1 / this.mass));
     }
 
     update(deltaTime) {
         const v = this.velocity;
         const speed = this.velocity.getMagnitude();
         const forceDir = new Vector(
-            -(v.getMultiplied(k1).x + v.getMultiplied(k2 * speed).x),
-            -(v.getMultiplied(k1).y + v.getMultiplied(k2 * speed).y),
+            -(Vector.multiply(v, k1).x + Vector.multiply(v, k2 * speed).x),
+            -(Vector.multiply(v, k1).y + Vector.multiply(v, k2 * speed).y),
         );
 
         const F = new Vector().add(this.force).add(forceDir);
-        const a = F.getDivided(this.mass);
+        const a = Vector.divide(F, this.mass);
 
-        v.add(a.getMultiplied(deltaTime));
+        v.add(Vector.multiply(a, deltaTime));
 
         const sp = v.getMagnitude();
         if (sp > this.maxSpeed) {
             v.multiply(this.maxSpeed / sp);
         }
 
-        this.entity.position.add(v.getMultiplied(deltaTime));
+        this.entity.position.add(Vector.multiply(v, deltaTime));
 
         this.snapStop();
         this.force.set(0, 0);

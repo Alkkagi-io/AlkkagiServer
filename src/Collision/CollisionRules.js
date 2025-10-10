@@ -18,7 +18,7 @@ function registerCollisionRule() {
     Collision.register(SphereCollider, SphereCollider, (a, b) => {
         const apos = a.owner.position;
         const bpos = b.owner.position;
-        const dir = apos.getSubtracted(bpos);
+        const dir = Vector.subtract(apos, bpos);
         const r = a.radius + b.radius;
         return dir.x * dir.x + dir.y * dir.y  <= r * r;
     });
@@ -31,7 +31,7 @@ function registerCollisionRule() {
             Math.max(A.minX, Math.min(p.x, A.maxX)),
             Math.max(A.minY, Math.min(p.y, A.maxY))
         );
-        const dir = apos.getSubtracted(closestPoint);
+        const dir = Vector.subtract(apos, closestPoint);
         return dir.x * dir.x + dir.y * dir.y <= a.radius * a.radius;
     });
 }

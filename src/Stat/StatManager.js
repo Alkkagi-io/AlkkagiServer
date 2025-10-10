@@ -12,7 +12,7 @@ const EStatType = {
     MAX_HP: 3,
     MOVE_SPEED: 4,
     ATK_COOLTIME: 5
-}
+};
 
 class StatManager {
     constructor() {
