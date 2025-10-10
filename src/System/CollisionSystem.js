@@ -8,6 +8,9 @@ class CollisionSystem extends System {
         this.tree = null;
         this.prevCollisions = new Map();
         this.nextCollisions = new Map();
+
+        world.on('addEntity', e => this.onAddEntity(e));
+        world.on('removeEntity', e => this.onRemoveEntity(e));
     }
 
     getSystemID() {
@@ -68,8 +71,8 @@ class CollisionSystem extends System {
             }
         }
 
-        this._prev = this._next;
-        this._next = new Map();
+        this.prevCollisions = this.nextCollisions;
+        this.nextCollisions = new Map();
     }
 
     onAddEntity(e) {
@@ -79,8 +82,8 @@ class CollisionSystem extends System {
         const realAABB = e.collider.getAABB();
         e.collider.refLeaf = this.tree.insert(e.collider, realAabb);
 
-        if (!this._prev.has(e))
-            this._prev.set(e, new Set());
+        if (!this.prevCollisions.has(e))
+            this.prevCollisions.set(e, new Set());
     }
 
     onRemoveEntity(e) {
@@ -90,10 +93,10 @@ class CollisionSystem extends System {
         this.tree.remove(e.collider.refLeaf);
         e.collider.refLeaf = null;
 
-        if (this._prev.has(e)) this._prev.delete(e);
-        if (this._next.has(e)) this._next.delete(e);
-        for (const set of this._prev.values()) set.delete(e);
-        for (const set of this._next.values()) set.delete(e);
+        if (this.prevCollisions.has(e)) this.prevCollisions.delete(e);
+        if (this.nextCollisions.has(e)) this.nextCollisions.delete(e);
+        for (const set of this.prevCollisions.values()) set.delete(e);
+        for (const set of this.nextCollisions.values()) set.delete(e);
     }
 
     _getSet(m, k) {

@@ -1,10 +1,12 @@
+import { EventEmitter } from "events";
+
 const createWorldOptions = (options = {}) => {
     return {
         tickRate: options.tickRate || 30,
     };
 };
 
-class World {
+class World extends EventEmitter {
     static entityCounter = 0;
 
     constructor(worldOptions) {
@@ -124,6 +126,7 @@ class World {
             const entity = this.entityAddQueue[i];
             this.publishEvent(entity, entity.onAwake);
             this.entities[entity.entityID] = entity;
+            this.emit('addEntity', entity);
         }
 
         for(let i = 0; i < this.systemAddQueue.length; i++) {
@@ -151,6 +154,7 @@ class World {
         for(let i = 0; i < this.entityRemoveQueue.length; i++) {
             const entity = this.entityRemoveQueue[i];
             this.publishEvent(entity, entity.onDestroy);
+            this.emit('removeEntity', entity);
             delete this.entities[entity.entityID];
         }
 
