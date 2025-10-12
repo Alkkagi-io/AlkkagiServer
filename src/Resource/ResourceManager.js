@@ -2,6 +2,7 @@ import { ResourceLevelStat } from "../../AlkkagiShared/Resource/ResourceLevelSta
 import path from "node:path";
 import fs from "node:fs/promises";
 import fss from "node:fs";
+import { ResourceShopItem } from "../../AlkkagiShared/Resource/ResourceShopItem.js";
 
 class ResourceManager {
     constructor() {
@@ -16,6 +17,7 @@ class ResourceManager {
 
         // data load
         ResourceLevelStat.load(await this._getJsonData('LevelStats.json'));
+        ResourceShopItem.load(await this._getJsonData('ShopItems.json'));
         
         this.loaded = true;
 
