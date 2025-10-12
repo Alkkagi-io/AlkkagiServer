@@ -17,6 +17,19 @@ class SphereCollider extends Collider {
             maxY: pos.y + hSize.y
         };
     }
+
+    getClosestPoint(p) {
+        const center = this.owner.position;
+
+        const dir = Vector.subtract(p, center);
+        const dist = dir.magnitude();
+
+        if (dist <= this.radius || dist === 0) 
+            return new Vector(p.x, p.y);
+
+        const normalized = Vector.divide(dir, dist);
+        return Vector.add(center, Vector.multiply(normalized, this.radius));
+    }
 }
 
 export { SphereCollider };

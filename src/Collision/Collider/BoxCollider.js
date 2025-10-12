@@ -17,6 +17,14 @@ class BoxCollider extends Collider {
             maxY: pos.y + hSize.y
         };
     }
+
+    getClosestPoint(p) {
+        const aabb = this.getAABB();
+        return new Vector(
+            Math.max(aabb.minX, Math.min(p.x, aabb.maxX)),
+            Math.max(aabb.minY, Math.min(p.y, aabb.maxY)),
+        );
+    }
 }
 
 export { BoxCollider };
