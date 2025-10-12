@@ -18,6 +18,7 @@ class Character extends Unit {
         this.chargingStartTime = Date.now();
 
         this.xpAmount = 0;
+        this.gold = 0;
         this.statManager = new StatManager();
         
         // stat data...
@@ -84,8 +85,25 @@ class Character extends Unit {
         // do somthing
     }
 
+    heal(v) {
+        this.hp += v;
+        const maxHp = this.statManager.getValue(EStatType.MAX_HP);
+        if (this.hp > maxHp)
+            this.hp = maxHp
+    }
+
     gainXP(xpAmount) {
         this.xpAmount += xpAmount;
+    }
+
+    gainGold(goldAmount) {
+        this.gold += goldAmount;
+    }
+
+    useGold(goldAmount) {
+        this.gold -= goldAmount;
+        if (this.gold < 0)
+            this.gold = 0;
     }
 }
 

@@ -10,6 +10,8 @@ class World extends EventEmitter {
     static entityCounter = 0;
 
     constructor(worldOptions) {
+        super()
+
         this.worldOptions = worldOptions;
 
         this.tickRate = worldOptions.tickRate;
