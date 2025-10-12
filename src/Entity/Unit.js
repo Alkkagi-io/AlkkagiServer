@@ -1,5 +1,6 @@
 import { Entity } from './Entity.js';
 import { Rigidbody } from '../Physics/Rigidbody.js';
+import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
 class Unit extends Entity {
     constructor(world) {
@@ -11,6 +12,38 @@ class Unit extends Entity {
         super.onPreUpdate(deltaTime);
         this.rigidbody.update(deltaTime);
     }
+
+    onCollisionEnter(other) {
+        super.onCollisionEnter(other);
+
+        const weight = this.getWeight();
+        const otherWeight = other.getWeight();
+
+        const contactPoint = other.collider.getContactPoint(this);
+        const normal = Vector.normal(Vector.subtract(other.position, this.position));
+        const tangent = new Vector(-normal.x, normal.y);
+
+        // Normal Direction Velocity
+        const velcocityNormal = Vector.dot(this.rigidbody.velocity, normal);
+        const otherVelocityNormal = other.rigidbody == undefined ? 0 : Vector.dot(other.rigidbody.velocity, normal);
+
+        // Tangent Direction Velocity
+        const velocityTangent = Vector.dot(this.rigidbody.velocity, tangent);
+
+        // Reflected Normal Direction Velocity
+        const velocityNormalReflected = ((weight - RESTITUTION * otherWeight) * velocityNormal + (1 + RESTITUTION) * otherWeight * otherVelocityNormal) / (weight + otherWeight);
+
+        // Reflected Tangent Direction Velocity
+        const velocityTangentReflected = velocityTangent;
+
+        // Velocity Reflected
+        const velocityReflected = Vector.add(Vector.multiply(normal, velocityNormalReflected), Vector.multiply(tangent, velocityTangentReflected));
+
+        this.onCollide(other, contactPoint, normal, velocityReflected);
+    }
+
+    // <entity, Vector, Vector, Vector>
+    onCollide(other, contactPoint, normal, velocityReflected) { }
 }
 
 export { Unit };

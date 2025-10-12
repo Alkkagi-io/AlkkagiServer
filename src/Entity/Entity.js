@@ -12,6 +12,10 @@ class Entity {
         return this.entityID;
     }
 
+    getWeight() {
+        return 1;
+    }
+
     onAwake() { }                   // called when the entity is added to world
     onStart() { }                   // called after awake
     onDestroy() { }                 // called when the entity is removed from world

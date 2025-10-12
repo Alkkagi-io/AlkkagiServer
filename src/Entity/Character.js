@@ -41,6 +41,11 @@ class Character extends Unit {
         }
     }
 
+    onCollide(other, contactPoint, normal, velocityReflected) {
+        super.onCollide(other, contactPoint, normal, velocityReflected);
+        this.propel(velocityReflected);
+    }
+
     // -- apply input --
 
     startAttackCharging() {
