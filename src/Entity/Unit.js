@@ -2,6 +2,8 @@ import { Entity } from './Entity.js';
 import { Rigidbody } from '../Physics/Rigidbody.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
+const RESTITUTION = 1; // collision coefficient
+
 class Unit extends Entity {
     constructor(world) {
         super(world);
@@ -16,6 +18,9 @@ class Unit extends Entity {
     onCollisionEnter(other) {
         super.onCollisionEnter(other);
 
+        const velocity = this.rigidbody.velocity;
+        const otherVelocity = other.rigidbody ? other.rigidbody.velocity : Vector.Zero;
+
         const weight = this.getWeight();
         const otherWeight = other.getWeight();
 
@@ -24,11 +29,11 @@ class Unit extends Entity {
         const tangent = new Vector(-normal.x, normal.y);
 
         // Normal Direction Velocity
-        const velcocityNormal = Vector.dot(this.rigidbody.velocity, normal);
-        const otherVelocityNormal = other.rigidbody == undefined ? 0 : Vector.dot(other.rigidbody.velocity, normal);
+        const velcocityNormal = Vector.dot(velocity, normal);
+        const otherVelocityNormal = Vector.dot(otherVelocity, normal);
 
         // Tangent Direction Velocity
-        const velocityTangent = Vector.dot(this.rigidbody.velocity, tangent);
+        const velocityTangent = Vector.dot(velocity, tangent);
 
         // Reflected Normal Direction Velocity
         const velocityNormalReflected = ((weight - RESTITUTION * otherWeight) * velocityNormal + (1 + RESTITUTION) * otherWeight * otherVelocityNormal) / (weight + otherWeight);
