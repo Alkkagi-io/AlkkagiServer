@@ -9,6 +9,9 @@ const ECharacterState = {
     Dead: 3
 };
 
+const PROPEL_EPSILON = 0.01 * 0.01;
+const PROPEL_LOCOMOTION_THRESHOLD = 0.05 * 0.05;
+
 class Character extends Unit {
     constructor(world) {
         super(world);
@@ -35,6 +38,23 @@ class Character extends Unit {
             case ECharacterState.Hold:
                 break;
             case ECharacterState.Propelled:
+                const sqrSpeed = this.rigidbody.velocity.getSqrMagnitude();
+
+                if(sqrSpeed < PROPEL_LOCOMOTION_THRESHOLD) {
+                    const inputValid = this.moveDirection.x != 0 && this.moveDirection.y != 0;
+                    if(inputValid) {
+                        this.rigidbody.velocity = this.moveDirection;
+                        this.characterState = ECharacterState.Locomotion;
+                        break;
+                    }
+                }
+
+                if(sqrSpeed < PROPEL_EPSILON) {
+                    this.characterState = ECharacterState.Locomotion;
+                    this.rigidbody.velocity = Vector.Zero;
+                    break;
+                }
+
                 break;
             case ECharacterState.Dead:
                 break;
@@ -49,11 +69,17 @@ class Character extends Unit {
     // -- apply input --
 
     startAttackCharging() {
+        if(this.characterState != ECharacterState.Locomotion)
+            return;
+
         this.chargingStartTime = Date.now();
         this.hold();
     }
 
     finishAttackCharging(direction) {
+        if(this.characterState != ECharacterState.Hold)
+            return;
+
         const chargingTime = (Date.now() - this.chargingStartTime) * 0.001;
         const chargingPower = Math.min(chargingTime, this.statManager.getStatValue(EStatType.MAX_CHARGE_LEN));
 
