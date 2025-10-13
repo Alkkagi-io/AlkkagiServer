@@ -1,5 +1,6 @@
 import { ServerPacketHandler } from './index.js';
 import { EMoveInput } from '../../AlkkagiShared/Datas/EMoveInput.js';
+import { EStatType } from '../../AlkkagiShared/Resource/ResourceStat.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
 class C2S_MoveInputPacketHandler extends ServerPacketHandler {
@@ -7,38 +8,41 @@ class C2S_MoveInputPacketHandler extends ServerPacketHandler {
         const playerHandle = this.clientHandle.playerHandle;
         if(playerHandle == undefined)
             return;
-
-        const moveComponent = playerHandle.playerEntity.moveComponent;
-
+        
+        let moveDirection = Vector.Zero;
         switch(packet.moveInput) {
             case EMoveInput.None:
-                moveComponent.setMoveDirection(Vector.Zero);
+                moveDirection = Vector.Zero;
                 break;
             case EMoveInput.Up:
-                moveComponent.setMoveDirection(Vector.Up);
+                moveDirection = Vector.Up;
                 break;
             case EMoveInput.Down:
-                moveComponent.setMoveDirection(Vector.Down);
+                moveDirection = Vector.Down;
                 break;
             case EMoveInput.Left:
-                moveComponent.setMoveDirection(Vector.Left);
+                moveDirection = Vector.Left;
                 break;
             case EMoveInput.Right:
-                moveComponent.setMoveDirection(Vector.Right);
+                moveDirection = Vector.Right;
                 break;
             case EMoveInput.UpLeft:
-                moveComponent.setMoveDirection(Vector.Up.add(Vector.Left));
+                moveDirection = Vector.add(Vector.Up, Vector.Left);
                 break;
             case EMoveInput.UpRight:
-                moveComponent.setMoveDirection(Vector.Up.add(Vector.Right));
+                moveDirection = Vector.add(Vector.Up, Vector.Right);
                 break;
             case EMoveInput.DownLeft:
-                moveComponent.setMoveDirection(Vector.Down.add(Vector.Left));
+                moveDirection = Vector.add(Vector.Down, Vector.Left);
                 break;
             case EMoveInput.DownRight:
-                moveComponent.setMoveDirection(Vector.Down.add(Vector.Right));
+                moveDirection = Vector.add(Vector.Down, Vector.Right);
                 break;
         }
+
+        const moveComponent = playerHandle.playerEntity.moveComponent;
+        const moveSpeed = playerHandle.playerEntity.statManager.getStatValue(EStatType.MOVE_SPEED);
+        moveComponent.setLocomotionVelocity(moveDirection, moveSpeed);
     }
 }
 

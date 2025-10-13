@@ -12,18 +12,18 @@ const PROPEL_LOCOMOTION_THRESHOLD = 0.05 * 0.05;
 class MoveComponent {
     constructor(rigidbody) {
         this.rigidbody = rigidbody;
-        this.moveDirection = Vector.Zero;
+        this.locomotionVelocity = Vector.Zero;
     }
 
     onUpdate(deltaTime) {
         switch(this.moveState) {
             case EMoveState.Locomotion:
-                this.rigidbody.velocity = this.moveDirection;
+                this.rigidbody.velocity = this.locomotionVelocity;
                 break;
             case EMoveState.Propelled:
                 const sqrSpeed = this.rigidbody.velocity.getSqrMagnitude();
     
-                const locomotionEnable = sqrSpeed < PROPEL_LOCOMOTION_THRESHOLD && this.moveDirection.x != 0 && this.moveDirection.y != 0;
+                const locomotionEnable = sqrSpeed < PROPEL_LOCOMOTION_THRESHOLD && this.locomotionVelocity.x != 0 && this.locomotionVelocity.y != 0;
                 const propelReleaseEnable = sqrSpeed < PROPEL_EPSILON;
     
                 if(locomotionEnable || propelReleaseEnable) {
@@ -35,8 +35,8 @@ class MoveComponent {
     }
 
     // set velocity for locomotion
-    setMoveDirection(moveDirection) {
-        this.moveDirection = Vector.normalize(moveDirection);
+    setLocomotionVelocity(moveDirection, moveSpeed) {
+        this.locomotionVelocity = Vector.multiply(Vector.normalize(moveDirection), moveSpeed);
     }
 
     // set velocity for propelled => boom!
@@ -49,6 +49,10 @@ class MoveComponent {
     hold() {
         this.moveState = EMoveState.Hold;
         this.rigidbody.velocity = Vector.Zero;
+    }
+
+    release() {
+        this.moveState = EMoveState.Locomotion;
     }
 }
 

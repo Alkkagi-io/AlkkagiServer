@@ -9,20 +9,21 @@ class Character extends Unit {
     constructor(world) {
         super(world);
 
+        // init variables
+        this.statManager = new StatManager();
+        this.autoHealTimer = 0;
+        this.gold = 0;
+    }
+
+    onAwake() {
+        super.onAwake();
+
+        // init components
         this.healthComponent = new HealthComponent(() => this.statManager.getValue(EStatType.MAX_HP), this.onHPChanged);
         this.moveComponent = new MoveComponent(this.rigidbody);
 
         this.attackComponent = new CharacterAttack(this);
-        this.levelComponent = new CharacterLevel(this);
-
-        this.autoHealTimer = 0;
-
-        this.gold = 0;
-        this.statManager = new StatManager();
-    }
-
-    getWeight() {
-        return this.statManager.getValue(EStatType.WEIGHT);
+        this.levelComponent = new CharacterLevel(this, this.onLevelUp);
     }
 
     onUpdate(deltaTime) {
@@ -49,6 +50,16 @@ class Character extends Unit {
         if(currentHP <= 0) {
             this.world.removeEntity(this);
         }
+    }
+
+    onLevelUp(type) {
+        const originMoveDirection = this.moveComponent.locomotionVelocity;
+        const moveSpeed = this.statManager.getStatValue(EStatType.MOVE_SPEED);
+        this.moveComponent.setLocomotionVelocity(originMoveDirection, moveSpeed);
+    }
+
+    getWeight() {
+        return this.statManager.getValue(EStatType.WEIGHT);
     }
 
     gainGold(goldAmount) {
