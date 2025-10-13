@@ -29,6 +29,10 @@ class Character extends Unit {
         this.hp = this.statManager.getValue(EStatType.MAX_HP);
     }
 
+    getWeight() {
+        return this.statManager.getValue(EStatType.WEIGHT);
+    }
+
     onUpdate(deltaTime) {
         super.onUpdate(deltaTime);
 
