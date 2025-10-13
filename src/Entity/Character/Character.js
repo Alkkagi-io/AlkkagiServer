@@ -1,23 +1,21 @@
 import { StatManager } from '../../Stat/StatManager.js';
 import { Unit } from '../index.js';
 import { EStatType } from '../../../AlkkagiShared/Resource/ResourceStat.js';
-import { ECharacterState } from './ECharacterState.js';
-import { CharacterMove } from './CharacterMove.js';
 import { CharacterAttack } from './CharacterAttack.js';
 import { CharacterLevel } from './CharacterLevel.js';
-import { HealthComponent } from '../../Component/index.js';
+import { HealthComponent, MoveComponent } from '../../Component/index.js';
 
 class Character extends Unit {
     constructor(world) {
         super(world);
 
         this.healthComponent = new HealthComponent(() => this.statManager.getValue(EStatType.MAX_HP), this.onHPChanged);
+        this.moveComponent = new MoveComponent(this.rigidbody);
 
-        this.moveComponent = new CharacterMove(this);
         this.attackComponent = new CharacterAttack(this);
         this.levelComponent = new CharacterLevel(this);
 
-        this.characterState = ECharacterState.Locomotion;
+        this.autoHealTimer = 0;
 
         this.gold = 0;
         this.statManager = new StatManager();
@@ -31,6 +29,13 @@ class Character extends Unit {
         super.onUpdate(deltaTime);
 
         this.moveComponent.onUpdate(deltaTime);
+
+        this.autoHealTimer += deltaTime;
+        if(this.autoHealTimer >= 1)
+        {
+            this.autoHealTimer = this.autoHealTimer - 1;
+            this.healthComponent.heal(this.statManager.getValue(EStatType.AUTO_HEAL));
+        }
     }
 
     onCollide(other, contactPoint, normal, velocityReflected) {
@@ -40,10 +45,10 @@ class Character extends Unit {
 
     onHPChanged(prevHP, currentHP) {
         global.logger.Info('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
-    }
 
-    setCurrentState(state) {
-        this.characterState = state;
+        if(currentHP <= 0) {
+            this.world.removeEntity(this);
+        }
     }
 
     gainGold(goldAmount) {
@@ -57,4 +62,4 @@ class Character extends Unit {
     }
 }
 
-export { Character, ECharacterState };
+export { Character };
