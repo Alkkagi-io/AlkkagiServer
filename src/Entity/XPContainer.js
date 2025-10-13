@@ -1,7 +1,5 @@
-import { Entity } from './Entity.js/index.js';
+import { Entity, Unit, XPObject } from './index.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
-import { Unit } from './Unit.js/index.js';
-import { XPObject } from './XPObject.js';
 
 class XPContainer extends Entity {
     constructor(world, xpAmount) {

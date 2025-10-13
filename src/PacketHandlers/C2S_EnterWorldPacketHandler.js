@@ -1,6 +1,6 @@
 import { ServerPacketHandler } from './index.js';
 import { PlayerHandle } from '../Core/PlayerHandle.js'
-import { Player } from '../Entity/Player.js'
+import { Player } from '../Entity/index.js'
 import { S2C_EnterWorldPacket } from '../../AlkkagiShared/Packets/index.js';
 
 class C2S_EnterWorldPacketHandler extends ServerPacketHandler {

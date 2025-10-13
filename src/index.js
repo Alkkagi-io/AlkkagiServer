@@ -10,7 +10,6 @@ import { GameServer, createServerOptions } from './Core/GameServer.js';
 import { World, createWorldOptions } from './Core/World.js';
 import { buildPacketManager } from './Core/PacketManager.js';
 import { WorldNetworkUpdatorSystem } from './System/index.js';
-import { Entity } from './Entity/Entity.js';
 import { CollisionSystem } from './System/CollisionSystem.js';
 
 // global variables

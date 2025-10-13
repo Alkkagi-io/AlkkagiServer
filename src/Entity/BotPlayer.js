@@ -1,4 +1,4 @@
-import { Character } from './Character.js';
+import { Character } from './index.js';
 
 class BotPlayer extends Character {
     constructor(world) {

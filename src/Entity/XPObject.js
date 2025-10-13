@@ -1,6 +1,4 @@
-import { Entity } from './Entity.js/index.js';
-import { Character } from './Character.js';
-import { Unit } from './Unit.js/index.js';
+import { Character, Entity, Unit } from './index.js';
 
 class XPObject extends Entity {
     constructor(world, xpAmount) {

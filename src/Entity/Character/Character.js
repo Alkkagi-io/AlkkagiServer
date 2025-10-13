@@ -1,7 +1,7 @@
-import { StatManager } from '../Stat/StatManager.js';
-import { Unit } from './Unit.js';
-import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
-import { EStatType } from '../../AlkkagiShared/Resource/ResourceStat.js';
+import { StatManager } from '../../Stat/StatManager.js';
+import { Unit } from '../index.js';
+import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
+import { EStatType } from '../../../AlkkagiShared/Resource/ResourceStat.js';
 
 const ECharacterState = {
     Locomotion: 0,

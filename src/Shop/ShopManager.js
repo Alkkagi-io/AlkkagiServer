@@ -1,5 +1,5 @@
 import { ResourceShopItem } from "../../AlkkagiShared/Resource/ResourceShopItem";
-import { Character } from "../Entity/Character"
+import { Character } from "../Entity/Character/Character"
 
 function buyItem(entity, buyItemId) {
     if (!(entity instanceof Character))
