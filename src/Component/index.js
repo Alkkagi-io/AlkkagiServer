@@ -1,0 +1,1 @@
+export { HealthComponent } from './HealthComponent.js';

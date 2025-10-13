@@ -6,7 +6,8 @@ class C2S_FinishAttackChargingPacketHandler extends ServerPacketHandler {
         if(playerHandle == undefined)
             return;
 
-        playerHandle.playerEntity.finishAttackCharging(packet.direction);
+        const attackComponent = playerHandle.playerEntity.attackComponent;
+        attackComponent.finishAttackCharging(packet.direction);
     }
 }
 

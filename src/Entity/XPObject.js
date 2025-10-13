@@ -11,7 +11,8 @@ class XPObject extends Entity {
         super.onCollision(otherEntity);
 
         if(otherEntity instanceof Character) {
-            otherEntity.gainXP(this.xpAmount);
+            const levelComponent = otherEntity.levelComponent;
+            levelComponent.gainXP(this.xpAmount);
         }
 
         if(otherEntity instanceof Unit) {

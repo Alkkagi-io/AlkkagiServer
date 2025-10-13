@@ -8,33 +8,35 @@ class C2S_MoveInputPacketHandler extends ServerPacketHandler {
         if(playerHandle == undefined)
             return;
 
+        const moveComponent = playerHandle.playerEntity.moveComponent;
+
         switch(packet.moveInput) {
             case EMoveInput.None:
-                playerHandle.playerEntity.setMoveDirection(Vector.Zero);
+                moveComponent.setMoveDirection(Vector.Zero);
                 break;
             case EMoveInput.Up:
-                playerHandle.playerEntity.setMoveDirection(Vector.Up);
+                moveComponent.setMoveDirection(Vector.Up);
                 break;
             case EMoveInput.Down:
-                playerHandle.playerEntity.setMoveDirection(Vector.Down);
+                moveComponent.setMoveDirection(Vector.Down);
                 break;
             case EMoveInput.Left:
-                playerHandle.playerEntity.setMoveDirection(Vector.Left);
+                moveComponent.setMoveDirection(Vector.Left);
                 break;
             case EMoveInput.Right:
-                playerHandle.playerEntity.setMoveDirection(Vector.Right);
+                moveComponent.setMoveDirection(Vector.Right);
                 break;
             case EMoveInput.UpLeft:
-                playerHandle.playerEntity.setMoveDirection(Vector.Up.add(Vector.Left));
+                moveComponent.setMoveDirection(Vector.Up.add(Vector.Left));
                 break;
             case EMoveInput.UpRight:
-                playerHandle.playerEntity.setMoveDirection(Vector.Up.add(Vector.Right));
+                moveComponent.setMoveDirection(Vector.Up.add(Vector.Right));
                 break;
             case EMoveInput.DownLeft:
-                playerHandle.playerEntity.setMoveDirection(Vector.Down.add(Vector.Left));
+                moveComponent.setMoveDirection(Vector.Down.add(Vector.Left));
                 break;
             case EMoveInput.DownRight:
-                playerHandle.playerEntity.setMoveDirection(Vector.Down.add(Vector.Right));
+                moveComponent.setMoveDirection(Vector.Down.add(Vector.Right));
                 break;
         }
     }

@@ -1,32 +1,26 @@
 import { StatManager } from '../../Stat/StatManager.js';
 import { Unit } from '../index.js';
-import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
 import { EStatType } from '../../../AlkkagiShared/Resource/ResourceStat.js';
-
-const ECharacterState = {
-    Locomotion: 0,
-    Hold: 1,
-    Propelled: 2,
-    Dead: 3
-};
-
-const PROPEL_EPSILON = 0.01 * 0.01;
-const PROPEL_LOCOMOTION_THRESHOLD = 0.05 * 0.05;
+import { ECharacterState } from './ECharacterState.js';
+import { CharacterMove } from './CharacterMove.js';
+import { CharacterAttack } from './CharacterAttack.js';
+import { CharacterLevel } from './CharacterLevel.js';
+import { HealthComponent } from '../../Component/index.js';
 
 class Character extends Unit {
     constructor(world) {
         super(world);
 
-        this.moveDirection = new Vector();
-        this.characterState = ECharacterState.Locomotion;
-        this.chargingStartTime = Date.now();
+        this.healthComponent = new HealthComponent(() => this.statManager.getValue(EStatType.MAX_HP), this.onHPChanged);
 
-        this.xpAmount = 0;
+        this.moveComponent = new CharacterMove(this);
+        this.attackComponent = new CharacterAttack(this);
+        this.levelComponent = new CharacterLevel(this);
+
+        this.characterState = ECharacterState.Locomotion;
+
         this.gold = 0;
         this.statManager = new StatManager();
-        
-        // stat data...
-        this.hp = this.statManager.getValue(EStatType.MAX_HP);
     }
 
     getWeight() {
@@ -36,100 +30,20 @@ class Character extends Unit {
     onUpdate(deltaTime) {
         super.onUpdate(deltaTime);
 
-        switch(this.characterState) {
-            case ECharacterState.Locomotion:
-                this.rigidbody.velocity = this.moveDirection;
-                break;
-            case ECharacterState.Hold:
-                break;
-            case ECharacterState.Propelled:
-                const sqrSpeed = this.rigidbody.velocity.getSqrMagnitude();
-
-                if(sqrSpeed < PROPEL_LOCOMOTION_THRESHOLD) {
-                    const inputValid = this.moveDirection.x != 0 && this.moveDirection.y != 0;
-                    if(inputValid) {
-                        this.rigidbody.velocity = this.moveDirection;
-                        this.characterState = ECharacterState.Locomotion;
-                        break;
-                    }
-                }
-
-                if(sqrSpeed < PROPEL_EPSILON) {
-                    this.characterState = ECharacterState.Locomotion;
-                    this.rigidbody.velocity = Vector.Zero;
-                    break;
-                }
-
-                break;
-            case ECharacterState.Dead:
-                break;
-        }
+        this.moveComponent.onUpdate(deltaTime);
     }
 
     onCollide(other, contactPoint, normal, velocityReflected) {
         super.onCollide(other, contactPoint, normal, velocityReflected);
-        this.propel(velocityReflected);
+        this.moveComponent.propel(velocityReflected);
     }
 
-    // -- apply input --
-
-    startAttackCharging() {
-        if(this.characterState != ECharacterState.Locomotion)
-            return;
-
-        this.chargingStartTime = Date.now();
-        this.hold();
+    onHPChanged(prevHP, currentHP) {
+        global.logger.Info('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
     }
 
-    finishAttackCharging(direction) {
-        if(this.characterState != ECharacterState.Hold)
-            return;
-
-        const chargingTime = (Date.now() - this.chargingStartTime) * 0.001;
-        const chargingPower = Math.min(chargingTime, this.statManager.getStatValue(EStatType.MAX_CHARGE_LEN));
-
-        let attackForce = Vector.normalize(direction);
-        attackForce.multiply(chargingPower);
-
-        this.propel(attackForce);
-    }
-
-    // -- control character --
-
-    // set velocity for locomotion
-    setMoveDirection(moveDirection) {
-        this.moveDirection = Vector.normalize(moveDirection);
-    }
-
-    // set velocity for propelled => boom!
-    propel(force) {
-        this.characterState = ECharacterState.Propelled;
-        this.rigidbody.velocity = force;
-    }
-
-    // hold character
-    hold() {
-        this.characterState = ECharacterState.Hold;
-        this.rigidbody.velocity = Vector.Zero;
-    }
-    
-    levelUpStat(type) {
-        var success = this.statManager.levelUp(type);
-        if (!success)
-            return;
-
-        // do somthing
-    }
-
-    heal(v) {
-        this.hp += v;
-        const maxHp = this.statManager.getValue(EStatType.MAX_HP);
-        if (this.hp > maxHp)
-            this.hp = maxHp
-    }
-
-    gainXP(xpAmount) {
-        this.xpAmount += xpAmount;
+    setCurrentState(state) {
+        this.characterState = state;
     }
 
     gainGold(goldAmount) {

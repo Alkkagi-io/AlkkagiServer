@@ -19,7 +19,7 @@ function buyItem(entity, buyItemId) {
 function applyAbility(character, res) {
     const healValue = res.getAbilityValueInt('Heal');
     if (healValue > 0) {
-        character.heal(healValue);
+        character.healthComponent.heal(healValue);
     }
 
     const buff = res.getAbilityValue('Buff');

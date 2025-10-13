@@ -6,7 +6,8 @@ class C2S_StartAttackChargingPacketHandler extends ServerPacketHandler {
         if(playerHandle == undefined)
             return;
 
-        playerHandle.playerEntity.startAttackCharging();
+        const attackComponent = playerHandle.playerEntity.attackComponent;
+        attackComponent.startAttackCharging();
     }
 }
 
