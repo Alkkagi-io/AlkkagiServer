@@ -1,6 +1,6 @@
 import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
-import { EStatType } from '../../../AlkkagiShared/Resource/ResourceStat.js';
 import { EMoveState } from '../../Component/index.js';
+import { StatConfig } from '../../Stat/StatConfig.js';
 
 const ATTACK_CHARGE_THRESHOLD = 1;
 
@@ -17,7 +17,7 @@ class CharacterAttack {
             return;
 
         const attackCooldown = (Date.now() - this.lastAttackTime) * 0.001; // tick to seconds
-        if(attackCooldown < this.character.statManager.getStatValue(EStatType.ATK_COOLTIME))
+        if(attackCooldown < this.character.statManager.getStatValue(StatConfig.Type.ATK_COOLTIME))
             return;
 
         this.chargingStartTime = Date.now();

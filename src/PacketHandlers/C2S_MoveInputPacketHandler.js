@@ -1,7 +1,7 @@
 import { ServerPacketHandler } from './index.js';
 import { EMoveInput } from '../../AlkkagiShared/Datas/EMoveInput.js';
-import { EStatType } from '../../AlkkagiShared/Resource/ResourceStat.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { StatConfig } from '../Stat/StatConfig.js';
 
 class C2S_MoveInputPacketHandler extends ServerPacketHandler {
     handle(packet) {
@@ -41,7 +41,7 @@ class C2S_MoveInputPacketHandler extends ServerPacketHandler {
         }
 
         const moveComponent = playerHandle.playerEntity.moveComponent;
-        const moveSpeed = playerHandle.playerEntity.statManager.getStatValue(EStatType.MOVE_SPEED);
+        const moveSpeed = playerHandle.playerEntity.statManager.getStatValue(StatConfig.Type.MOVE_SPEED);
         moveComponent.setLocomotionVelocity(moveDirection, moveSpeed);
     }
 }
