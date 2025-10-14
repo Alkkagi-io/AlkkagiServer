@@ -9,7 +9,7 @@ class StatManager {
         let value = 0;
 
         const defaultValue = StatConfig.DefaultValue[type];
-        if (defaultValue <= 0)
+        if (defaultValue < 0)
             return 0;
 
         value = defaultValue;

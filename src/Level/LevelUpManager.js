@@ -1,7 +1,8 @@
 import { ResourceLevelUp, ELevelUpType } from "../../AlkkagiShared/Resource/ResourceLevelUp.js";
 
 class LevelUpManager {
-    constructor() {
+    constructor(character) {
+        this.character = character; 
         this.levels = [];
         const resources = ResourceLevelUp.getAll();
         for (const res in resources) {

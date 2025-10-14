@@ -4,13 +4,15 @@ import { CharacterAttack } from './CharacterAttack.js';
 import { CharacterLevel } from './CharacterLevel.js';
 import { HealthComponent, MoveComponent } from '../../Component/index.js';
 import { StatConfig } from '../../Stat/StatConfig.js';
+import { LevelUpManager } from '../../Level/LevelUpManager.js';
 
 class Character extends Unit {
     constructor(world) {
         super(world);
 
         // init variables
-        this.statManager = new StatManager();
+        this.statManager = new StatManager(this);
+        this.levelUpManager = new LevelUpManager(this);
         this.autoHealTimer = 0;
         this.gold = 0;
     }
