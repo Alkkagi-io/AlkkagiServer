@@ -6,11 +6,11 @@ class CharacterLevel {
     }
 
     levelUpStat(type) {
-        var success = this.character.statManager.levelUp(type);
+        var success = this.character.levelUpManager.levelUp(type);
         if (success == false)
             return;
 
-        this.onLevelUp(type);
+        this.onLevelUp?.(type);
     }
     
     gainXP(xpAmount) {
