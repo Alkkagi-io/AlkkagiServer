@@ -5,6 +5,7 @@ import { CharacterLevel } from './CharacterLevel.js';
 import { HealthComponent, MoveComponent } from '../../Component/index.js';
 import { StatConfig } from '../../Stat/StatConfig.js';
 import { LevelUpManager } from '../../Level/LevelUpManager.js';
+import { BuffManager } from '../../Buff/BuffManager.js';
 
 class Character extends Unit {
     constructor(world) {
@@ -13,6 +14,7 @@ class Character extends Unit {
         // init variables
         this.statManager = new StatManager(this);
         this.levelUpManager = new LevelUpManager(this);
+        this.buffManager = new BuffManager(this);
         this.autoHealTimer = 0;
         this.gold = 0;
     }
@@ -30,6 +32,10 @@ class Character extends Unit {
 
     onUpdate(deltaTime) {
         super.onUpdate(deltaTime);
+
+        if (this.buffManager) {
+            this.buffManager.update(deltaTime);
+        }
 
         if (this.moveComponent) {
             this.moveComponent.onUpdate(deltaTime);
