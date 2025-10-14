@@ -1,24 +1,25 @@
-import { Entity, Unit, XPObject } from './index.js';
+import { Entity, Character, XPObject } from './index.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { HealthComponent } from '../Component/index.js';
 
 class XPContainer extends Entity {
-    constructor(world, xpAmount) {
+    constructor(world, xpAmount, hp, onDestroyCallback) {
         super(world);
 
         this.xpAmount = xpAmount;
-        this.currentHP = 10;
+        this.onDestroyCallback = onDestroyCallback;
+
+        this.healthComponent = new HealthComponent(() => hp, this.onHPChanged);
     }
 
-    onCollision(otherEntity) {
-        super.onCollision(otherEntity);
-
-        if(otherEntity instanceof Unit) {
-            this.currentHP--;
-            if(this.currentHP <= 0) {
-                this.spawnXPObject(this.xpAmount);
-                this.world.removeEntity(this);
-            }
+    onHPChanged(prevHP, currentHP) {
+        if(currentHP > 0) {
+            return;
         }
+
+        this.spawnXPObject(this.xpAmount);
+        this.onDestroyCallback?.();
+        this.world.removeEntity(this);
     }
 
     spawnXPObject(xpAmount) {

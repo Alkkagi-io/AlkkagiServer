@@ -56,6 +56,11 @@ class Character extends Unit {
         this.moveComponent.propel(velocityReflected);
     }
 
+    onCollisionEnter(other) {
+        super.onCollisionEnter(other);
+        this.attackComponent.onCollisionEnter(other);
+    }
+
     onHPChanged(prevHP, currentHP) {
         global.logger.Info('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
 

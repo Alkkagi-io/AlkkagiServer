@@ -9,8 +9,7 @@ import { ResourceManager } from './Resource/ResourceManager.js'
 import { GameServer, createServerOptions } from './Core/GameServer.js';
 import { World, createWorldOptions } from './Core/World.js';
 import { buildPacketManager } from './Core/PacketManager.js';
-import { WorldNetworkUpdatorSystem } from './System/index.js';
-import { CollisionSystem } from './System/CollisionSystem.js';
+import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem } from './System/index.js';
 
 // global variables
 globalThis.logger = logger;
@@ -20,9 +19,8 @@ const serverOptions = createServerOptions({
     maxConnections: 100,
 });
 
+// create game server
 const gameServer = new GameServer(serverOptions);
-gameServer.start();
-gameServer.expressApp.use(express.static('public'));
 
 // load resources
 const resourceManager = new ResourceManager();
@@ -37,12 +35,17 @@ const world = new World(worldOptions);
 // setup systems
 world.addSystem(new WorldNetworkUpdatorSystem(world, gameServer));
 world.addSystem(new CollisionSystem(world));
+world.addSystem(new XPSpawnSystem(world));
 
 // start world loop
 world.startLoop();
 
 // build packet manager
 buildPacketManager(gameServer, world);
+
+// start game server
+gameServer.start();
+gameServer.expressApp.use(express.static('public'));
 
 // handle shutdown
 process.on('SIGTERM', () => {

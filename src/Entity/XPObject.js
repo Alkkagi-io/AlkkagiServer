@@ -7,17 +7,19 @@ class XPObject extends Entity {
         this.xpAmount = xpAmount; // non-serialzed property
     }
 
-    onCollision(otherEntity) {
-        super.onCollision(otherEntity);
+    onCollisionEnter(other) {
+        super.onCollisionEnter(other);
 
-        if(otherEntity instanceof Character) {
-            const levelComponent = otherEntity.levelComponent;
+        if(other instanceof Unit == false) {
+            return;
+        }
+
+        if(other instanceof Character) {
+            const levelComponent = other.levelComponent;
             levelComponent.gainXP(this.xpAmount);
         }
 
-        if(otherEntity instanceof Unit) {
-            this.world.removeEntity(this);
-        }
+        this.world.removeEntity(this);
     }
 }
 
