@@ -58,7 +58,7 @@ class Character extends Unit {
 
     onLevelUp(type) {
         const originMoveDirection = this.moveComponent.locomotionVelocity;
-        const moveSpeed = this.statManager.getStatValue(StatConfig.Type.MOVE_SPEED);
+        const moveSpeed = this.statManager.getValue(StatConfig.Type.MOVE_SPEED);
         this.moveComponent.setLocomotionVelocity(originMoveDirection, moveSpeed);
     }
 

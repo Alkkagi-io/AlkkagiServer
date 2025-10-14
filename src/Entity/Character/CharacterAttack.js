@@ -17,7 +17,7 @@ class CharacterAttack {
             return;
 
         const attackCooldown = (Date.now() - this.lastAttackTime) * 0.001; // tick to seconds
-        if(attackCooldown < this.character.statManager.getStatValue(StatConfig.Type.ATK_COOLTIME))
+        if(attackCooldown < this.character.statManager.getValue(StatConfig.Type.ATK_COOLTIME))
             return;
 
         this.chargingStartTime = Date.now();
@@ -35,7 +35,7 @@ class CharacterAttack {
             return;
         }
 
-        const chargingPower = Math.min(chargingTime, this.character.statManager.getStatValue(EStatType.MAX_CHARGE_LEN));
+        const chargingPower = Math.min(chargingTime, this.character.statManager.getValue(StatConfig.Type.MAX_CHARGE_LEN));
 
         let attackForce = Vector.normalize(direction);
         attackForce.multiply(chargingPower);
