@@ -15,10 +15,10 @@ class LevelUpManager {
         if(res == null)
             return false;
 
-        if (levels[levelUpType] >= res.maxLevel)
+        if (this.levels[levelUpType] >= res.maxLevel)
             return false;
 
-        levels[levelUpType]++;
+        this.levels[levelUpType]++;
         return true;
     }
 
@@ -27,7 +27,7 @@ class LevelUpManager {
         if(res == null)
             return null;
 
-        return { value: res.getLevelValue(levels[res.id]), isPercentage: res.isPercentage() };
+        return { value: res.getLevelValue(this.levels[res.id]), isPercentage: res.isPercentage() };
     }
 }
 
