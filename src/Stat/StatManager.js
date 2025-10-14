@@ -25,15 +25,15 @@ class StatManager {
         }
 
         // 버프 params 수치 합산
-        const constantValueBuffs = this.character.buffManager.getBuffs(buff => { return buff.params[`AddStatValue${type}`] !== undefined });
+        const constantValueBuffs = this.character.buffManager.getBuffs(buff => { return buff.params[`AddStatValue_${type}`] !== undefined });
         value += constantValueBuffs.reduce((sum, buff) => {
-            const value = buff.params[`AddStatValue${type}`];
+            const value = buff.params[`AddStatValue_${type}`];
             return sum + (typeof value === 'number' ? value : 0);
         }, 0);
 
-        const percentageValueBuffs = this.character.buffManager.getBuffs(buff => { return buff.params[`AddStatValue${type}Per`] !== undefined });
+        const percentageValueBuffs = this.character.buffManager.getBuffs(buff => { return buff.params[`AddStatValue_${type}_Per`] !== undefined });
         value += value * (percentageValueBuffs.reduce((sum, buff) => {
-            const value = buff.params[`AddStatValue${type}Per`];
+            const value = buff.params[`AddStatValue_${type}_Per`];
             return sum + (typeof value === 'number' ? value : 0);
         }, 0) / 100);
 
