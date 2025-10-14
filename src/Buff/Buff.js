@@ -1,11 +1,10 @@
 class Buff {
-    constructor() {
-        this.id = 0;
-        this.icon = "";
-        this.time = 0;
-        this.isPerminent = false;
+    constructor(icon, time, isPerminent, params = {}) {
+        this.icon = icon;
+        this.time = time;
+        this.isPerminent = isPerminent;
+        this.params = params;
         this.live = false;
-        this.params = {}
     }
 
     start() {

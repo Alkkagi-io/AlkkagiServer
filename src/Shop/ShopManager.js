@@ -1,4 +1,5 @@
 import { ResourceShopItem } from "../../AlkkagiShared/Resource/ResourceShopItem";
+import { Buff } from "../Buff/Buff";
 import { Character } from "../Entity/Character/Character"
 
 function buyItem(entity, buyItemId) {
@@ -22,9 +23,16 @@ function applyAbility(character, res) {
         character.healthComponent.heal(healValue);
     }
 
-    const buff = res.getAbilityValue('Buff');
-    if (!buff) {
+    const buffData = res.getAbilityValue('Buff');
+    if (!buffData) {
+        const {
+            Icon = '',
+            Time = 0,
+            IsPerminent = false,
+            Params = {}
+        } = buffData;
 
+        character.buffManager.addBuff(new Buff(Icon, Time, IsPerminent, Params));
     }
 }
 
