@@ -23,10 +23,15 @@ class XPContainer extends Entity {
     }
 
     spawnXPObject(xpAmount) {
-        for(let i = 0; i < xpAmount; i++) {
-            const xpObject = new XPObject(this.world, 1);
+        const xpStep = 1;
+        
+        let leftXPAmount = xpAmount;
+        while(leftXPAmount > 0) {
+            const xp = Math.min(leftXPAmount, xpStep);
+            const xpObject = new XPObject(this.world, xp);
             xpObject.position = new Vector(this.position.x, this.position.y);
             this.world.addEntity(xpObject);
+            leftXPAmount -= xp;
         }
     }
 }
