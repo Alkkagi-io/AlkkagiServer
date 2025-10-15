@@ -5,7 +5,7 @@ class Node {
         this.right = null;
         this.aabb = null;
         this.height = 0;
-        this.collider = null;
+        this.data = null;
     }
 
     get isLeaf() { return this.left === null; }
@@ -24,15 +24,15 @@ class DynamicAABBTree {
     }
 
     _pushNode(n) {
-        n.parent = n.left = n.right = n.collider = null;
+        n.parent = n.left = n.right = n.data = null;
         n.aabb = null;
         n.height = 0;
         this._pool.push(n);
     }
 
-    insert(collider, aabbReal) {
+    insert(data, aabbReal) {
         const leaf = this._popNode();
-        leaf.collider = collider;
+        leaf.data = data;
         leaf.aabb = inflate(aabbReal, this.fatMargin);
         leaf.height = 0;
         this.nodes.add(leaf);
@@ -126,10 +126,10 @@ class DynamicAABBTree {
         this.remove(leaf);
         const expanded = inflate(aabbReal, this.fatMargin);
         this.remove(leaf);
-        leaf.collider = leaf.collider; // 유지
+        leaf.data = leaf.data; // 유지
         leaf.aabb = expanded;
         leaf.height = 0;
-        this.insert(leaf.collider, aabbReal);
+        this.insert(leaf.data, aabbReal);
     }
 
     query(aabb, callback) {

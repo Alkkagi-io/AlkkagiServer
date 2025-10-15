@@ -4,7 +4,6 @@ import { Collision } from "../Collision.js";
 class Collider {
     constructor(owner) {
         this.entity = owner;
-        this.refLeaf = null;
     }
 
     intersect(other) {

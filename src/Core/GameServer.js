@@ -6,6 +6,7 @@ import http from 'http';
 // Projects
 import ClientHandle from './ClientHandle.js';
 import { MessagePacket } from '../../AlkkagiShared/Packets/index.js';
+import EventEmitter from 'events';
 
 const createServerOptions = (options = {}) => {
     return {
@@ -14,8 +15,9 @@ const createServerOptions = (options = {}) => {
     };
 };
 
-class GameServer {
+class GameServer extends EventEmitter {
     constructor(serverOptions) {
+        super();
         this.serverOptions = serverOptions;
         this.connectedClients = new Set();
     }
@@ -67,11 +69,13 @@ class GameServer {
 
         const clientHandle = new ClientHandle(socket);
         clientHandle.on('disconnect', () => {
+            this.emit('disconnectClient', clientHandle);
             this.connectedClients.delete(clientHandle);
             globalThis.logger.info('GameServer', 'Client disconnected');
         });
 
         this.connectedClients.add(clientHandle);
+        this.emit('connectClient', clientHandle);
         globalThis.logger.info('GameServer', 'Client connected');
 
         // return response about connected successfully

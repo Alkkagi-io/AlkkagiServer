@@ -24,15 +24,15 @@ class CollisionSystem extends System {
 
     onPreUpdate(deltaTime) {
         for (const leaf of this.tree.nodes) {
-            if (!leaf?.isLeaf || !leaf.collider)
+            if (!leaf?.isLeaf || !leaf.data)
                 continue;
-            const aabb = leaf.collider.getAABB();
+            const aabb = leaf.data.getAABB();
             this.tree.update(leaf, aabb);
         }
 
         this.tree.forEachOverlappingPairs?.((na, nb) => {
-            const colA = na.collider;
-            const colB = nb.collider;
+            const colA = na.data;
+            const colB = nb.data;
             if (!colA || !colB)
                 return;
 
@@ -91,7 +91,7 @@ class CollisionSystem extends System {
             return;
 
         this.tree.remove(e.collider.refLeaf);
-        e.collider.refLeaf = null;
+        e.collider.refLeaf = undefined;
 
         if (this.prevCollisions.has(e)) this.prevCollisions.delete(e);
         if (this.nextCollisions.has(e)) this.nextCollisions.delete(e);
