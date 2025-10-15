@@ -27,7 +27,7 @@ class Character extends Unit {
         this.moveComponent = new MoveComponent(this.rigidbody);
 
         this.attackComponent = new CharacterAttack(this);
-        this.levelComponent = new CharacterLevel(this, this.onLevelUp);
+        this.levelComponent = new CharacterLevel(this, this.onLevelUp, this.onStatLevelUp);
     }
 
     onUpdate(deltaTime) {
@@ -69,7 +69,11 @@ class Character extends Unit {
         }
     }
 
-    onLevelUp(type) {
+    onLevelUp(prevLevel, currentLevel) {
+        global.logger.info('Character', `onLevelUp [prevLevel: ${prevLevel}, currentLevel: ${currentLevel}]`);
+    }
+
+    onStatLevelUp(type) {
         const originMoveDirection = this.moveComponent.locomotionVelocity;
         const moveSpeed = this.statManager.getValue(StatConfig.Type.MOVE_SPEED);
         this.moveComponent.setLocomotionVelocity(originMoveDirection, moveSpeed);
