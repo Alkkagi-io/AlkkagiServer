@@ -4,7 +4,7 @@ import { CharacterAttack } from './CharacterAttack.js';
 import { CharacterLevel } from './CharacterLevel.js';
 import { HealthComponent, MoveComponent } from '../../Component/index.js';
 import { StatConfig } from '../../Stat/StatConfig.js';
-import { LevelUpManager } from '../../Level/LevelUpManager.js';
+import { StatLevelUpManager } from '../../Level/StatLevelUpManager.js';
 import { BuffManager } from '../../Buff/BuffManager.js';
 
 class Character extends Unit {
@@ -13,7 +13,7 @@ class Character extends Unit {
 
         // init variables
         this.statManager = new StatManager(this);
-        this.levelUpManager = new LevelUpManager(this);
+        this.statLevelUpManager = new StatLevelUpManager(this);
         this.buffManager = new BuffManager(this);
         this.autoHealTimer = 0;
         this.gold = 0;

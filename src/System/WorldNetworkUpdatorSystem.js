@@ -56,7 +56,7 @@ class WorldNetworkUpdatorSystem extends System {
             client.send(buffer);
         });
 
-        globalThis.logger.debug('WorldNetworkUpdatorSystem', `entity updated. entity count : ${entities.length}, client count : ${this.gameServer.connectedClients.size}`)
+        // globalThis.logger.debug('WorldNetworkUpdatorSystem', `entity updated. entity count : ${entities.length}, client count : ${this.gameServer.connectedClients.size}`)
     }
 
     onConnectClient(client) {

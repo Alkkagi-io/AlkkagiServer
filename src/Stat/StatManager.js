@@ -15,7 +15,7 @@ class StatManager {
         value = defaultValue;
 
         // 레벨업 수치 합산
-        const levelValue = this.character.levelUpManager.getLevelValue(type);
+        const levelValue = this.character.statLevelUpManager.getLevelValue(type);
         if (levelValue != null) {
             if (levelValue.isPercentage) {
                 value += value * (levelValue.value / 100);

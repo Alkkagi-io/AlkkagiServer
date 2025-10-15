@@ -1,4 +1,4 @@
-import { ResourceLevelUp } from "../../AlkkagiShared/Resource/ResourceLevelUp.js";
+import { ResourceStatLevelUp } from "../../AlkkagiShared/Resource/ResourceStatLevelUp.js";
 import { ResourceShopItem } from "../../AlkkagiShared/Resource/ResourceShopItem.js";
 import { ResourceXPSpawnSystemConfig } from "./ResourceXPSpawnSystemConfig.js";
 import path from "node:path";
@@ -17,7 +17,7 @@ class ResourceManager {
         logger.info('ResourceManager', 'start resource data load');
 
         // data load
-        ResourceLevelUp.load(await this._getJsonData('LevelUps.json'));
+        ResourceStatLevelUp.load(await this._getJsonData('StatLevelUps.json'));
         ResourceShopItem.load(await this._getJsonData('ShopItems.json'));
 
         // server data load

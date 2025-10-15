@@ -1,17 +1,17 @@
-import { ResourceLevelUp, ELevelUpType } from "../../AlkkagiShared/Resource/ResourceLevelUp.js";
+import { ResourceStatLevelUp, EStatLevelUpType } from "../../AlkkagiShared/Resource/ResourceStatLevelUp.js";
 
-class LevelUpManager {
+class StatLevelUpManager {
     constructor(character) {
         this.character = character; 
         this.levels = {};
-        const resources = ResourceLevelUp.getAll();
+        const resources = ResourceStatLevelUp.getAll();
         for (const res in resources) {
             this.levels[res.id] = 0;
         }
     }
 
     levelUp(levelUpType) {
-        const res = ResourceLevelUp.get(levelUpType);
+        const res = ResourceStatLevelUp.get(levelUpType);
         if(res == null)
             return false;
 
@@ -23,7 +23,7 @@ class LevelUpManager {
     }
 
     getLevelValue(statType) {
-        const res = ResourceLevelUp.getByStatType(statType);
+        const res = ResourceStatLevelUp.getByStatType(statType);
         if(res == null)
             return null;
 
@@ -31,4 +31,4 @@ class LevelUpManager {
     }
 }
 
-export { LevelUpManager }
+export { StatLevelUpManager }
