@@ -14,7 +14,7 @@ class WorldNetworkUpdatorSystem extends System {
         super(world);
         this.gameServer = gameServer;
         this.counter = 0;
-        this.entityNetworkTree = new DynamicAABBTree({ fatMargin: 2 });
+        this.entityNetworkTree = new DynamicAABBTree({ fatMargin: 0 });
 
         this.gameServer.on('connectlClient', client => this.onConnectClient(client));
         this.gameServer.on('disconnectClient', client => this.onDisConnectClient(client));
