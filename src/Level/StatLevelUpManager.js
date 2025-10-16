@@ -22,6 +22,10 @@ class StatLevelUpManager {
         return true;
     }
 
+    getStatLevel(statType) {
+        return this.levels[statType];
+    }
+
     getLevelValue(statType) {
         const res = ResourceStatLevelUp.getByStatType(statType);
         if(res == null)

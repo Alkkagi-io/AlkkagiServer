@@ -69,8 +69,8 @@ class Character extends Unit {
         }
     }
 
-    onLevelUp(prevLevel, currentLevel) {
-        global.logger.info('Character', `onLevelUp [prevLevel: ${prevLevel}, currentLevel: ${currentLevel}]`);
+    onLevelUp(prevLevel, currentLevel, currentStatPoint) {
+        global.logger.info('Character', `onLevelUp [prevLevel: ${prevLevel}, currentLevel: ${currentLevel}, currentStatPoint: ${currentStatPoint}]`);
     }
 
     onStatLevelUp(type) {

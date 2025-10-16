@@ -5,7 +5,7 @@ import { S2C_EnterWorldPacket } from '../../AlkkagiShared/Packets/index.js';
 
 class C2S_EnterWorldPacketHandler extends ServerPacketHandler {
     handle(packet) {
-        const playerEntity = new Player(this.world, packet.nickname);
+        const playerEntity = new Player(this.world, this.clientHandle, packet.nickname);
         this.world.addEntity(playerEntity);
 
         const playerHandle = new PlayerHandle(this.gameServer, this.world, this.clientHandle, playerEntity);
