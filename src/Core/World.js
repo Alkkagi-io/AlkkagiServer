@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+import { DynamicAABBTree } from "../Utils/DynamicAABBTree/DynamicAABBTree.js";
 
 const createWorldOptions = (options = {}) => {
     return {
@@ -25,6 +26,8 @@ class World extends EventEmitter {
         this.systems = {}; // <systemID, system>
         this.systemAddQueue = [];
         this.systemRemoveQueue = [];
+
+        this.entityTree = new DynamicAABBTree({ fatMargin: 2 });
 
         this.isRunning = false;
     }
@@ -101,6 +104,7 @@ class World extends EventEmitter {
 
     update(deltaTime) {
         this.onPreUpdate(deltaTime);
+        this.onTreeUpdate(deltaTime);
 
         // system pre-update
         Object.values(this.systems).forEach(system => this.publishEvent(system, system.onPreUpdate, deltaTime));
@@ -128,6 +132,7 @@ class World extends EventEmitter {
             const entity = this.entityAddQueue[i];
             this.publishEvent(entity, entity.onAwake);
             this.entities[entity.entityID] = entity;
+            entity.refLeaf = this.entityTree.insert(entity, entity.collider.getAABB());
             this.emit('addEntity', entity);
         }
 
@@ -151,11 +156,23 @@ class World extends EventEmitter {
         this.systemAddQueue = [];
     }
 
+    onTreeUpdate(deltaTime) {
+        for (const leaf of this.entityTree.nodes) {
+            if (!leaf?.isLeaf || !leaf.data) 
+                continue;
+
+            const entity = leaf.data;
+            const aabb = entity.collider.getAABB();
+            this.entityTree.update(leaf, aabb);
+        }
+    }
+
     onPostUpdate(deltaTime) 
     { 
         for(let i = 0; i < this.entityRemoveQueue.length; i++) {
             const entity = this.entityRemoveQueue[i];
             this.publishEvent(entity, entity.onDestroy);
+            this.entityTree.remove(entity.refLeaf);
             this.emit('removeEntity', entity);
             delete this.entities[entity.entityID];
         }

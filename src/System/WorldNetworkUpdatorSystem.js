@@ -1,6 +1,5 @@
 import { System } from './index.js';
 import { S2C_UpdateWorldPacket } from '../../AlkkagiShared/Packets/index.js';
-import { DynamicAABBTree } from '../Utils/DynamicAABBTree/DynamicAABBTree.js';
 import { Character } from '../Entity/index.js';
 
 const WORLD_UPDATE_TICK = 10;
@@ -15,10 +14,6 @@ class WorldNetworkUpdatorSystem extends System {
         super(world);
         this.gameServer = gameServer;
         this.counter = 0;
-        this.entityNetworkTree = new DynamicAABBTree({ fatMargin: 0 });
-
-        this.world.on('addEntity', entity => this.onAddEntity(entity));
-        this.world.on('removeEntity', entity => this.onRemoveEntity(entity));
     }
 
     getSystemID() {
@@ -26,16 +21,6 @@ class WorldNetworkUpdatorSystem extends System {
     }
 
     onPostUpdate(deltaTime) {
-        // tree update는 tick 영향 안받고 실시간 업데이트 되도록
-        for (const leaf of this.entityNetworkTree.nodes) {
-            if (!leaf?.isLeaf || !leaf.data)
-                continue;
-
-            const entity = leaf.data;
-            const aabb = this._getEntityViewAABB(entity);
-            this.entityNetworkTree.update(leaf, aabb);
-        }
-
         this.counter++;
         if(this.counter < WORLD_UPDATE_TICK)
             return;
@@ -49,7 +34,7 @@ class WorldNetworkUpdatorSystem extends System {
             // 주변 엔티티 가져오기
             const nearbyEntities = [];
             const AABB = this._getEntityViewAABB(client.playerHandle.playerEntity);
-            this.entityNetworkTree.query(AABB, leaf => {
+            this.world.entityTree.query(AABB, leaf => {
                 const entity = leaf.data;
                 nearbyEntities.push(entity);
             });
@@ -60,16 +45,6 @@ class WorldNetworkUpdatorSystem extends System {
         });
 
         // globalThis.logger.debug('WorldNetworkUpdatorSystem', `entity updated. entity count : ${entities.length}, client count : ${this.gameServer.connectedClients.size}`)
-    }
-
-    onAddEntity(entity) {
-        const AABB = this._getEntityViewAABB(entity);
-        entity.refLeaf = this.entityNetworkTree.insert(entity, AABB);
-    }
-
-    onRemoveEntity(client) {
-        this.entityNetworkTree.remove(entity.refLeaf);
-        entity.refLeaf = undefined;
     }
 
     _getEntityViewAABB(entity) {

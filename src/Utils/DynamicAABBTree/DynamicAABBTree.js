@@ -124,11 +124,6 @@ class DynamicAABBTree {
         ) return;
 
         this.remove(leaf);
-        const expanded = inflate(aabbReal, this.fatMargin);
-        this.remove(leaf);
-        leaf.data = leaf.data; // 유지
-        leaf.aabb = expanded;
-        leaf.height = 0;
         this.insert(leaf.data, aabbReal);
     }
 

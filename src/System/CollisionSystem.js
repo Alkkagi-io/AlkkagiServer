@@ -1,11 +1,9 @@
 import { registerCollisionRule } from "../Collision/CollisionRules.js";
-import { DynamicAABBTree } from "../Utils/DynamicAABBTree/DynamicAABBTree.js";
 import { System } from "./System.js";
 
 class CollisionSystem extends System {
     constructor(world) {
         super(world);
-        this.tree = null;
         this.prevCollisions = new Map();
         this.nextCollisions = new Map();
 
@@ -19,18 +17,10 @@ class CollisionSystem extends System {
 
     onAwake() {
         registerCollisionRule();
-        this.tree = new DynamicAABBTree({ fatMargin: 2 });
     }
 
     onPreUpdate(deltaTime) {
-        for (const leaf of this.tree.nodes) {
-            if (!leaf?.isLeaf || !leaf.data)
-                continue;
-            const aabb = leaf.data.getAABB();
-            this.tree.update(leaf, aabb);
-        }
-
-        this.tree.forEachOverlappingPairs?.((na, nb) => {
+        this.world.entityTree.forEachOverlappingPairs?.((na, nb) => {
             const colA = na.data;
             const colB = nb.data;
             if (!colA || !colB)
@@ -76,23 +66,11 @@ class CollisionSystem extends System {
     }
 
     onAddEntity(e) {
-        if (!e.collider)
-            return;
-
-        const realAABB = e.collider.getAABB();
-        e.collider.refLeaf = this.tree.insert(e.collider, realAabb);
-
         if (!this.prevCollisions.has(e))
             this.prevCollisions.set(e, new Set());
     }
 
     onRemoveEntity(e) {
-        if (!e.collider)
-            return;
-
-        this.tree.remove(e.collider.refLeaf);
-        e.collider.refLeaf = undefined;
-
         if (this.prevCollisions.has(e)) this.prevCollisions.delete(e);
         if (this.nextCollisions.has(e)) this.nextCollisions.delete(e);
         for (const set of this.prevCollisions.values()) set.delete(e);
