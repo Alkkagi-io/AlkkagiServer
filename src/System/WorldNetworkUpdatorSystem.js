@@ -63,17 +63,11 @@ class WorldNetworkUpdatorSystem extends System {
     }
 
     onAddEntity(entity) {
-        if (!(entity instanceof Character))
-            return;
-
         const AABB = this._getEntityViewAABB(entity);
         entity.refLeaf = this.entityNetworkTree.insert(entity, AABB);
     }
 
     onRemoveEntity(client) {
-        if (!(entity instanceof Character))
-            return;
-
         this.entityNetworkTree.remove(entity.refLeaf);
         entity.refLeaf = undefined;
     }
