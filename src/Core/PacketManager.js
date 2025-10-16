@@ -5,7 +5,7 @@ import * as PacketHandlers from '../PacketHandlers/index.js';
 function buildPacketManager(gameServer, world) {
     PacketManager.on(Packets.EPacketID.Message, Packets.MessagePacket, PacketHandlers.MessagePacketHandler);
     PacketManager.on(Packets.EPacketID.Vector, Packets.VectorPacket, PacketHandlers.VectorPacketHandler);
-    PacketManager.on(Packets.EPacketID.C2S_EnterWorld, Packets.C2S_EnterWorldPacket, PacketHandlers.C2S_EnterWorldPacketHandler);
+    PacketManager.on(Packets.EPacketID.C2S_EnterWorldRequest, Packets.C2S_EnterWorldRequestPacket, PacketHandlers.C2S_EnterWorldRequestPacketHandler);
     PacketManager.on(Packets.EPacketID.C2S_MoveInput, Packets.C2S_MoveInputPacket, PacketHandlers.C2S_MoveInputPacketHandler);
     PacketManager.on(Packets.EPacketID.C2S_StartAttackCharging, Packets.C2S_StartAttackChargingPacket, PacketHandlers.C2S_StartAttackChargingPacketHandler);
     PacketManager.on(Packets.EPacketID.C2S_FinishAttackCharging, Packets.C2S_FinishAttackChargingPacket, PacketHandlers.C2S_FinishAttackChargingPacketHandler);
