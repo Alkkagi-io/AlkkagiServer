@@ -1,6 +1,7 @@
 import { System } from './index.js';
 import { S2C_UpdateWorldPacket } from '../../AlkkagiShared/Packets/index.js';
 import { DynamicAABBTree } from '../Utils/DynamicAABBTree/DynamicAABBTree.js';
+import { Character } from '../Entity/index.js';
 
 const WORLD_UPDATE_TICK = 10;
 
@@ -16,8 +17,8 @@ class WorldNetworkUpdatorSystem extends System {
         this.counter = 0;
         this.entityNetworkTree = new DynamicAABBTree({ fatMargin: 0 });
 
-        this.gameServer.on('connectlClient', client => this.onConnectClient(client));
-        this.gameServer.on('disconnectClient', client => this.onDisConnectClient(client));
+        this.world.on('addEntity', entity => this.onAddEntity(entity));
+        this.world.on('removeEntity', entity => this.onRemoveEntity(entity));
     }
 
     getSystemID() {
@@ -43,15 +44,15 @@ class WorldNetworkUpdatorSystem extends System {
             if (!client.playerHandle)
                 return;
 
-            // 주변 클라이언트 엔티티 가져오기
-            const nearbyClientEntities = [];
-            const AABB = this._getClientEntityScreenAABB(client.playerHandle.playerEntity);
+            // 주변 엔티티 가져오기
+            const nearbyEntities = [];
+            const AABB = this._getEntityViewAABB(client.playerHandle.playerEntity);
             this.entityNetworkTree.query(AABB, leaf => {
-                const nearbyClient = leaf.data;
-                nearbyClientEntities.push(nearbyClient.playerHandle.playerEntity);
+                const entity = leaf.data;
+                nearbyClientEntities.push(entity);
             });
 
-            const packet = new S2C_UpdateWorldPacket(nearbyClientEntities);
+            const packet = new S2C_UpdateWorldPacket(nearbyEntities);
             const buffer = packet.serialize();
             client.send(buffer);
         });
@@ -59,23 +60,23 @@ class WorldNetworkUpdatorSystem extends System {
         // globalThis.logger.debug('WorldNetworkUpdatorSystem', `entity updated. entity count : ${entities.length}, client count : ${this.gameServer.connectedClients.size}`)
     }
 
-    onConnectClient(client) {
-        if (!client.playerHandle)
+    onAddEntity(entity) {
+        if (!(entity instanceof Character))
             return;
 
-        const AABB = _getClientEntityScreenAABB(client.playerHandle.playerEntity);
-        client.refLeaf = this.entityNetworkTree.insert(client, AABB);
+        const AABB = _getEntityViewAABB(entity);
+        entity.refLeaf = this.entityNetworkTree.insert(entity, AABB);
     }
 
-    onDisConnectClient(client) {
-        if (!client.playerHandle)
+    onRemoveEntity(client) {
+        if (!(entity instanceof Character))
             return;
 
-        this.entityNetworkTree.remove(client.refLeaf);
-        client.refLeaf = undefined;
+        this.entityNetworkTree.remove(entity.refLeaf);
+        entity.refLeaf = undefined;
     }
 
-    _getClientEntityScreenAABB(entity) {
+    _getEntityViewAABB(entity) {
         const pos = entity.position;
         const hw = VIEW_SIZE.width / 2;
         const hh = VIEW_SIZE.height / 2;
