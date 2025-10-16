@@ -30,7 +30,9 @@ class WorldNetworkUpdatorSystem extends System {
         for (const leaf of this.entityNetworkTree.nodes) {
             if (!leaf?.isLeaf || !leaf.data)
                 continue;
-            const aabb = leaf.data.getAABB();
+
+            const entity = leaf.data;
+            const aabb = this._getEntityViewAABB(entity);
             this.entityNetworkTree.update(leaf, aabb);
         }
 
@@ -49,7 +51,7 @@ class WorldNetworkUpdatorSystem extends System {
             const AABB = this._getEntityViewAABB(client.playerHandle.playerEntity);
             this.entityNetworkTree.query(AABB, leaf => {
                 const entity = leaf.data;
-                nearbyClientEntities.push(entity);
+                nearbyEntities.push(entity);
             });
 
             const packet = new S2C_UpdateWorldPacket(nearbyEntities);
@@ -64,7 +66,7 @@ class WorldNetworkUpdatorSystem extends System {
         if (!(entity instanceof Character))
             return;
 
-        const AABB = _getEntityViewAABB(entity);
+        const AABB = this._getEntityViewAABB(entity);
         entity.refLeaf = this.entityNetworkTree.insert(entity, AABB);
     }
 
