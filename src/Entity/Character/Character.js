@@ -6,17 +6,24 @@ import { HealthComponent, MoveComponent } from '../../Component/index.js';
 import { StatConfig } from '../../Stat/StatConfig.js';
 import { StatLevelUpManager } from '../../Level/StatLevelUpManager.js';
 import { BuffManager } from '../../Buff/BuffManager.js';
+import { EEntityType } from '../../../AlkkagiShared/Datas/index.js';
+import { SphereCollider } from '../../Collision/Collider/SphereCollider.js';
 
 class Character extends Unit {
     constructor(world) {
         super(world);
 
         // init variables
+        this.collider = new SphereCollider(this);
         this.statManager = new StatManager(this);
         this.statLevelUpManager = new StatLevelUpManager(this);
         this.buffManager = new BuffManager(this);
         this.autoHealTimer = 0;
         this.gold = 0;
+    }
+
+    getEntityType() {
+        return EEntityType.Character;
     }
 
     onAwake() {
@@ -62,7 +69,7 @@ class Character extends Unit {
     }
 
     onHPChanged(prevHP, currentHP) {
-        global.logger.info('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
+        global.logger.debug('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
 
         if(currentHP <= 0) {
             this.world.removeEntity(this);
@@ -70,7 +77,7 @@ class Character extends Unit {
     }
 
     onLevelUp(prevLevel, currentLevel, currentStatPoint) {
-        global.logger.info('Character', `onLevelUp [prevLevel: ${prevLevel}, currentLevel: ${currentLevel}, currentStatPoint: ${currentStatPoint}]`);
+        global.logger.debug('Character', `onLevelUp [prevLevel: ${prevLevel}, currentLevel: ${currentLevel}, currentStatPoint: ${currentStatPoint}]`);
     }
 
     onStatLevelUp(type) {

@@ -21,16 +21,16 @@ class CollisionSystem extends System {
 
     onPreUpdate(deltaTime) {
         this.world.entityTree.forEachOverlappingPairs?.((na, nb) => {
-            const colA = na.data;
-            const colB = nb.data;
+            const colA = na.data?.collider ?? null;
+            const colB = nb.data?.collider ?? null;
             if (!colA || !colB)
                 return;
 
-            if (!colA.intersects(colB))
+            if (!colA.intersect(colB))
                 return;
 
-            const entityA = colA.owner;
-            const entityB = colB.owner;
+            const entityA = colA.entity;
+            const entityB = colB.entity;
 
             if (!entityA || !entityB)
                 return;

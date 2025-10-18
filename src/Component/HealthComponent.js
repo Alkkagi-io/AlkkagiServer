@@ -2,6 +2,7 @@ class HealthComponent {
     constructor(maxHPProvider, onHPChanged) {
         this.maxHPProvider = maxHPProvider;
         this.onHPChanged = onHPChanged;
+        this.currentHP = 0;
 
         this.reset();
     }

@@ -8,7 +8,7 @@ class BoxCollider extends Collider {
     }
     
     getAABB() {
-        const pos = this.owner.position;
+        const pos = this.entity.position;
         const hSize = Vector.divide(this.size, 2);
         return {
             minX: pos.x - hSize.x,

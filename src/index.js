@@ -57,3 +57,25 @@ process.on('SIGINT', () => {
     gameServer.close();
     process.exit(0);
 });
+
+// ----- debug -----
+
+// import { Character, XPContainer, XPObject } from './Entity/index.js';
+// import { S2C_UpdateWorldPacket } from '../AlkkagiShared/Packets/index.js';
+
+// const character = new Character(world);
+// world.addEntity(character);
+
+// const xpObject = new XPObject(world, 100);
+// world.addEntity(xpObject);
+// xpObject.position.set(10, 10);
+
+// const xpContainer = new XPContainer(world, 100, 100, () => {});
+// world.addEntity(xpContainer);
+
+// await new Promise(resolve => setTimeout(resolve, 1000));
+
+// const serialized = new S2C_UpdateWorldPacket(Object.values(world.entities)).serialize();
+// globalThis.logger.info('Serialized', JSON.stringify(serialized));
+// const deserialized = new S2C_UpdateWorldPacket().deserialize(serialized);
+// globalThis.logger.info('Deserialized', JSON.stringify(deserialized));

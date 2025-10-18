@@ -8,7 +8,7 @@ class SphereCollider extends Collider {
     }
 
     getAABB() {
-        const pos = this.owner.position;
+        const pos = this.entity.position;
         const hSize = new Vector(this.radius, this.radius);
         return {
             minX: pos.x - hSize.x,
@@ -19,10 +19,10 @@ class SphereCollider extends Collider {
     }
 
     getClosestPoint(p) {
-        const center = this.owner.position;
+        const center = this.entity.position;
 
         const dir = Vector.subtract(p, center);
-        const dist = dir.magnitude();
+        const dist = dir.getMagnitude();
 
         if (dist <= this.radius || dist === 0) 
             return new Vector(p.x, p.y);

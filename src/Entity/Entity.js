@@ -1,4 +1,5 @@
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { EEntityType } from '../../AlkkagiShared/Datas/index.js';
 
 class Entity {
     constructor(world) {
@@ -6,6 +7,10 @@ class Entity {
 
         this.entityID = 0;
         this.position = new Vector();
+    }
+
+    getEntityType() {
+        return EEntityType.None;
     }
 
     getID() {

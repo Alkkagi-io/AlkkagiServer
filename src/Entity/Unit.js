@@ -1,6 +1,7 @@
 import { Entity } from './index.js';
 import { Rigidbody } from '../Physics/Rigidbody.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { EMoveState } from '../Component/index.js';
 
 const RESTITUTION = 1; // collision coefficient
 
@@ -18,18 +19,22 @@ class Unit extends Entity {
     onCollisionEnter(other) {
         super.onCollisionEnter(other);
 
+        if(other instanceof Unit == false || other.moveComponent.moveState != EMoveState.Propelled) {
+            return;
+        }
+
         const velocity = this.rigidbody.velocity;
         const otherVelocity = other.rigidbody ? other.rigidbody.velocity : Vector.Zero;
 
         const weight = this.getWeight();
         const otherWeight = other.getWeight();
 
-        const contactPoint = other.collider.getContactPoint(this);
-        const normal = Vector.normal(Vector.subtract(other.position, this.position));
+        const contactPoint = other.collider.getClosestPoint(this.position);
+        const normal = Vector.normalize(Vector.subtract(other.position, this.position));
         const tangent = new Vector(-normal.x, normal.y);
 
         // Normal Direction Velocity
-        const velcocityNormal = Vector.dot(velocity, normal);
+        const velocityNormal = Vector.dot(velocity, normal);
         const otherVelocityNormal = Vector.dot(otherVelocity, normal);
 
         // Tangent Direction Velocity

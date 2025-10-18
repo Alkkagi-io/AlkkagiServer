@@ -1,10 +1,18 @@
 import { Character, Entity, Unit } from './index.js';
+import { EEntityType } from '../../AlkkagiShared/Datas/index.js';
+import { SphereCollider } from '../Collision/Collider/SphereCollider.js';
 
 class XPObject extends Entity {
     constructor(world, xpAmount) {
         super(world);
 
+        this.collider = new SphereCollider(this);
+
         this.xpAmount = xpAmount; // non-serialzed property
+    }
+
+    getEntityType() {
+        return EEntityType.XPObject;
     }
 
     onCollisionEnter(other) {

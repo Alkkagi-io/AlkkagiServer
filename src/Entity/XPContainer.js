@@ -1,6 +1,8 @@
 import { Entity, Character, XPObject } from './index.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { HealthComponent } from '../Component/index.js';
+import { EEntityType } from '../../AlkkagiShared/Datas/index.js';
+import { SphereCollider } from '../Collision/Collider/SphereCollider.js';
 
 const SPAWN_RADIUS = 10;
 
@@ -8,10 +10,16 @@ class XPContainer extends Entity {
     constructor(world, xpAmount, hp, onDestroyCallback) {
         super(world);
 
+        this.collider = new SphereCollider(this);
+
         this.xpAmount = xpAmount;
         this.onDestroyCallback = onDestroyCallback;
 
         this.healthComponent = new HealthComponent(() => hp, this.onHPChanged);
+    }
+
+    getEntityType() {
+        return EEntityType.XPContainer;
     }
 
     onHPChanged(prevHP, currentHP) {

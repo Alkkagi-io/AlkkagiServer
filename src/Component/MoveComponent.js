@@ -12,6 +12,7 @@ const PROPEL_LOCOMOTION_THRESHOLD = 0.05 * 0.05;
 class MoveComponent {
     constructor(rigidbody) {
         this.rigidbody = rigidbody;
+        this.moveState = EMoveState.Locomotion;
         this.locomotionVelocity = Vector.Zero;
     }
 

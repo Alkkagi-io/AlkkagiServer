@@ -31,7 +31,11 @@ class StatLevelUpManager {
         if(res == null)
             return null;
 
-        return { value: res.getLevelValue(this.levels[res.id]), isPercentage: res.isPercentage() };
+        const value = res.getLevelValue(this.levels[res.id]);
+        if(value == null)
+            return null;
+
+        return { value: value, isPercentage: res.isPercentage() };
     }
 }
 
