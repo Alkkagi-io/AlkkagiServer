@@ -21,18 +21,17 @@ class CollisionSystem extends System {
 
     onPreUpdate(deltaTime) {
         this.world.entityTree.forEachOverlappingPairs?.((na, nb) => {
-            const colA = na.data?.collider ?? null;
-            const colB = nb.data?.collider ?? null;
+            const entityA = na.data;
+            const entityB = nb.data;
+            if (!entityA || !entityB)
+                return;
+
+            const colA = entityA.collider ?? null;
+            const colB = entityB?.collider ?? null;
             if (!colA || !colB)
                 return;
 
             if (!colA.intersect(colB))
-                return;
-
-            const entityA = colA.entity;
-            const entityB = colB.entity;
-
-            if (!entityA || !entityB)
                 return;
 
             // enter, stay 판정
