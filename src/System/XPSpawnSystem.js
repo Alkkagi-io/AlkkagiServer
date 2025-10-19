@@ -59,7 +59,8 @@ class XPSpawnSystem extends System {
             return Vector.Zero();
         }
 
-        return this.config.positionList[Math.floor(Math.random() * this.config.positionList.length)];
+        const position = this.config.positionList[Math.floor(Math.random() * this.config.positionList.length)];
+        return new Vector(position.x, position.y);
     }
 }
 

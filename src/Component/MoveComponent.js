@@ -19,7 +19,7 @@ class MoveComponent {
     onUpdate(deltaTime) {
         switch(this.moveState) {
             case EMoveState.Locomotion:
-                this.rigidbody.velocity.set(this.locomotionVelocity);
+                this.rigidbody.velocity.set(this.locomotionVelocity.x, this.locomotionVelocity.y);
                 break;
             case EMoveState.Propelled:
                 const sqrSpeed = this.rigidbody.velocity.getSqrMagnitude();
@@ -37,19 +37,20 @@ class MoveComponent {
 
     // set velocity for locomotion
     setLocomotionVelocity(moveDirection, moveSpeed) {
-        this.locomotionVelocity.set(Vector.multiply(Vector.normalize(moveDirection), moveSpeed));
+        const velocity = Vector.multiply(Vector.normalize(moveDirection), moveSpeed);
+        this.locomotionVelocity.set(velocity.x, velocity.y);
     }
 
     // set velocity for propelled => boom!
     propel(force) {
         this.moveState = EMoveState.Propelled;
-        this.rigidbody.velocity.set(force);
+        this.rigidbody.velocity.set(force.x, force.y);
     }
 
     // hold character
     hold() {
         this.moveState = EMoveState.Hold;
-        this.rigidbody.velocity.set(Vector.Zero());
+        this.rigidbody.velocity.set(0, 0);
     }
 
     release() {
