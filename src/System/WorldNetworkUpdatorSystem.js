@@ -36,6 +36,9 @@ class WorldNetworkUpdatorSystem extends System {
             const AABB = this._getEntityViewAABB(client.playerHandle.playerEntity);
             this.world.entityTree.query(AABB, leaf => {
                 const entity = leaf.data;
+                if(entity == null)
+                    return;
+
                 nearbyEntities.push(entity);
             });
 
