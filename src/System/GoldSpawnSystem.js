@@ -1,38 +1,38 @@
 import { System } from './System.js';
-import { XPContainer } from '../Entity/index.js';
-import { ResourceXPSpawnSystemConfig } from '../Resource/ResourceXPSpawnSystemConfig.js';
+import { GoldContainer } from '../Entity/index.js';
+import { ResourceGoldSpawnSystemConfig } from '../Resource/ResourceGoldSpawnSystemConfig.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
-class XPSpawnSystem extends System {
+class GoldSpawnSystem extends System {
     constructor(world) {
         super(world);
 
-        this.config = ResourceXPSpawnSystemConfig.get(0);
+        this.config = ResourceGoldSpawnSystemConfig.get(0);
     }
 
     getSystemID() {
-        return 'XPSpawnSystem';
+        return 'GoldSpawnSystem';
     }
 
     onStart() {
         super.onStart();
 
         for(let i = 0; i < this.config.spawnCount; i++) {
-            this.spawnXPContainer();
+            this.spawnGoldContainer();
         }
     }
 
-    spawnXPContainer() {
+    spawnGoldContainer() {
         const tableRow = this.getRandomTableRow();
         if(tableRow == null) {
             return;
         }
 
-        const xpAmount = Math.floor(Math.random() * (tableRow.XPMax - tableRow.XPMin + 1)) + tableRow.XPMin;
+        const goldAmount = Math.floor(Math.random() * (tableRow.GoldMax - tableRow.GoldMin + 1)) + tableRow.GoldMin;
         const hp = Math.floor(Math.random() * (tableRow.HPMax - tableRow.HPMin + 1)) + tableRow.HPMin;
-        const xpContainer = new XPContainer(this.world, xpAmount, hp, this.spawnXPContainer.bind(this));
-        xpContainer.position = this.getRandomPosition();
-        this.world.addEntity(xpContainer);
+        const goldContainer = new GoldContainer(this.world, goldAmount, hp, this.spawnGoldContainer.bind(this));
+        goldContainer.position = this.getRandomPosition();
+        this.world.addEntity(goldContainer);
     }
 
     getRandomTableRow() {
@@ -62,4 +62,4 @@ class XPSpawnSystem extends System {
     }
 }
 
-export { XPSpawnSystem };
+export { GoldSpawnSystem };

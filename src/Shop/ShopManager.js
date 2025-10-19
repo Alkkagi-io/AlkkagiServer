@@ -13,14 +13,15 @@ function buyItem(entity, buyItemId) {
     if (!canBuy(entity, res))
         return;
 
-    entity.useGold(res.price);
+    const walletComponent = entity.walletComponent;
+    walletComponent.useGold(res.price);
     applyAbility(entity, res.ability);
 }
 
 function applyAbility(character, res) {
     const healValue = res.getAbilityValueInt('Heal');
     if (healValue > 0) {
-        character.healthComponent.heal(healValue);
+        character.healthComponent.heal(character, healValue);
     }
 
     const buffData = res.getAbilityValue('Buff');

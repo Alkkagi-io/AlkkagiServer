@@ -1,0 +1,39 @@
+{
+    "0": {
+        "PositionList": [
+            { "x": 5, "y": 5 },
+            { "x": -15, "y": 5 },
+            { "x": -15, "y": 15 },
+            { "x": 5, "y": 15 },
+            { "x": 15, "y": 15 },
+            { "x": 15, "y": 5 },
+            { "x": 15, "y": -15 },
+            { "x": 5, "y": -15 },
+            { "x": -15, "y": -15 }
+        ],
+        "SpawnTable": [
+            {
+                "HPMin": 10,
+                "HPMax": 20,
+                "GoldMin": 10,
+                "GoldMax": 20,
+                "Rate": 30
+            },
+            {
+                "HPMin": 30,
+                "HPMax": 40,
+                "GoldMin": 30,
+                "GoldMax": 40,
+                "Rate": 10
+            },
+            {
+                "HPMin": 50,
+                "HPMax": 60,
+                "GoldMin": 50,
+                "GoldMax": 60,
+                "Rate": 1
+            }
+        ],
+        "SpawnCount": 3
+    }
+}

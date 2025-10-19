@@ -2,6 +2,7 @@ import { ResourceStatLevelUp } from "../../AlkkagiShared/Resource/ResourceStatLe
 import { ResourceShopItem } from "../../AlkkagiShared/Resource/ResourceShopItem.js";
 import { ResourceCharacterLevel } from "../../AlkkagiShared/Resource/ResourceCharacterLevel.js";
 import { ResourceXPSpawnSystemConfig } from "./ResourceXPSpawnSystemConfig.js";
+import { ResourceGoldSpawnSystemConfig } from "./ResourceGoldSpawnSystemConfig.js";
 import path from "node:path";
 import fs from "node:fs/promises";
 import fss from "node:fs";
@@ -24,6 +25,7 @@ class ResourceManager {
 
         // server data load
         ResourceXPSpawnSystemConfig.load(await this._getJsonData('XPSpawnSystemConfig.json', 'resources'));
+        ResourceGoldSpawnSystemConfig.load(await this._getJsonData('GoldSpawnSystemConfig.json', 'resources'));
 
         this.loaded = true;
 

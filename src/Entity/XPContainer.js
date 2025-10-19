@@ -22,7 +22,7 @@ class XPContainer extends Entity {
         return EEntityType.XPContainer;
     }
 
-    onHPChanged(prevHP, currentHP) {
+    onHPChanged(performer, prevHP, currentHP) {
         if(currentHP > 0) {
             return;
         }

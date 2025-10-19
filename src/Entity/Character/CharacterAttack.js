@@ -23,7 +23,7 @@ class CharacterAttack {
             const velocity = this.moveComponent.rigidbody.velocity.getMagnitude();
             const weight = this.statManager.getValue(StatConfig.Type.WEIGHT);
             const damage = Math.floor(velocity * weight * DAMAGE_FACTOR);
-            healthComponent.damage(damage);
+            healthComponent.damage(other, damage);
         }
     }
 

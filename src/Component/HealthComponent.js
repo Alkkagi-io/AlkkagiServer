@@ -11,7 +11,7 @@ class HealthComponent {
         this.currentHP = this.maxHPProvider();
     }
 
-    heal(amount) {
+    heal(performer, amount) {
         const prevHP = this.currentHP;
         const maxHP = this.maxHPProvider();
 
@@ -19,17 +19,17 @@ class HealthComponent {
         if(this.currentHP > maxHP)
             this.currentHP = maxHP;
 
-        this.onHPChanged?.(prevHP, this.currentHP);
+        this.onHPChanged?.(performer, prevHP, this.currentHP);
     }
 
-    damage(amount) {
+    damage(performer, amount) {
         const prevHP = this.currentHP;
 
         this.currentHP -= amount;
         if(this.currentHP < 0)
             this.currentHP = 0;
 
-        this.onHPChanged?.(prevHP, this.currentHP);
+        this.onHPChanged?.(performer, prevHP, this.currentHP);
     }
 }
 

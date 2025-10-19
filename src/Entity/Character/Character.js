@@ -10,6 +10,7 @@ import { EEntityType } from '../../../AlkkagiShared/Datas/index.js';
 import { SphereCollider } from '../../Collision/Collider/SphereCollider.js';
 import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
 import { XPObject } from '../XPObject.js';
+import { CharacterWallet } from './CharacterWallet.js';
 
 const CHARACTER_XP_DROP_STEP = 10;
 const CHARACTER_XP_DROP_RADIUS = 10;
@@ -35,6 +36,7 @@ class Character extends Unit {
         super.onAwake();
 
         // init components
+        this.walletComponent = new CharacterWallet(this);
         this.healthComponent = new HealthComponent(() => this.statManager.getValue(StatConfig.Type.MAX_HP), this.onHPChanged);
         this.moveComponent = new MoveComponent(this.rigidbody);
 
@@ -58,7 +60,7 @@ class Character extends Unit {
         {
             this.autoHealTimer = this.autoHealTimer - 1;
             if (this.healthComponent) {
-                this.healthComponent.heal(this.statManager.getValue(StatConfig.Type.AUTO_HEAL));
+                this.healthComponent.heal(this, this.statManager.getValue(StatConfig.Type.AUTO_HEAL));
             }
         }
     }
@@ -73,7 +75,7 @@ class Character extends Unit {
         this.attackComponent.onCollisionEnter(other);
     }
 
-    onHPChanged(prevHP, currentHP) {
+    onHPChanged(performer, prevHP, currentHP) {
         globalThis.logger.debug('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
 
         if(currentHP <= 0) {
@@ -105,16 +107,6 @@ class Character extends Unit {
 
     getWeight() {
         return this.statManager.getValue(StatConfig.Type.WEIGHT);
-    }
-
-    gainGold(goldAmount) {
-        this.gold += goldAmount;
-    }
-
-    useGold(goldAmount) {
-        this.gold -= goldAmount;
-        if (this.gold < 0)
-            this.gold = 0;
     }
 }
 

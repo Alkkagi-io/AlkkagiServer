@@ -2,7 +2,7 @@ import { ResourceCharacterLevel } from "../../../AlkkagiShared/Resource/Resource
 
 class CharacterLevel {
     constructor(character, onLevelUp, onStatLevelUp) {
-        this.character = character;
+        this.statLevelUpManager = character.statLevelUpManager;
         this.onLevelUp = onLevelUp;
         this.onStatLevelUp = onStatLevelUp;
         this.xpAmount = 0;
@@ -14,7 +14,7 @@ class CharacterLevel {
         if (this.statPoint <= 0)
             return;
 
-        var success = this.character.statLevelUpManager.levelUp(type);
+        var success = this.statLevelUpManager.levelUp(type);
         if (success == false)
             return;
 
@@ -23,7 +23,7 @@ class CharacterLevel {
     }
 
     getStatLevel(type) {
-        return this.character.statLevelUpManager.getStatLevel(type);
+        return this.statLevelUpManager.getStatLevel(type);
     }
     
     gainXP(xpAmount) {
