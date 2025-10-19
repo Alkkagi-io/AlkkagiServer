@@ -69,7 +69,7 @@ class Character extends Unit {
     }
 
     onHPChanged(prevHP, currentHP) {
-        global.logger.debug('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
+        globalThis.logger.debug('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
 
         if(currentHP <= 0) {
             this.world.removeEntity(this);
@@ -77,7 +77,7 @@ class Character extends Unit {
     }
 
     onLevelUp(prevLevel, currentLevel, currentStatPoint) {
-        global.logger.debug('Character', `onLevelUp [prevLevel: ${prevLevel}, currentLevel: ${currentLevel}, currentStatPoint: ${currentStatPoint}]`);
+        globalThis.logger.debug('Character', `onLevelUp [prevLevel: ${prevLevel}, currentLevel: ${currentLevel}, currentStatPoint: ${currentStatPoint}]`);
     }
 
     onStatLevelUp(type) {

@@ -128,36 +128,40 @@ class World extends EventEmitter {
 
     onPreUpdate(deltaTime) 
     { 
-        for(let i = 0; i < this.entityAddQueue.length; i++) {
-            const entity = this.entityAddQueue[i];
+        const entityAddQueue = this.entityAddQueue;
+        const systemAddQueue = this.systemAddQueue;
+        this.entityAddQueue = [];
+        this.systemAddQueue = [];
+
+        for(let i = 0; i < entityAddQueue.length; i++) {
+            const entity = entityAddQueue[i];
             this.publishEvent(entity, entity.onAwake);
             this.entities[entity.entityID] = entity;
             entity.refLeaf = this.entityTree.insert(entity, entity.collider.getAABB());
             this.emit('addEntity', entity);
         }
 
-        for(let i = 0; i < this.systemAddQueue.length; i++) {
-            const system = this.systemAddQueue[i];
+        for(let i = 0; i < systemAddQueue.length; i++) {
+            const system = systemAddQueue[i];
             this.publishEvent(system, system.onAwake);
             this.systems[system.getSystemID()] = system;
         }
 
-        for(let i = 0; i < this.entityAddQueue.length; i++) {
-            const entity = this.entityAddQueue[i];
+        for(let i = 0; i < entityAddQueue.length; i++) {
+            const entity = entityAddQueue[i];
             this.publishEvent(entity, entity.onStart);
         }
 
-        for(let i = 0; i < this.systemAddQueue.length; i++) {
-            const system = this.systemAddQueue[i];
+        for(let i = 0; i < systemAddQueue.length; i++) {
+            const system = systemAddQueue[i];
             this.publishEvent(system, system.onStart);
         }
-
-        this.entityAddQueue = [];
-        this.systemAddQueue = [];
     }
 
     onTreeUpdate(deltaTime) {
-        for (const leaf of this.entityTree.nodes) {
+        const nodes = [...this.entityTree.nodes];
+        globalThis.logger.debug('World', `nodes.length: ${nodes.length}`);
+        for (const leaf of nodes) {
             if (!leaf?.isLeaf || !leaf.data) 
                 continue;
 
@@ -169,26 +173,29 @@ class World extends EventEmitter {
 
     onPostUpdate(deltaTime) 
     { 
-        for(let i = 0; i < this.entityRemoveQueue.length; i++) {
-            const entity = this.entityRemoveQueue[i];
+        const entityRemoveQueue = this.entityRemoveQueue;
+        const systemRemoveQueue = this.systemRemoveQueue;
+        this.entityRemoveQueue = [];
+        this.systemRemoveQueue = [];
+
+        for(let i = 0; i < entityRemoveQueue.length; i++) {
+            const entity = entityRemoveQueue[i];
             this.publishEvent(entity, entity.onDestroy);
             this.entityTree.remove(entity.refLeaf);
             this.emit('removeEntity', entity);
             delete this.entities[entity.entityID];
         }
 
-        for(let i = 0; i < this.systemRemoveQueue.length; i++) {
-            const system = this.systemRemoveQueue[i];
+        for(let i = 0; i < systemRemoveQueue.length; i++) {
+            const system = systemRemoveQueue[i];
             this.publishEvent(system, system.onDestroy);
             delete this.systems[system.getSystemID()];
         }
-
-        this.entityRemoveQueue = [];
-        this.systemRemoveQueue = [];
     }
 
     publishEvent(object, event, ...args) {
         try {
+            globalThis.logger.debug('World', `Publishing event. ${object.constructor.name}(${object.getID()})::${event.name}`);
             event.bind(object)(...args);
         } catch (error) {
             globalThis.logger.error('World', `Error occurred while publishing event. ${object.constructor.name}(${object.getID()})::${event.name}.\n${error.stack}`);
