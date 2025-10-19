@@ -14,6 +14,7 @@ class WorldNetworkUpdatorSystem extends System {
         super(world);
         this.gameServer = gameServer;
         this.counter = 0;
+        this.lastUpdateTime = Date.now();
     }
 
     getSystemID() {
@@ -27,6 +28,10 @@ class WorldNetworkUpdatorSystem extends System {
 
         this.counter = 0;
 
+        const now = Date.now();
+        const elapsedMS = now - this.lastUpdateTime;
+        this.lastUpdateTime = now;
+
         this.gameServer.connectedClients.forEach(client => {
             if (!client.playerHandle)
                 return;
@@ -39,7 +44,7 @@ class WorldNetworkUpdatorSystem extends System {
                 nearbyEntities.push(entity);
             });
 
-            const packet = new S2C_UpdateWorldPacket(nearbyEntities);
+            const packet = new S2C_UpdateWorldPacket(elapsedMS, nearbyEntities);
             const buffer = packet.serialize();
             client.send(buffer);
         });
