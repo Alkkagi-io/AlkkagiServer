@@ -42,6 +42,9 @@ class C2S_MoveInputPacketHandler extends ServerPacketHandler {
 
         const moveComponent = playerHandle.playerEntity.moveComponent;
         const moveSpeed = playerHandle.playerEntity.statManager.getValue(StatConfig.Type.MOVE_SPEED);
+        if(moveComponent == null)
+            return;
+
         moveComponent.setLocomotionVelocity(moveDirection, moveSpeed);
     }
 }
