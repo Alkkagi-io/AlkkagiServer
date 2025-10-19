@@ -13,7 +13,7 @@ class MoveComponent {
     constructor(rigidbody) {
         this.rigidbody = rigidbody;
         this.moveState = EMoveState.Locomotion;
-        this.locomotionVelocity = Vector.Zero;
+        this.locomotionVelocity = Vector.Zero();
     }
 
     onUpdate(deltaTime) {
@@ -49,7 +49,7 @@ class MoveComponent {
     // hold character
     hold() {
         this.moveState = EMoveState.Hold;
-        this.rigidbody.velocity.set(Vector.Zero);
+        this.rigidbody.velocity.set(Vector.Zero());
     }
 
     release() {

@@ -56,7 +56,7 @@ class XPSpawnSystem extends System {
 
     getRandomPosition() {
         if(this.config.positionList.length == 0) {
-            return Vector.Zero;
+            return Vector.Zero();
         }
 
         return this.config.positionList[Math.floor(Math.random() * this.config.positionList.length)];

@@ -24,7 +24,7 @@ class Unit extends Entity {
         }
 
         const velocity = this.rigidbody.velocity;
-        const otherVelocity = other.rigidbody ? other.rigidbody.velocity : Vector.Zero;
+        const otherVelocity = other.rigidbody ? other.rigidbody.velocity : Vector.Zero();
 
         const weight = this.getWeight();
         const otherWeight = other.getWeight();

@@ -9,34 +9,34 @@ class C2S_MoveInputPacketHandler extends ServerPacketHandler {
         if(playerHandle == undefined)
             return;
         
-        let moveDirection = Vector.Zero;
+        let moveDirection = Vector.Zero();
         switch(packet.moveInput) {
             case EMoveInput.None:
-                moveDirection = Vector.Zero;
+                moveDirection = Vector.Zero();
                 break;
             case EMoveInput.Up:
-                moveDirection = Vector.Up;
+                moveDirection = Vector.Up();
                 break;
             case EMoveInput.Down:
-                moveDirection = Vector.Down;
+                moveDirection = Vector.Down();
                 break;
             case EMoveInput.Left:
-                moveDirection = Vector.Left;
+                moveDirection = Vector.Left();
                 break;
             case EMoveInput.Right:
-                moveDirection = Vector.Right;
+                moveDirection = Vector.Right();
                 break;
             case EMoveInput.UpLeft:
-                moveDirection = Vector.add(Vector.Up, Vector.Left);
+                moveDirection = Vector.add(Vector.Up(), Vector.Left());
                 break;
             case EMoveInput.UpRight:
-                moveDirection = Vector.add(Vector.Up, Vector.Right);
+                moveDirection = Vector.add(Vector.Up(), Vector.Right());
                 break;
             case EMoveInput.DownLeft:
-                moveDirection = Vector.add(Vector.Down, Vector.Left);
+                moveDirection = Vector.add(Vector.Down(), Vector.Left());
                 break;
             case EMoveInput.DownRight:
-                moveDirection = Vector.add(Vector.Down, Vector.Right);
+                moveDirection = Vector.add(Vector.Down(), Vector.Right());
                 break;
         }
 
