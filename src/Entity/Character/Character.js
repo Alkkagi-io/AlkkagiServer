@@ -8,6 +8,11 @@ import { StatLevelUpManager } from '../../Level/StatLevelUpManager.js';
 import { BuffManager } from '../../Buff/BuffManager.js';
 import { EEntityType } from '../../../AlkkagiShared/Datas/index.js';
 import { SphereCollider } from '../../Collision/Collider/SphereCollider.js';
+import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
+import { XPObject } from '../XPObject.js';
+
+const CHARACTER_XP_DROP_STEP = 10;
+const CHARACTER_XP_DROP_RADIUS = 10;
 
 class Character extends Unit {
     constructor(world) {
@@ -73,6 +78,18 @@ class Character extends Unit {
 
         if(currentHP <= 0) {
             this.world.removeEntity(this);
+
+            let xpCount = Math.floor(this.levelComponent.xpAmount / CHARACTER_XP_DROP_STEP);
+            if(this.levelComponent.xpAmount % CHARACTER_XP_DROP_STEP >= CHARACTER_XP_DROP_STEP * 0.5) {
+                xpCount++;
+            }
+
+            for(let i = 0; i < xpCount; i++) {
+                const xpObject = new XPObject(this.world, CHARACTER_XP_DROP_STEP * (i + 1));
+                xpObject.position = Vector.add(this.position, new Vector(Math.random() * CHARACTER_XP_DROP_RADIUS, Math.random() * CHARACTER_XP_DROP_RADIUS));
+                
+                this.world.addEntity(xpObject);
+            }
         }
     }
 

@@ -38,7 +38,6 @@ class CharacterLevel {
             this.statPoint++;
             globalThis.logger.debug('CharacterLevel', `levelUp [prevLevel: ${prevLevel}, currentLevel: ${this.level}, statPoint: ${this.statPoint}]`);
 
-            this.xpAmount -= currentLevelTableRow.RequiredXP;
             currentLevelTableRow = ResourceCharacterLevel.get(this.level);
         }
 
