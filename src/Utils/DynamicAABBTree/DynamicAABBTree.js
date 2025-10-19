@@ -123,8 +123,11 @@ class DynamicAABBTree {
             aabbReal.minY >= fat.minY && aabbReal.maxY <= fat.maxY
         ) return;
 
+        const data = leaf.data;
         this.remove(leaf);
-        leaf.data.refLeaf = this.insert(leaf.data, aabbReal);
+        const newLeaf = this.insert(data, aabbReal);
+
+        return newLeaf;
     }
 
     query(aabb, callback) {

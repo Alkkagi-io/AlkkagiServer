@@ -163,7 +163,7 @@ class World extends EventEmitter {
 
             const entity = leaf.data;
             const aabb = entity.collider.getAABB();
-            this.entityTree.update(leaf, aabb);
+            entity.refLeaf = this.entityTree.update(leaf, aabb);
         }
     }
 
