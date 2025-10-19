@@ -124,7 +124,7 @@ class DynamicAABBTree {
         ) return;
 
         this.remove(leaf);
-        this.insert(leaf.data, aabbReal);
+        leaf.data.refLeaf = this.insert(leaf.data, aabbReal);
     }
 
     query(aabb, callback) {
