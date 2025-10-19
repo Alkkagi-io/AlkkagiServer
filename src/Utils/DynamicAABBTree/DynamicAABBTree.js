@@ -117,18 +117,18 @@ class DynamicAABBTree {
     }
 
     update(leaf, aabbReal) {
-        let leaf = leaf;
+        let returnLeaf = leaf;
         const fat = leaf.aabb;
         if (
             aabbReal.minX >= fat.minX && aabbReal.maxX <= fat.maxX &&
             aabbReal.minY >= fat.minY && aabbReal.maxY <= fat.maxY
-        ) return leaf;
+        ) return returnLeaf;
 
         const data = leaf.data;
         this.remove(leaf);
-        leaf = this.insert(data, aabbReal);
+        returnLeaf = this.insert(data, aabbReal);
 
-        return leaf;
+        return returnLeaf;
     }
 
     query(aabb, callback) {
