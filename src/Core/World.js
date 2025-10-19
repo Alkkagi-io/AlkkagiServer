@@ -160,7 +160,6 @@ class World extends EventEmitter {
 
     onTreeUpdate(deltaTime) {
         const nodes = [...this.entityTree.nodes];
-        globalThis.logger.debug('World', `nodes.length: ${nodes.length}`);
         for (const leaf of nodes) {
             if (!leaf?.isLeaf || !leaf.data) 
                 continue;
@@ -195,7 +194,6 @@ class World extends EventEmitter {
 
     publishEvent(object, event, ...args) {
         try {
-            globalThis.logger.debug('World', `Publishing event. ${object.constructor.name}(${object.getID()})::${event.name}`);
             event.bind(object)(...args);
         } catch (error) {
             globalThis.logger.error('World', `Error occurred while publishing event. ${object.constructor.name}(${object.getID()})::${event.name}.\n${error.stack}`);
