@@ -1,4 +1,4 @@
 {
-    "port": 9696,
+    "port": 3000,
     "maxConnections": 100
 }
