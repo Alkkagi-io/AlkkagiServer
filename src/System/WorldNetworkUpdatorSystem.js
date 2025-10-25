@@ -3,7 +3,10 @@ import { S2C_UpdateWorldPacket } from '../../AlkkagiShared/Packets/index.js';
 import { Character } from '../Entity/index.js';
 
 // 5Hz
-const WORLD_UPDATE_TICK = 6;
+// const WORLD_UPDATE_TICK = 6;
+
+// 10Hz
+const WORLD_UPDATE_TICK = 3;
 
 const VIEW_SIZE = {
     width: 20,
