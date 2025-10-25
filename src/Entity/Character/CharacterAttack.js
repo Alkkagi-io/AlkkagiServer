@@ -53,7 +53,7 @@ class CharacterAttack {
         const chargingPower = Math.min(chargingTime, this.statManager.getValue(StatConfig.Type.MAX_CHARGE_LEN));
 
         let attackForce = Vector.normalize(direction);
-        attackForce.multiply(chargingPower);
+        attackForce.multiply(chargingPower * 10);
 
         this.lastAttackTime = Date.now();
         this.moveComponent.propel(attackForce);

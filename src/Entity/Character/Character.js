@@ -76,8 +76,6 @@ class Character extends Unit {
     }
 
     onHPChanged(performer, prevHP, currentHP) {
-        globalThis.logger.debug('Character', `onHPChanged [prevHP: ${prevHP}, currentHP: ${currentHP}]`);
-
         if(currentHP <= 0) {
             this.world.removeEntity(this);
 

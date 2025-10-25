@@ -2,7 +2,8 @@ import { System } from './index.js';
 import { S2C_UpdateWorldPacket } from '../../AlkkagiShared/Packets/index.js';
 import { Character } from '../Entity/index.js';
 
-const WORLD_UPDATE_TICK = 10;
+// 5Hz
+const WORLD_UPDATE_TICK = 6;
 
 const VIEW_SIZE = {
     width: 20,
@@ -50,6 +51,7 @@ class WorldNetworkUpdatorSystem extends System {
         });
 
         // globalThis.logger.debug('WorldNetworkUpdatorSystem', `entity updated. entity count : ${entities.length}, client count : ${this.gameServer.connectedClients.size}`)
+        // globalThis.logger.debug('WorldNetworkUpdatorSystem', `elapsedMS: ${elapsedMS}`);
     }
 
     _getEntityViewAABB(entity) {
