@@ -45,7 +45,7 @@ class C2S_MoveInputPacketHandler extends ServerPacketHandler {
         if(moveComponent == null)
             return;
 
-        moveComponent.setLocomotionVelocity(moveDirection, moveSpeed * 30);
+        moveComponent.setLocomotionVelocity(moveDirection, moveSpeed * 5);
     }
 }
 
