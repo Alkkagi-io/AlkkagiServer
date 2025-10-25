@@ -20,6 +20,7 @@ class Character extends Unit {
         super(world);
 
         // init variables
+        this.score = 0;
         this.nickname = nickname;
         this.collider = new SphereCollider(this);
         this.statManager = new StatManager(this);
@@ -42,7 +43,7 @@ class Character extends Unit {
         this.moveComponent = new MoveComponent(this.rigidbody);
 
         this.attackComponent = new CharacterAttack(this);
-        this.levelComponent = new CharacterLevel(this, this.onLevelUp, this.onStatLevelUp);
+        this.levelComponent = new CharacterLevel(this, this.onGainXP, this.onLevelUp, this.onStatLevelUp);
     }
 
     onUpdate(deltaTime) {
@@ -92,6 +93,11 @@ class Character extends Unit {
                 this.world.addEntity(xpObject);
             }
         }
+    }
+
+    onGainXP(prevXP, currentXP) {
+        const delta = currentXP - prevXP;
+        score += delta;
     }
 
     onLevelUp(prevLevel, currentLevel, currentStatPoint) {

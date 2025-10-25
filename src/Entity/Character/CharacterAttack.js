@@ -1,12 +1,14 @@
 import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
 import { EMoveState } from '../../Component/index.js';
 import { StatConfig } from '../../Stat/StatConfig.js';
+import { Character } from './Character.js';
 
 const ATTACK_CHARGE_THRESHOLD = 1;
 const DAMAGE_FACTOR = 10;
 
 class CharacterAttack {
     constructor(character) {
+        this.owner = character;
         this.moveComponent = character.moveComponent;
         this.statManager = character.statManager;
         this.chargingStartTime = Date.now();
@@ -24,6 +26,15 @@ class CharacterAttack {
             const weight = this.statManager.getValue(StatConfig.Type.WEIGHT);
             const damage = Math.floor(velocity * weight * DAMAGE_FACTOR);
             healthComponent.damage(other, damage);
+
+            // 상대방이 이 공격을 맞고 죽었다면
+            if (healthComponent.currentHP <= 0) {
+                if (other instanceof Character) {
+                    this.owner.score += 300;
+                } else {
+                    this.owner.score += 50;
+                }
+            }
         }
     }
 

@@ -1,8 +1,9 @@
 import { ResourceCharacterLevel } from "../../../AlkkagiShared/Resource/ResourceCharacterLevel.js";
 
 class CharacterLevel {
-    constructor(character, onLevelUp, onStatLevelUp) {
+    constructor(character, onGainXP, onLevelUp, onStatLevelUp) {
         this.statLevelUpManager = character.statLevelUpManager;
+        this.onGainXP = onGainXP;
         this.onLevelUp = onLevelUp;
         this.onStatLevelUp = onStatLevelUp;
         this.xpAmount = 0;
@@ -27,7 +28,9 @@ class CharacterLevel {
     }
     
     gainXP(xpAmount) {
+        const prevXP = this.xpAmount;
         this.xpAmount += xpAmount;
+        this.onGainXP?.(prevXP, this.xpAmount);
 
         globalThis.logger.debug('CharacterLevel', `gainXP [gainedXP: ${xpAmount}, currentXPAmount: ${this.xpAmount}, currentLevel: ${this.level}, statPoint: ${this.statPoint}]`);
 
