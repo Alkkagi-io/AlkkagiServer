@@ -15,7 +15,7 @@ import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem, GoldSpawnSys
 globalThis.logger = logger;
 
 const serverOptions = createServerOptions('./config/server-config.local.json');
-// const serverOptions = createServerOptions('./config/server-config.dev.json');
+// const serverOptions = createServerOptions('./config/server-config.seh00n.json');
 // const serverOptions = createServerOptions('./config/server-config.live.json');
 
 // create game server

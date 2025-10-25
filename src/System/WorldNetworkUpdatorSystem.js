@@ -6,7 +6,10 @@ import { Character } from '../Entity/index.js';
 // const WORLD_UPDATE_TICK = 6;
 
 // 10Hz
-const WORLD_UPDATE_TICK = 3;
+// const WORLD_UPDATE_TICK = 3;
+
+// 30Hz
+const WORLD_UPDATE_TICK = 1;
 
 const VIEW_SIZE = {
     width: 20,
