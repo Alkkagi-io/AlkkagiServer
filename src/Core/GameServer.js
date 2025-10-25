@@ -2,16 +2,43 @@
 import { WebSocketServer } from 'ws';
 import express from 'express';
 import http from 'http';
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
 
 // Projects
 import ClientHandle from './ClientHandle.js';
 import { MessagePacket } from '../../AlkkagiShared/Packets/index.js';
 
-const createServerOptions = (options = {}) => {
-    return {
-        port: options.port || 3000,
-        maxConnections: options.maxConnections || 100,
+const createServerOptions = (configPath) => {
+    // 기본 설정값
+    const defaultConfig = {
+        port: 3000,
+        maxConnections: 100,
+        certPath: null,
+        keyPath: null,
     };
+
+    try {
+        const configFilePath = path.join(process.cwd(), configPath);
+        if (fs.existsSync(configFilePath) == false) {
+            globalThis.logger?.warn('GameServer', 'Config file not found, using default values');
+            return defaultConfig;
+        }
+
+        const configData = fs.readFileSync(configPath, 'utf8');
+        const fileConfig = JSON.parse(configData);
+
+        return {
+            port: fileConfig.port || defaultConfig.port,
+            maxConnections: fileConfig.maxConnections || defaultConfig.maxConnections,
+            certPath: fileConfig.certPath || defaultConfig.certPath,
+            keyPath: fileConfig.keyPath || defaultConfig.keyPath,
+        };
+    } catch (error) {
+        globalThis.logger?.error('GameServer', `Error reading config file: ${error.message}`);
+        return defaultConfig;
+    }
 };
 
 class GameServer {
@@ -23,8 +50,17 @@ class GameServer {
     start() {
         // create server
         this.expressApp = express();
-        this.server = http.createServer(this.expressApp);
-        this.socketServer = new WebSocketServer({ server: this.server });
+
+        const key = this.serverOptions.keyPath ? fs.readFileSync(this.serverOptions.keyPath, 'utf8') : null;
+        const cert = this.serverOptions.certPath ? fs.readFileSync(this.serverOptions.certPath, 'utf8') : null;
+
+        if(key && cert) {
+            this.server = https.createServer({ key: key, cert: cert }, this.expressApp);
+        } else {
+            this.server = http.createServer(this.expressApp);
+        }
+
+        this.socketServer = new WebSocketServer({ server: this.server, path: '/ws' });
 
         // regist socket server event
         this.socketServer.on('connection', (socket, req) => {
@@ -42,7 +78,7 @@ class GameServer {
 
         // start server
         this.server.listen(this.serverOptions.port, () => {
-            globalThis.logger.info('GameServer', `Game server started on port ${this.serverOptions.port}`);
+            globalThis.logger.info('GameServer', `Game server started on port ${this.serverOptions.port} ${this.serverOptions.keyPath ? 'with SSL' : 'without SSL'}`);
         });
     }
 
