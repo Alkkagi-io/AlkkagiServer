@@ -16,10 +16,11 @@ const CHARACTER_XP_DROP_STEP = 10;
 const CHARACTER_XP_DROP_RADIUS = 10;
 
 class Character extends Unit {
-    constructor(world) {
+    constructor(world, nickname) {
         super(world);
 
         // init variables
+        this.nickname = nickname;
         this.collider = new SphereCollider(this);
         this.statManager = new StatManager(this);
         this.statLevelUpManager = new StatLevelUpManager(this);

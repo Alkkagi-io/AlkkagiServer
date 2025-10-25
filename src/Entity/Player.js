@@ -3,10 +3,8 @@ import { S2C_CharacterLevelUpPacket } from '../../AlkkagiShared/Packets/index.js
 
 class Player extends Character {
     constructor(world, clientHandle, nickname) {
-        super(world);
-
+        super(world, nickname);
         this.clientHandle = clientHandle;
-        this.nickname = nickname;
     }
 
     onLevelUp(prevLevel, currentLevel, currentStatPoint) {
