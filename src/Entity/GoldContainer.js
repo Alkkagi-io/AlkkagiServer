@@ -13,7 +13,7 @@ class GoldContainer extends Entity {
         this.goldAmount = goldAmount;
         this.onDestroyCallback = onDestroyCallback;
 
-        this.healthComponent = new HealthComponent(() => hp, this.onHPChanged);
+        this.healthComponent = new HealthComponent(() => hp, this.onHPChanged.bind(this));
     }
 
     getEntityType() {

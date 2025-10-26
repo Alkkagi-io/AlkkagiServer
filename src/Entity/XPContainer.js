@@ -15,7 +15,7 @@ class XPContainer extends Entity {
         this.xpAmount = xpAmount;
         this.onDestroyCallback = onDestroyCallback;
 
-        this.healthComponent = new HealthComponent(() => hp, this.onHPChanged);
+        this.healthComponent = new HealthComponent(() => hp, this.onHPChanged.bind(this));
     }
 
     getEntityType() {

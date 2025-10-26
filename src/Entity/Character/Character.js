@@ -43,7 +43,7 @@ class Character extends Unit {
         this.moveComponent = new MoveComponent(this.rigidbody);
 
         this.attackComponent = new CharacterAttack(this);
-        this.levelComponent = new CharacterLevel(this, this.onGainXP, this.onLevelUp, this.onStatLevelUp);
+        this.levelComponent = new CharacterLevel(this, this.onGainXP, this.onLevelUp.bind(this), this.onStatLevelUp.bind(this));
     }
 
     onUpdate(deltaTime) {
@@ -97,7 +97,7 @@ class Character extends Unit {
 
     onGainXP(prevXP, currentXP) {
         const delta = currentXP - prevXP;
-        score += delta;
+        this.score += delta;
     }
 
     onLevelUp(prevLevel, currentLevel, currentStatPoint) {
