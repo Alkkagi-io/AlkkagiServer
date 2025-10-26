@@ -51,7 +51,7 @@ class WorldNetworkUpdatorSystem extends System {
                 nearbyEntities.push(entity);
             });
 
-            const packet = new S2C_UpdateWorldPacket(elapsedMS, nearbyEntities);
+            const packet = new S2C_UpdateWorldPacket(elapsedMS, nearbyEntities, client.playerHandle.playerEntity);
             const buffer = packet.serialize();
             client.send(buffer);
         });
