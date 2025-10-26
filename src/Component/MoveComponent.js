@@ -7,7 +7,7 @@ const EMoveState = Object.freeze({
 });
 
 const PROPEL_EPSILON = 0.01 * 0.01;
-const PROPEL_LOCOMOTION_THRESHOLD = 0.05 * 0.05;
+const PROPEL_LOCOMOTION_THRESHOLD = 1 * 1;
 
 class MoveComponent {
     constructor(rigidbody) {
@@ -23,8 +23,9 @@ class MoveComponent {
                 break;
             case EMoveState.Propelled:
                 const sqrSpeed = this.rigidbody.velocity.getSqrMagnitude();
-    
-                const locomotionEnable = sqrSpeed < PROPEL_LOCOMOTION_THRESHOLD && this.locomotionVelocity.x != 0 && this.locomotionVelocity.y != 0;
+
+                const isMoving = this.locomotionVelocity.x != 0 || this.locomotionVelocity.y != 0;
+                const locomotionEnable = sqrSpeed < PROPEL_LOCOMOTION_THRESHOLD && isMoving;
                 const propelReleaseEnable = sqrSpeed < PROPEL_EPSILON;
     
                 if(locomotionEnable || propelReleaseEnable) {
