@@ -13,7 +13,7 @@ class C2S_CharacterStatLevelUpRequestPacketHandler extends ServerPacketHandler {
         const statLevel = levelComponent.getStatLevel(packet.statLevelUpType);
         const statPoint = levelComponent.statPoint;
 
-        const statLevelUpPacket = new S2C_CharacterStatLevelUpResponsePacket(statLevel, statPoint);
+        const statLevelUpPacket = new S2C_CharacterStatLevelUpResponsePacket(packet.statLevelUpType, statLevel, statPoint);
         playerHandle.clientHandle.send(statLevelUpPacket);
     }
 }
