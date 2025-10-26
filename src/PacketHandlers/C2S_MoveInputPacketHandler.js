@@ -6,7 +6,7 @@ import { StatConfig } from '../Stat/StatConfig.js';
 class C2S_MoveInputPacketHandler extends ServerPacketHandler {
     handle(packet) {
         const playerHandle = this.clientHandle.playerHandle;
-        if(playerHandle == undefined)
+        if(playerHandle == null)
             return;
         
         let moveDirection = Vector.Zero();
@@ -40,11 +40,16 @@ class C2S_MoveInputPacketHandler extends ServerPacketHandler {
                 break;
         }
 
-        const moveComponent = playerHandle.playerEntity.moveComponent;
-        const moveSpeed = playerHandle.playerEntity.statManager.getValue(StatConfig.Type.MOVE_SPEED);
-        if(moveComponent == null)
+        if(playerHandle.playerEntity == null) {
             return;
+        }
 
+        const moveComponent = playerHandle.playerEntity.moveComponent;
+        if(moveComponent == null) {
+            return;
+        }
+        
+        const moveSpeed = playerHandle.playerEntity.statManager.getValue(StatConfig.Type.MOVE_SPEED);
         moveComponent.setLocomotionVelocity(moveDirection, moveSpeed * 5);
     }
 }
