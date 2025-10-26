@@ -38,7 +38,7 @@ class XPContainer extends Entity {
         let leftXPAmount = xpAmount;
         while(leftXPAmount > 0) {
             const xp = Math.min(leftXPAmount, xpStep);
-            const position = Vector.add(this.position, new Vector(Math.random() * SPAWN_RADIUS, Math.random() * SPAWN_RADIUS));
+            const position = Vector.add(this.position, new Vector((Math.random() * 2 - 1) * SPAWN_RADIUS, (Math.random() * 2 - 1) * SPAWN_RADIUS));
 
             const xpObject = new XPObject(this.world, xp);
             xpObject.position = position;

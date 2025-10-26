@@ -88,7 +88,7 @@ class Character extends Unit {
 
             for(let i = 0; i < xpCount; i++) {
                 const xpObject = new XPObject(this.world, CHARACTER_XP_DROP_STEP * (i + 1));
-                xpObject.position = Vector.add(this.position, new Vector(Math.random() * CHARACTER_XP_DROP_RADIUS, Math.random() * CHARACTER_XP_DROP_RADIUS));
+                xpObject.position = Vector.add(this.position, new Vector((Math.random() * 2 - 1) * CHARACTER_XP_DROP_RADIUS, (Math.random() * 2 - 1) * CHARACTER_XP_DROP_RADIUS));
                 
                 this.world.addEntity(xpObject);
             }
