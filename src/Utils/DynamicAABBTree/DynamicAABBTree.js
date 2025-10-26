@@ -46,17 +46,39 @@ class DynamicAABBTree {
         while (!index.isLeaf) {
             const left = index.left;
             const right = index.right;
-            const area = perimeter(index.aabb);
+            const currentPerimeter = perimeter(index.aabb);
             const combined = combine(index.aabb, leaf.aabb);
-            const costParent = perimeter(combined);
+            const combinedPerimeter = perimeter(combined);
+            const costParent = 2 * combinedPerimeter;
+            const inheritanceCost = 2 * (combinedPerimeter - currentPerimeter);
 
-            const costLeft = (left.isLeaf ? perimeter(combine(left.aabb, leaf.aabb))
-                : (perimeter(combine(left.aabb, leaf.aabb)) - perimeter(left.aabb))) + 0;
-            const costRight = (right.isLeaf ? perimeter(combine(right.aabb, leaf.aabb))
-                : (perimeter(combine(right.aabb, leaf.aabb)) - perimeter(right.aabb))) + 0;
+            const leftCombined = combine(left.aabb, leaf.aabb);
+            let costLeft;
+            if (left.isLeaf) {
+                costLeft = perimeter(leftCombined) + inheritanceCost;
+            } else {
+                const oldLeftPerimeter = perimeter(left.aabb);
+                const newLeftPerimeter = perimeter(leftCombined);
+                costLeft = (newLeftPerimeter - oldLeftPerimeter) + inheritanceCost;
+            }
+
+            const rightCombined = combine(right.aabb, leaf.aabb);
+            let costRight;
+            if (right.isLeaf) {
+                costRight = perimeter(rightCombined) + inheritanceCost;
+            } else {
+                const oldRightPerimeter = perimeter(right.aabb);
+                const newRightPerimeter = perimeter(rightCombined);
+                costRight = (newRightPerimeter - oldRightPerimeter) + inheritanceCost;
+            }
+
+            if (costParent < costLeft && costParent < costRight)
+                break;
 
             if (costLeft < costRight)
-                index = left; else index = right;
+                index = left;
+            else
+                index = right;
         }
 
         const oldParent = index.parent;
@@ -154,23 +176,43 @@ class DynamicAABBTree {
         const root = this.root;
         if (!root) return;
 
-        const stack = [[root.left, root.right]];
-        while (stack.length) {
-            const [A, B] = stack.pop();
-            if (!A || !B) 
-                continue;
-            if (!overlaps(A.aabb, B.aabb)) 
+        const nodeStack = [root];
+        while (nodeStack.length) {
+            const node = nodeStack.pop();
+            if (!node || node.isLeaf)
                 continue;
 
-            const ALeaf = A.isLeaf, BLeaf = B.isLeaf;
-            if (ALeaf && BLeaf) {
-                callback(A, B);
-            } else if (ALeaf) {
-                stack.push([A, B.left], [A, B.right]);
-            } else if (BLeaf) {
-                stack.push([A.left, B], [A.right, B]);
-            } else {
-                stack.push([A.left, B.left], [A.left, B.right], [A.right, B.left], [A.right, B.right]);
+            const left = node.left;
+            const right = node.right;
+            if (!left || !right)
+                continue;
+
+            nodeStack.push(left, right);
+
+            const pairStack = [[left, right]];
+            while (pairStack.length) {
+                const [A, B] = pairStack.pop();
+                if (!A || !B)
+                    continue;
+                if (!overlaps(A.aabb, B.aabb))
+                    continue;
+
+                const ALeaf = A.isLeaf;
+                const BLeaf = B.isLeaf;
+                if (ALeaf && BLeaf) {
+                    callback(A, B);
+                } else if (ALeaf) {
+                    pairStack.push([A, B.left], [A, B.right]);
+                } else if (BLeaf) {
+                    pairStack.push([A.left, B], [A.right, B]);
+                } else {
+                    pairStack.push(
+                        [A.left, B.left],
+                        [A.left, B.right],
+                        [A.right, B.left],
+                        [A.right, B.right]
+                    );
+                }
             }
         }
     }
