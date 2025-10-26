@@ -54,7 +54,7 @@ class CharacterAttack {
         if(this.moveComponent.moveState != EMoveState.Hold)
             return;
 
-        const chargingTime = (Date.now() - this.chargingStartTime) * 0.001; // tick to seconds
+        const chargingTime = (Date.now() - this.chargingStartTime) * 0.001 + 2; // tick to seconds
         if(chargingTime < ATTACK_CHARGE_THRESHOLD)
         {
             this.moveComponent.release();

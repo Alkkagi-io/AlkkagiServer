@@ -4,7 +4,7 @@ import { Collider } from "./Collider.js";
 class SphereCollider extends Collider {
     constructor(owner) {
         super(owner);
-        this.radius = 0;
+        this.radius = 1;
     }
 
     getAABB() {
