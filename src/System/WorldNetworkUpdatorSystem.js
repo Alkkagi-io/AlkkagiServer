@@ -45,7 +45,7 @@ class WorldNetworkUpdatorSystem extends System {
 
             // 주변 엔티티 가져오기
             const nearbyEntities = [];
-            const AABB = this._getEntityViewAABB(client.playerHandle.playerEntity);
+            const AABB = this._getEntityViewAABB(client.playerHandle.getEntityPosition());
             this.world.entityTree.query(AABB, leaf => {
                 const entity = leaf.data;
                 nearbyEntities.push(entity);
@@ -60,16 +60,15 @@ class WorldNetworkUpdatorSystem extends System {
         // globalThis.logger.debug('WorldNetworkUpdatorSystem', `elapsedMS: ${elapsedMS}`);
     }
 
-    _getEntityViewAABB(entity) {
-        const pos = entity.position;
+    _getEntityViewAABB(position) {
         const hw = VIEW_SIZE.width / 2;
         const hh = VIEW_SIZE.height / 2;
 
         return {
-            minX: pos.x - hw,
-            minY: pos.y - hh,
-            maxX: pos.x + hw,
-            maxY: pos.y + hh
+            minX: position.x - hw,
+            minY: position.y - hh,
+            maxX: position.x + hw,
+            maxY: position.y + hh
         };
     }
 }

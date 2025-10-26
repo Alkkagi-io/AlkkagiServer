@@ -1,11 +1,13 @@
 import { EventEmitter } from 'events';
 import { BufferReadHandle } from '../../AlkkagiShared/Modules/BufferHandle.js';
 import { Packet, PacketManager } from '../../AlkkagiShared/Packets/index.js';
+import { PlayerHandle } from './PlayerHandle.js';
 
 class ClientHandle extends EventEmitter {
-    constructor(socket) {
+    constructor(gameServer, world, socket) {
         super();
         this.socket = socket;
+        this.playerHandle = new PlayerHandle(gameServer, world, this);
 
         this.socket.on('message', (message) => {
             // test

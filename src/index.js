@@ -14,22 +14,19 @@ import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem, GoldSpawnSys
 // global variables
 globalThis.logger = logger;
 
-const serverOptions = createServerOptions('./config/server-config.local.json');
-// const serverOptions = createServerOptions('./config/server-config.seh00n.json');
-// const serverOptions = createServerOptions('./config/server-config.live.json');
-
-// create game server
-const gameServer = new GameServer(serverOptions);
-
 // load resources
 const resourceManager = new ResourceManager();
 await resourceManager.load(true);
 
 // create world
-const worldOptions = createWorldOptions({
-    tickRate: 30,
-});
+const worldOptions = createWorldOptions('./config/world-config.json');
 const world = new World(worldOptions);
+
+// create game server
+const serverOptions = createServerOptions('./config/server-config.local.json');
+// const serverOptions = createServerOptions('./config/server-config.seh00n.json');
+// const serverOptions = createServerOptions('./config/server-config.live.json');
+const gameServer = new GameServer(serverOptions, world);
 
 // setup systems
 world.addSystem(new WorldNetworkUpdatorSystem(world, gameServer));

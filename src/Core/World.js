@@ -1,10 +1,30 @@
 import { EventEmitter } from "events";
 import { DynamicAABBTree } from "../Utils/DynamicAABBTree/DynamicAABBTree.js";
+import fs from 'fs';
+import path from 'path';
 
-const createWorldOptions = (options = {}) => {
-    return {
-        tickRate: options.tickRate || 30,
+const createWorldOptions = (configPath) => {
+    const defaultConfig = {
+        tickRate: 30,
     };
+
+    try {
+        const configFilePath = path.join(process.cwd(), configPath);
+        if (fs.existsSync(configFilePath) == false) {
+            globalThis.logger?.warn('World', 'Config file not found, using default values');
+            return defaultConfig;
+        }
+
+        const configData = fs.readFileSync(configPath, 'utf8');
+        const fileConfig = JSON.parse(configData);
+
+        return {
+            tickRate: fileConfig.tickRate || defaultConfig.tickRate,
+        };
+    } catch (error) {
+        globalThis.logger?.error('World', `Error reading config file: ${error.message}`);
+        return defaultConfig;
+    }
 };
 
 class World extends EventEmitter {

@@ -39,10 +39,10 @@ class Character extends Unit {
 
         // init components
         this.walletComponent = new CharacterWallet(this);
-        this.healthComponent = new HealthComponent(() => this.statManager.getValue(StatConfig.Type.MAX_HP), this.onHPChanged);
+        this.healthComponent = new HealthComponent(() => this.statManager.getValue(StatConfig.Type.MAX_HP), this.onHPChanged.bind(this));
 
         this.attackComponent = new CharacterAttack(this);
-        this.levelComponent = new CharacterLevel(this, this.onGainXP, this.onLevelUp.bind(this), this.onStatLevelUp.bind(this));
+        this.levelComponent = new CharacterLevel(this, this.onGainXP.bind(this), this.onLevelUp.bind(this), this.onStatLevelUp.bind(this));
     }
 
     onUpdate(deltaTime) {

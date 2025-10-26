@@ -42,9 +42,10 @@ const createServerOptions = (configPath) => {
 };
 
 class GameServer {
-    constructor(serverOptions) {
+    constructor(serverOptions, world) {
         this.serverOptions = serverOptions;
         this.connectedClients = new Set();
+        this.world = world;
     }
 
     start() {
@@ -101,7 +102,7 @@ class GameServer {
             return;
         }
 
-        const clientHandle = new ClientHandle(socket);
+        const clientHandle = new ClientHandle(this, this.world, socket);
         clientHandle.on('disconnect', () => {
             this.connectedClients.delete(clientHandle);
             globalThis.logger.info('GameServer', 'Client disconnected');

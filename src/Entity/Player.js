@@ -2,9 +2,10 @@ import { Character } from './index.js';
 import { S2C_CharacterLevelUpPacket } from '../../AlkkagiShared/Packets/index.js';
 
 class Player extends Character {
-    constructor(world, clientHandle, nickname) {
+    constructor(world, clientHandle, nickname, onDestroyedCallback) {
         super(world, nickname);
         this.clientHandle = clientHandle;
+        this.onDestroyedCallback = onDestroyedCallback;
     }
 
     onLevelUp(prevLevel, currentLevel, currentStatPoint) {
@@ -12,6 +13,11 @@ class Player extends Character {
 
         const levelUpPacket = new S2C_CharacterLevelUpPacket(currentLevel, currentStatPoint);
         this.clientHandle.send(levelUpPacket);
+    }
+
+    onDestroy() {
+        super.onDestroy();
+        this.onDestroyedCallback?.();
     }
 }
 
