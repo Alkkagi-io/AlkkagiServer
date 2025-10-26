@@ -9,6 +9,10 @@ class Entity {
         this.position = new Vector();
     }
 
+    getVelocity() {
+        return Vector.Zero();
+    }
+
     getEntityType() {
         return EEntityType.None;
     }

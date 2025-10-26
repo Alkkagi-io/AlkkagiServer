@@ -32,14 +32,11 @@ class CharacterLevel {
         this.xpAmount += xpAmount;
         this.onGainXP?.(prevXP, this.xpAmount);
 
-        globalThis.logger.debug('CharacterLevel', `gainXP [gainedXP: ${xpAmount}, currentXPAmount: ${this.xpAmount}, currentLevel: ${this.level}, statPoint: ${this.statPoint}]`);
-
         const prevLevel = this.level;
         let currentLevelTableRow = ResourceCharacterLevel.get(this.level);
         while(currentLevelTableRow != null && this.xpAmount >= currentLevelTableRow.RequiredXP) {
             this.level++;
             this.statPoint++;
-            globalThis.logger.debug('CharacterLevel', `levelUp [prevLevel: ${prevLevel}, currentLevel: ${this.level}, statPoint: ${this.statPoint}]`);
 
             currentLevelTableRow = ResourceCharacterLevel.get(this.level);
         }

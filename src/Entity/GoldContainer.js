@@ -16,6 +16,10 @@ class GoldContainer extends Entity {
         this.healthComponent = new HealthComponent(() => hp, this.onHPChanged.bind(this));
     }
 
+    getWeight() {
+        return 10000;
+    }
+
     getEntityType() {
         return EEntityType.GoldContainer;
     }

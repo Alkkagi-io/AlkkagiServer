@@ -11,6 +11,10 @@ class XPObject extends Entity {
         this.xpAmount = xpAmount; // non-serialzed property
     }
 
+    getWeight() {
+        return 0;
+    }
+
     getEntityType() {
         return EEntityType.XPObject;
     }

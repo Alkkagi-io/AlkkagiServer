@@ -2,6 +2,7 @@ import { Entity } from './index.js';
 import { Rigidbody } from '../Physics/Rigidbody.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { EMoveState } from '../Component/index.js';
+import { MoveComponent } from '../Component/MoveComponent.js';
 
 const RESTITUTION = 1; // collision coefficient
 
@@ -9,6 +10,16 @@ class Unit extends Entity {
     constructor(world) {
         super(world);
         this.rigidbody = new Rigidbody(this);
+        this.velocityBuffer = new Vector();
+    }
+
+    getVelocity() {
+        return this.velocityBuffer;
+    }
+    
+    onAwake() {
+        super.onAwake();
+        this.moveComponent = new MoveComponent(this.rigidbody);
     }
 
     onPreUpdate(deltaTime) {
@@ -16,22 +27,39 @@ class Unit extends Entity {
         this.rigidbody.update(deltaTime);
     }
 
+    onLateUpdate(deltaTime) {
+        super.onLateUpdate(deltaTime);
+        this.velocityBuffer.set(this.rigidbody.velocity.x, this.rigidbody.velocity.y);
+    }
+
     onCollisionEnter(other) {
         super.onCollisionEnter(other);
 
-        if(other instanceof Unit == false || other.moveComponent.moveState != EMoveState.Propelled) {
+        if(other instanceof Entity == false) {
             return;
         }
-
-        const velocity = this.rigidbody.velocity;
-        const otherVelocity = other.rigidbody ? other.rigidbody.velocity : Vector.Zero();
 
         const weight = this.getWeight();
         const otherWeight = other.getWeight();
 
+        if(weight == 0 || otherWeight == 0) {
+            return;
+        }
+
+        // 내가 공격한 경우가 아닐 때 (this.moveComponent.moveState != EMoveState.Propelled)
+        // 상대방이 날 공격한 건지 체크한다.
+        if(this.moveComponent.moveState != EMoveState.Propelled) {
+            if(other instanceof Unit == false || other.moveComponent.moveState != EMoveState.Propelled) {
+                return;
+            }
+        }
+
+        const velocity = this.getVelocity();
+        const otherVelocity = other.getVelocity();
+
         const contactPoint = other.collider.getClosestPoint(this.position);
-        const normal = Vector.normalize(Vector.subtract(other.position, this.position));
-        const tangent = new Vector(-normal.x, normal.y);
+        const normal = Vector.normalize(Vector.subtract(other.position, contactPoint));
+        const tangent = new Vector(-normal.y, normal.x);
 
         // Normal Direction Velocity
         const velocityNormal = Vector.dot(velocity, normal);

@@ -2,7 +2,7 @@ import { StatManager } from '../../Stat/StatManager.js';
 import { Unit } from '../index.js';
 import { CharacterAttack } from './CharacterAttack.js';
 import { CharacterLevel } from './CharacterLevel.js';
-import { HealthComponent, MoveComponent } from '../../Component/index.js';
+import { HealthComponent } from '../../Component/index.js';
 import { StatConfig } from '../../Stat/StatConfig.js';
 import { StatLevelUpManager } from '../../Level/StatLevelUpManager.js';
 import { BuffManager } from '../../Buff/BuffManager.js';
@@ -40,7 +40,6 @@ class Character extends Unit {
         // init components
         this.walletComponent = new CharacterWallet(this);
         this.healthComponent = new HealthComponent(() => this.statManager.getValue(StatConfig.Type.MAX_HP), this.onHPChanged);
-        this.moveComponent = new MoveComponent(this.rigidbody);
 
         this.attackComponent = new CharacterAttack(this);
         this.levelComponent = new CharacterLevel(this, this.onGainXP, this.onLevelUp.bind(this), this.onStatLevelUp.bind(this));
