@@ -12,8 +12,8 @@ import { Character } from '../Entity/index.js';
 const WORLD_UPDATE_TICK = 1;
 
 const VIEW_SIZE = {
-    width: 20,
-    height: 12
+    width: 80,
+    height: 45
 }
 
 class WorldNetworkUpdatorSystem extends System {

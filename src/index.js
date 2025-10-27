@@ -76,3 +76,11 @@ process.on('SIGINT', () => {
 // globalThis.logger.info('Serialized', JSON.stringify(serialized));
 // const deserialized = new S2C_UpdateWorldPacket().deserialize(serialized);
 // globalThis.logger.info('Deserialized', JSON.stringify(deserialized));
+
+// ----- debug -----
+
+import { BotPlayer } from './Entity/index.js';
+
+const botPlayer = new BotPlayer(world, 'BotPlayer');
+world.addEntity(botPlayer);
+botPlayer.position.set(0, 0);
