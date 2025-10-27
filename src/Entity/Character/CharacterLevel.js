@@ -7,7 +7,7 @@ class CharacterLevel {
         this.onLevelUp = onLevelUp;
         this.onStatLevelUp = onStatLevelUp;
         this.xpAmount = 0;
-        this.level = 0;
+        this.level = 1;
         this.statPoint = 0;
     }
 
@@ -34,14 +34,15 @@ class CharacterLevel {
 
         const prevLevel = this.level;
         let currentLevelTableRow = ResourceCharacterLevel.get(this.level);
-        while(currentLevelTableRow != null && this.xpAmount >= currentLevelTableRow.RequiredXP) {
+        while(currentLevelTableRow != null && this.xpAmount >= currentLevelTableRow.requiredXP) {
             this.level++;
             this.statPoint++;
 
             currentLevelTableRow = ResourceCharacterLevel.get(this.level);
         }
 
-        this.onLevelUp?.(prevLevel, this.level, this.statPoint);
+        if (prevLevel < this.level)
+            this.onLevelUp?.(prevLevel, this.level, this.statPoint);
     }
 }
 
