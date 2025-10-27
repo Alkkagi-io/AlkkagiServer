@@ -5,7 +5,7 @@ class StatLevelUpManager {
         this.character = character; 
         this.levels = {};
         const resources = ResourceStatLevelUp.getAll();
-        for (const res in resources) {
+        for (const res of resources.values()) {
             this.levels[res.id] = 0;
         }
     }
