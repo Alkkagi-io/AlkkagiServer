@@ -1,3 +1,4 @@
+import { Character } from '../../index.js';
 import { FSMState } from '../../../Component/FSM/index.js';
 import { Vector } from '../../../../AlkkagiShared/Modules/Vector.js';
 import { StatConfig } from '../../../Stat/StatConfig.js';
@@ -71,6 +72,7 @@ class BotPlayerIdleState extends FSMState {
             maxY: aiData.owner.position.y + options.sight * 0.5
         };
         
+        const targetCharacters = [];
         const targetEntities = [];
         world.entityTree.query(AABB, leafNode => {
             const entity = leafNode.data;
@@ -79,9 +81,27 @@ class BotPlayerIdleState extends FSMState {
             
             if(entity == aiData.owner)
                 return;
-            
-            targetEntities.push(entity);
+
+            if(entity instanceof Character)
+                targetCharacters.push(entity);
+            else
+                targetEntities.push(entity);
         });
+
+        targetCharacters.sort((a, b) => {
+            const aSqrDistance = Vector.subtract(a.position, aiData.owner.position).getSqrMagnitude();
+            const bSqrDistance = Vector.subtract(b.position, aiData.owner.position).getSqrMagnitude();
+            return aSqrDistance - bSqrDistance;
+        });
+
+        if(targetCharacters.length > 0) {
+            const targetCharacter = targetCharacters[0];
+            const sqrDistance = Vector.subtract(targetCharacter.position, aiData.owner.position).getSqrMagnitude();
+            if(sqrDistance < options.characterDetectRadius * options.characterDetectRadius) {
+                aiData.currentTargetEntityID = targetCharacter.getID();
+                return;
+            }
+        }
         
         targetEntities.sort((a, b) => {
             const aSqrDistance = Vector.subtract(a.position, aiData.owner.position).getSqrMagnitude();
