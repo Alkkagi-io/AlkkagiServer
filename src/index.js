@@ -82,8 +82,8 @@ process.on('SIGINT', () => {
 
 // ----- debug -----
 
-import { BotPlayer } from './Entity/index.js';
+// import { BotPlayer } from './Entity/index.js';
 
-const botPlayer = new BotPlayer(world, 'BotPlayer');
-world.addEntity(botPlayer);
-botPlayer.position.set(0, 0);
+// const botPlayer = new BotPlayer(world, 'BotPlayer');
+// world.addEntity(botPlayer);
+// botPlayer.position.set(0, 0);
