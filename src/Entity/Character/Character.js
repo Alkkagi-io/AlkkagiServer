@@ -35,6 +35,10 @@ class Character extends Unit {
         return EEntityType.Character;
     }
 
+    getWeight() {
+        return this.statManager.getValue(StatConfig.Type.WEIGHT);
+    }
+
     onAwake() {
         super.onAwake();
 
@@ -73,9 +77,11 @@ class Character extends Unit {
     }
 
     onCollisionEnter(other) {
-        const isMoveStatePropelled = this.moveComponent.moveState == EMoveState.Propelled;
+        const moveComponentPropelled = this.moveComponent.moveState == EMoveState.Propelled;
+
         super.onCollisionEnter(other);
-        if(isMoveStatePropelled) {
+
+        if(moveComponentPropelled != false) {
             this.attackComponent.onCollisionEnter(other);
         }
     }
@@ -112,10 +118,6 @@ class Character extends Unit {
         const originMoveDirection = this.moveComponent.locomotionVelocity;
         const moveSpeed = this.statManager.getValue(StatConfig.Type.MOVE_SPEED);
         this.moveComponent.setLocomotionVelocity(originMoveDirection, moveSpeed);
-    }
-
-    getWeight() {
-        return this.statManager.getValue(StatConfig.Type.WEIGHT);
     }
 }
 

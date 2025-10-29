@@ -2,6 +2,7 @@ import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
 import { EMoveState } from '../../Component/index.js';
 import { StatConfig } from '../../Stat/StatConfig.js';
 import { Character } from './Character.js';
+import { EntityRule } from '../../Utils/Entity/EntityRule.js';
 
 const ATTACK_CHARGE_THRESHOLD = 1;
 const DAMAGE_FACTOR = 10;
@@ -15,13 +16,23 @@ class CharacterAttack {
         this.lastAttackTime = 0;
     }
 
-    onCollisionEnter(other) {
+    onCollisionEnter(other) {        
+        const velocity = this.owner.getVelocity();
+
+        // if(other instanceof Character) {
+        //     globalThis.logger.debug('CharacterAttack', `onCollisionEnter this: ${this.owner.nickname}, other: ${other.nickname}, directionSimilarity: ${Vector.dot(propelDirection, targetDirection)}`);
+        // }
+
+        if(EntityRule.isAttackMotion(velocity, this.owner.position, other.position) == false) {
+            return;
+        }
+
         const healthComponent = other.healthComponent;
         if(healthComponent) {
-            const velocity = this.moveComponent.rigidbody.velocity.getMagnitude();
+            const velocityMagnitude = velocity.getMagnitude();
             const weight = this.statManager.getValue(StatConfig.Type.WEIGHT);
-            const damage = Math.floor(velocity * weight * DAMAGE_FACTOR);
-            healthComponent.damage(other, damage);
+            const damage = Math.floor(velocityMagnitude * weight * DAMAGE_FACTOR);
+            healthComponent.damage(this.owner, damage);
 
             // 상대방이 이 공격을 맞고 죽었다면
             if (healthComponent.currentHP <= 0) {
