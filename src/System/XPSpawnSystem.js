@@ -2,6 +2,7 @@ import { System } from './System.js';
 import { XPContainer } from '../Entity/index.js';
 import { ResourceXPSpawnSystemConfig } from '../Resource/ResourceXPSpawnSystemConfig.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { Random } from '../../AlkkagiShared/Modules/Random.js';
 
 class XPSpawnSystem extends System {
     constructor(world) {
@@ -28,8 +29,8 @@ class XPSpawnSystem extends System {
             return;
         }
 
-        const xpAmount = Math.floor(Math.random() * (tableRow.XPMax - tableRow.XPMin + 1)) + tableRow.XPMin;
-        const hp = Math.floor(Math.random() * (tableRow.HPMax - tableRow.HPMin + 1)) + tableRow.HPMin;
+        const xpAmount = Random.rangeInt(tableRow.XPMin, tableRow.XPMax + 1);
+        const hp = Random.rangeInt(tableRow.HPMin, tableRow.HPMax + 1);
         const xpContainer = new XPContainer(this.world, xpAmount, hp, this.spawnXPContainer.bind(this));
         xpContainer.position = this.getRandomPosition();
         this.world.addEntity(xpContainer);
@@ -40,7 +41,7 @@ class XPSpawnSystem extends System {
             return null;
         }
 
-        const random = Math.random() * this.config.totalRates;
+        const random = Random.range(0, this.config.totalRates);
         let sum = 0;
         for(let i = 0; i < this.config.spawnTable.length; i++) {
             sum += this.config.spawnTable[i].Rate;
@@ -57,7 +58,7 @@ class XPSpawnSystem extends System {
             return Vector.Zero();
         }
 
-        const position = this.config.positionList[Math.floor(Math.random() * this.config.positionList.length)];
+        const position = this.config.positionList[Random.rangeInt(0, this.config.positionList.length)];
         return new Vector(position.x, position.y);
     }
 }

@@ -2,6 +2,7 @@ import { Character } from '../../index.js';
 import { FSMState } from '../../../Component/FSM/index.js';
 import { Vector } from '../../../../AlkkagiShared/Modules/Vector.js';
 import { StatConfig } from '../../../Stat/StatConfig.js';
+import { Random } from '../../../../AlkkagiShared/Modules/Random.js';
 
 const UPDATE_INTERVAL = 1;
 
@@ -50,7 +51,7 @@ class BotPlayerIdleState extends FSMState {
     }
 
     _redirection() {
-        this.brain.aiData.owner.moveComponent.setLocomotionVelocity(new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1), this.brain.aiData.owner.statManager.getValue(StatConfig.Type.MOVE_SPEED) * 5);
+        this.brain.aiData.owner.moveComponent.setLocomotionVelocity(Random.direction(), this.brain.aiData.owner.statManager.getValue(StatConfig.Type.MOVE_SPEED) * 5);
     }
 
     _findTarget() {

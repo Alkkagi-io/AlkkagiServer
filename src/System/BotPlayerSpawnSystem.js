@@ -1,8 +1,9 @@
 import { System } from './System.js';
 import { BotPlayer } from '../Entity/index.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { Random } from '../../AlkkagiShared/Modules/Random.js';
 
-const SPAWN_DELAY_MIN = 1000;
+const SPAWN_DELAY_MIN = 500;
 const SPAWN_DELAY_MAX = 3000;
 
 class BotPlayerSpawnSystem extends System {
@@ -25,7 +26,7 @@ class BotPlayerSpawnSystem extends System {
     }
 
     spawnBotPlayer() {
-        const delayMilliseconds = Math.random() * (SPAWN_DELAY_MAX - SPAWN_DELAY_MIN) + SPAWN_DELAY_MIN;
+        const delayMilliseconds = Random.range(SPAWN_DELAY_MIN, SPAWN_DELAY_MAX);
         setTimeout(() => {
             const botPlayer = new BotPlayer(this.world, 'AAA', this.spawnBotPlayer.bind(this));
             botPlayer.position = this.getRandomPosition();
@@ -34,7 +35,9 @@ class BotPlayerSpawnSystem extends System {
     }
 
     getRandomPosition() {
-        return new Vector((Math.random() - 0.5) * this.gameConfig.worldWidth, (Math.random() - 0.5) * this.gameConfig.worldHeight);
+        const halfWidth = this.gameConfig.worldWidth * 0.5;
+        const halfHeight = this.gameConfig.worldHeight * 0.5;
+        return new Vector(Random.range(-halfWidth, halfWidth), Random.range(-halfHeight, halfHeight));
     }
 }
 

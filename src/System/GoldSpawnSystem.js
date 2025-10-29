@@ -2,6 +2,7 @@ import { System } from './System.js';
 import { GoldContainer } from '../Entity/index.js';
 import { ResourceGoldSpawnSystemConfig } from '../Resource/ResourceGoldSpawnSystemConfig.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { Random } from '../../AlkkagiShared/Modules/Random.js';
 
 class GoldSpawnSystem extends System {
     constructor(world) {
@@ -28,8 +29,8 @@ class GoldSpawnSystem extends System {
             return;
         }
 
-        const goldAmount = Math.floor(Math.random() * (tableRow.GoldMax - tableRow.GoldMin + 1)) + tableRow.GoldMin;
-        const hp = Math.floor(Math.random() * (tableRow.HPMax - tableRow.HPMin + 1)) + tableRow.HPMin;
+        const goldAmount = Random.rangeInt(tableRow.GoldMin, tableRow.GoldMax + 1);
+        const hp = Random.rangeInt(tableRow.HPMin, tableRow.HPMax + 1);
         const goldContainer = new GoldContainer(this.world, goldAmount, hp, this.spawnGoldContainer.bind(this));
         goldContainer.position = this.getRandomPosition();
         this.world.addEntity(goldContainer);
@@ -40,7 +41,7 @@ class GoldSpawnSystem extends System {
             return null;
         }
 
-        const random = Math.random() * this.config.totalRates;
+        const random = Random.range(0, this.config.totalRates);
         let sum = 0;
         for(let i = 0; i < this.config.spawnTable.length; i++) {
             sum += this.config.spawnTable[i].Rate;
@@ -57,7 +58,7 @@ class GoldSpawnSystem extends System {
             return Vector.Zero();
         }
 
-        const position = this.config.positionList[Math.floor(Math.random() * this.config.positionList.length)];
+        const position = this.config.positionList[Random.rangeInt(0, this.config.positionList.length)];
         return new Vector(position.x, position.y);
     }
 }

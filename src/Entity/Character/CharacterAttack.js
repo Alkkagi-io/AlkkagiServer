@@ -16,10 +16,6 @@ class CharacterAttack {
     }
 
     onCollisionEnter(other) {
-        if(this.moveComponent.moveState != EMoveState.Propelled) {
-            return;
-        }
-
         const healthComponent = other.healthComponent;
         if(healthComponent) {
             const velocity = this.moveComponent.rigidbody.velocity.getMagnitude();

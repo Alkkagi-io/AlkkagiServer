@@ -2,7 +2,7 @@ import { StatManager } from '../../Stat/StatManager.js';
 import { Unit } from '../index.js';
 import { CharacterAttack } from './CharacterAttack.js';
 import { CharacterLevel } from './CharacterLevel.js';
-import { HealthComponent } from '../../Component/index.js';
+import { HealthComponent, MoveComponent, EMoveState } from '../../Component/index.js';
 import { StatConfig } from '../../Stat/StatConfig.js';
 import { StatLevelUpManager } from '../../Level/StatLevelUpManager.js';
 import { BuffManager } from '../../Buff/BuffManager.js';
@@ -11,6 +11,7 @@ import { SphereCollider } from '../../Collision/Collider/SphereCollider.js';
 import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
 import { XPObject } from '../XPObject.js';
 import { CharacterWallet } from './CharacterWallet.js';
+import { Random } from '../../../AlkkagiShared/Modules/Random.js';
 
 const CHARACTER_XP_DROP_STEP = 10;
 const CHARACTER_XP_DROP_RADIUS = 10;
@@ -72,8 +73,11 @@ class Character extends Unit {
     }
 
     onCollisionEnter(other) {
+        const isMoveStatePropelled = this.moveComponent.moveState == EMoveState.Propelled;
         super.onCollisionEnter(other);
-        this.attackComponent.onCollisionEnter(other);
+        if(isMoveStatePropelled) {
+            this.attackComponent.onCollisionEnter(other);
+        }
     }
 
     onHPChanged(performer, prevHP, currentHP) {
@@ -87,7 +91,8 @@ class Character extends Unit {
 
             for(let i = 0; i < xpCount; i++) {
                 const xpObject = new XPObject(this.world, CHARACTER_XP_DROP_STEP * (i + 1));
-                xpObject.position = Vector.add(this.position, new Vector((Math.random() * 2 - 1) * CHARACTER_XP_DROP_RADIUS, (Math.random() * 2 - 1) * CHARACTER_XP_DROP_RADIUS));
+                const randomPosition = Random.insideUnitCircle().multiply(CHARACTER_XP_DROP_RADIUS);
+                xpObject.position = Vector.add(this.position, randomPosition);
                 
                 this.world.addEntity(xpObject);
             }
