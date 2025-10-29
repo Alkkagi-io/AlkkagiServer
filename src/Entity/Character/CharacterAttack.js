@@ -57,6 +57,33 @@ class CharacterAttack {
         this.moveComponent.hold();
     }
 
+    getRemainAttackCooltimePer() {
+        const now = Date.now();
+        const elapsed = (now - this.lastAttackTime) * 0.001;
+        const cooldown = this.statManager.getValue(StatConfig.Type.ATK_COOLTIME);
+
+        const remain = Math.max(cooldown - elapsed, 0);
+        const percent = remain / cooldown;
+
+        return percent;
+    }
+
+    getChargingPer() {
+        if(this.moveComponent.moveState != EMoveState.Hold)
+            return 0;
+
+        const now = Date.now();
+        const elapsed = (now - this.chargingStartTime) * 0.001 + 2;
+        const maxCharge = this.statManager.getValue(StatConfig.Type.MAX_CHARGE_LEN);
+        const minCharge = ATTACK_CHARGE_THRESHOLD;
+
+        // 임계값 미만이면 0%
+        if (elapsed < minCharge) return 0;
+
+        const percent = (elapsed - minCharge) / (maxCharge - minCharge);
+        return Math.min(Math.max(percent, 0), 1);
+    }
+
     finishAttackCharging(direction) {
         if(this.moveComponent.moveState != EMoveState.Hold)
             return;
