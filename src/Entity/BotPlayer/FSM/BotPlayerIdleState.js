@@ -1,14 +1,58 @@
 import { FSMState } from '../../../Component/FSM/index.js';
 import { Vector } from '../../../../AlkkagiShared/Modules/Vector.js';
+import { StatConfig } from '../../../Stat/StatConfig.js';
+
+const UPDATE_INTERVAL = 1;
 
 // patrolling
 class BotPlayerIdleState extends FSMState {
     constructor() {
         super();
+        this.timer = 0;
+        this.isRedirectioned = false;
+    }
+
+    onEnterState() {
+        super.onEnterState();
+        this.timer = UPDATE_INTERVAL;
+        this.isRedirectioned = false;
+
+        this._findTarget();
     }
 
     onUpdateState(deltaTime) {
         super.onUpdateState(deltaTime);
+
+        this.timer -= deltaTime;
+        if(this.timer > 0)
+            return;
+
+        this.timer = UPDATE_INTERVAL;
+        this._findTarget();
+        this._patrolRedirection();
+    }
+
+    _patrolRedirection() {
+        if(this.isRedirectioned == false)
+        {
+            this.isRedirectioned = true;
+            this._redirection();
+            return;
+        }
+
+        const worldWidth = globalThis.gameConfig.worldWidth;
+        const worldHeight = globalThis.gameConfig.worldHeight;
+        const position = this.brain.aiData.owner.position;
+        if(position.x < -worldWidth * 0.5 || position.x > worldWidth * 0.5 || position.y < -worldHeight * 0.5 || position.y > worldHeight * 0.5) {
+            this._redirection();
+        }
+    }
+
+    _redirection() {
+        this.brain.aiData.owner.moveComponent.setLocomotionVelocity(new Vector(Math.random() * 2 - 1, Math.random() * 2 - 1), this.brain.aiData.owner.statManager.getValue(StatConfig.Type.MOVE_SPEED) * 5);
+    }
+
+    _findTarget() {
         const aiData = this.brain.aiData;
         const options = aiData.options;
         const world = aiData.world;

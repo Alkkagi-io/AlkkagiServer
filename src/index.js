@@ -1,5 +1,6 @@
 // Libraries
 import express from 'express';
+import fs from 'fs';
 
 // Modules
 import { logger } from '../AlkkagiShared/Modules/Logger.js';
@@ -13,6 +14,7 @@ import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem, GoldSpawnSys
 
 // global variables
 globalThis.logger = logger;
+globalThis.gameConfig = JSON.parse(fs.readFileSync('./config/game-config.json', 'utf8'));
 
 // load resources
 const resourceManager = new ResourceManager();

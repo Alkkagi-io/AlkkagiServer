@@ -35,6 +35,7 @@ class World extends EventEmitter {
 
         this.worldOptions = worldOptions;
 
+        this.time = 0;
         this.tickRate = worldOptions.tickRate;
         this.tick = 1000 / this.tickRate;
         this.next = Date.now();
@@ -147,7 +148,9 @@ class World extends EventEmitter {
     }
 
     onPreUpdate(deltaTime) 
-    { 
+    {
+        this.time += deltaTime;
+
         const entityAddQueue = this.entityAddQueue;
         const systemAddQueue = this.systemAddQueue;
         this.entityAddQueue = [];
