@@ -10,7 +10,7 @@ import { ResourceManager } from './Resource/ResourceManager.js'
 import { GameServer, createServerOptions } from './Core/GameServer.js';
 import { World, createWorldOptions } from './Core/World.js';
 import { buildPacketManager } from './Core/PacketManager.js';
-import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem, GoldSpawnSystem } from './System/index.js';
+import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem, GoldSpawnSystem, BotPlayerSpawnSystem } from './System/index.js';
 
 // global variables
 globalThis.logger = logger;
@@ -35,6 +35,7 @@ world.addSystem(new WorldNetworkUpdatorSystem(world, gameServer));
 world.addSystem(new CollisionSystem(world));
 world.addSystem(new XPSpawnSystem(world));
 world.addSystem(new GoldSpawnSystem(world));
+world.addSystem(new BotPlayerSpawnSystem(world));
 
 // start world loop
 world.startLoop();

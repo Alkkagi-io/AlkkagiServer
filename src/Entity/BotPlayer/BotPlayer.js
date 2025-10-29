@@ -4,15 +4,21 @@ import { BotPlayerAIData, BotPlayerIdleState, BotPlayerMoveState, BotPlayerAttac
 import { Character } from '../index.js';
 
 class BotPlayer extends Character {
-    constructor(world, nickname) {
+    constructor(world, nickname, onDestroyedCallback) {
         super(world, nickname);
 
         this.fsmBrain = this._buildFSM();
+        this.onDestroyedCallback = onDestroyedCallback;
     }
 
     onUpdate(deltaTime) {
         super.onUpdate(deltaTime);
         this.fsmBrain.update(deltaTime);
+    }
+
+    onDestroy() {
+        super.onDestroy();
+        this.onDestroyedCallback?.();
     }
 
     _buildFSM() {
