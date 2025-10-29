@@ -9,7 +9,7 @@ const Type = {
 
 const DefaultValue = {
     [Type.WEIGHT]: 100,
-    [Type.MAX_HP]: 100,
+    [Type.MAX_HP]: 100000,
     [Type.ATK_COOLTIME]: 1,
     [Type.MAX_CHARGE_LEN]: 10,
     [Type.MOVE_SPEED]: 1,

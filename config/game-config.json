@@ -1,5 +1,9 @@
 {
     "worldWidth": 100,
     "worldHeight": 100,
-    "botPlayerCount": 0
+    "botPlayerCount": 0,
+    "propelLocomotionThreshold": 2,
+    "attackForceMultiplier": 30,
+    "collideRestitution": 1,
+    "characterAttackDamageFactor": 10
 }

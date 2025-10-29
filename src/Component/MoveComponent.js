@@ -7,7 +7,6 @@ const EMoveState = Object.freeze({
 });
 
 const PROPEL_EPSILON = 0.01 * 0.01;
-const PROPEL_LOCOMOTION_THRESHOLD = 1 * 1;
 
 class MoveComponent {
     constructor(rigidbody) {
@@ -25,7 +24,8 @@ class MoveComponent {
                 const sqrSpeed = this.rigidbody.velocity.getSqrMagnitude();
 
                 const isMoving = this.locomotionVelocity.x != 0 || this.locomotionVelocity.y != 0;
-                const locomotionEnable = sqrSpeed < PROPEL_LOCOMOTION_THRESHOLD && isMoving;
+                const propelLocomotionThreshold = globalThis.gameConfig.propelLocomotionThreshold;
+                const locomotionEnable = (sqrSpeed < propelLocomotionThreshold * propelLocomotionThreshold) && isMoving;
                 const propelReleaseEnable = sqrSpeed < PROPEL_EPSILON;
     
                 if(locomotionEnable || propelReleaseEnable) {

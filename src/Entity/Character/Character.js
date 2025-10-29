@@ -77,11 +77,9 @@ class Character extends Unit {
     }
 
     onCollisionEnter(other) {
-        const moveComponentPropelled = this.moveComponent.moveState == EMoveState.Propelled;
-
         super.onCollisionEnter(other);
 
-        if(moveComponentPropelled != false) {
+        if(this.moveStateBuffer == EMoveState.Propelled) {
             this.attackComponent.onCollisionEnter(other);
         }
     }

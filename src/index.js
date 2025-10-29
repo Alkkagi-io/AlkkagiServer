@@ -60,11 +60,12 @@ process.on('SIGINT', () => {
 
 // ----- debug -----
 
-// import { Character, XPContainer, XPObject } from './Entity/index.js';
+import { Character, XPContainer, XPObject } from './Entity/index.js';
 // import { S2C_UpdateWorldPacket } from '../AlkkagiShared/Packets/index.js';
 
-// const character = new Character(world);
-// world.addEntity(character);
+const character = new Character(world, 'test_character');
+character.position.set(10, 10);
+world.addEntity(character);
 
 // const xpObject = new XPObject(world, 100);
 // world.addEntity(xpObject);

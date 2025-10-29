@@ -4,13 +4,12 @@ import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { EMoveState } from '../Component/index.js';
 import { MoveComponent } from '../Component/MoveComponent.js';
 
-const RESTITUTION = 1; // collision coefficient
-
 class Unit extends Entity {
     constructor(world) {
         super(world);
         this.rigidbody = new Rigidbody(this);
         this.velocityBuffer = new Vector();
+        this.moveStateBuffer = EMoveState.Locomotion;
     }
 
     getVelocity() {
@@ -30,6 +29,7 @@ class Unit extends Entity {
     onLateUpdate(deltaTime) {
         super.onLateUpdate(deltaTime);
         this.velocityBuffer.set(this.rigidbody.velocity.x, this.rigidbody.velocity.y);
+        this.moveStateBuffer = this.moveComponent.moveState;
     }
 
     onCollisionEnter(other) {
@@ -46,13 +46,14 @@ class Unit extends Entity {
             return;
         }
 
-        // 내가 공격한 경우가 아닐 때 (this.moveComponent.moveState != EMoveState.Propelled)
-        // 상대방이 날 공격한 건지 체크한다.
-        if(this.moveComponent.moveState != EMoveState.Propelled) {
-            if(other instanceof Unit == false || other.moveComponent.moveState != EMoveState.Propelled) {
-                return;
-            }
-        }
+        // 보류
+        // // 내가 공격한 경우가 아닐 때 (this.moveComponent.moveState != EMoveState.Propelled)
+        // // 상대방이 날 공격한 건지 체크한다.
+        // if(this.moveComponent.moveState != EMoveState.Propelled) {
+        //     if(other instanceof Unit == false || other.moveComponent.moveState != EMoveState.Propelled) {
+        //         return;
+        //     }
+        // }
 
         const velocity = this.getVelocity();
         const otherVelocity = other.getVelocity();
@@ -69,7 +70,8 @@ class Unit extends Entity {
         const velocityTangent = Vector.dot(velocity, tangent);
 
         // Reflected Normal Direction Velocity
-        const velocityNormalReflected = ((weight - RESTITUTION * otherWeight) * velocityNormal + (1 + RESTITUTION) * otherWeight * otherVelocityNormal) / (weight + otherWeight);
+        const restitution = globalThis.gameConfig.collideRestitution;
+        const velocityNormalReflected = ((weight - restitution * otherWeight) * velocityNormal + (1 + restitution) * otherWeight * otherVelocityNormal) / (weight + otherWeight);
 
         // Reflected Tangent Direction Velocity
         const velocityTangentReflected = velocityTangent;
