@@ -49,6 +49,8 @@ class GameServer {
     }
 
     start() {
+        this.clientCounter = 0;
+
         // create server
         this.expressApp = express();
 
@@ -102,7 +104,9 @@ class GameServer {
             return;
         }
 
-        const clientHandle = new ClientHandle(this, this.world, socket);
+        const clientHandle = new ClientHandle(this, this.world, socket, this.clientCounter);
+        this.clientCounter++;
+
         clientHandle.on('disconnect', () => {
             this.connectedClients.delete(clientHandle);
             globalThis.logger.info('GameServer', 'Client disconnected');

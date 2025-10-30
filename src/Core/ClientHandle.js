@@ -2,16 +2,18 @@ import { EventEmitter } from 'events';
 import { BufferReadHandle } from '../../AlkkagiShared/Modules/BufferHandle.js';
 import { Packet, PacketManager } from '../../AlkkagiShared/Packets/index.js';
 import { PlayerHandle } from './PlayerHandle.js';
+import { Diagnostics } from '../Utils/ETC/Diagnostics.js';
 
 class ClientHandle extends EventEmitter {
-    constructor(gameServer, world, socket) {
+    constructor(gameServer, world, socket, clientID) {
         super();
         this.socket = socket;
+        this.clientID = clientID;
         this.playerHandle = new PlayerHandle(gameServer, world, this);
 
         this.socket.on('message', (message) => {
             // test
-            if(message.length == 0)
+            if (message.length == 0)
                 return;
 
             const buffer = message.buffer.slice(message.byteOffset, message.byteOffset + message.byteLength);
@@ -43,13 +45,15 @@ class ClientHandle extends EventEmitter {
 
     send(data) {
         let buffer = undefined;
-        if(data instanceof Packet)
+        if (data instanceof Packet) {
             buffer = data.serialize();
-        else if(data instanceof ArrayBuffer)
+            Diagnostics.recordNetworkSendTraffic(this, data, buffer.byteLength / 1024);
+        } else if (data instanceof ArrayBuffer) {
             buffer = data;
-        
-        if(buffer === undefined)
-            throw new Error(`data is of invalid type. type : ${typeof(data)}`);
+        }
+
+        if (buffer === undefined)
+            throw new Error(`data is of invalid type. type : ${typeof (data)}`);
 
         this.socket.send(buffer, { binary: true });
     }

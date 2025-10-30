@@ -1,5 +1,6 @@
 import { S2C_UpdateRankingPacket } from "../../AlkkagiShared/Packets/S2C_UpdateRankingPacket.js";
 import { System } from "./System.js";
+import { Diagnostics } from "../Utils/ETC/Diagnostics.js";
 
 class RankingCalculateSystem extends System {
     constructor(world, gameServer) {
@@ -31,6 +32,7 @@ class RankingCalculateSystem extends System {
                 return;
 
             client.send(buffer);
+            Diagnostics.recordNetworkSendTraffic(client, packet, buffer.byteLength / 1024);
         });
     }    
 }

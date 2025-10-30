@@ -47,8 +47,7 @@ class WorldNetworkUpdatorSystem extends System {
             const { appearedEntities, nearbyEntities, disappearedEntities } = client.playerHandle.updateVisibleEntities(AABB);
 
             const packet = new S2C_UpdateWorldPacket(elapsedMS, client.playerHandle.playerEntity, appearedEntities, nearbyEntities, disappearedEntities);
-            const buffer = packet.serialize();
-            client.send(buffer);
+            client.send(packet);
         });
 
         // globalThis.logger.debug('WorldNetworkUpdatorSystem', `entity updated. entity count : ${entities.length}, client count : ${this.gameServer.connectedClients.size}`)
