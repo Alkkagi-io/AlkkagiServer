@@ -3,6 +3,10 @@ import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
 const ATTACK_MOTION_DIRECTION_MATCH_THRESHOLD = 0.707; // cos(45)
 
 class EntityRule {
+    constructor() {
+        throw new Error('EntityRule is a static class and cannot be instantiated');
+    }
+
     static isAttackMotion(velocity, currentPosition, targetPosition) {
         if(velocity.x < 0.01 && velocity.y < 0.01) {
             return false;
