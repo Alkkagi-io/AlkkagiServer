@@ -8,6 +8,8 @@ class PlayerHandle {
         this.playerEntity = null;
         this.lastPosition = new Vector();
 
+        this.nearbyEntities = new Set();
+
         this.clientHandle.on('disconnect', this.handleClientDisconnect.bind(this));
     }
 
@@ -16,6 +18,33 @@ class PlayerHandle {
             return this.lastPosition;
 
         return this.playerEntity.position;
+    }
+
+    updateVisibleEntities(aabb) {
+        const disappearedEntities = new Set(this.nearbyEntities);
+        const appearedEntities = new Set();
+
+        // 주변 엔티티 가져오기
+        this.world.entityTree.query(aabb, leaf => {
+            const entity = leaf.data;
+    
+            if(this.nearbyEntities.has(entity)) {
+                disappearedEntities.delete(entity);
+            } else {
+                appearedEntities.add(entity);
+                this.nearbyEntities.add(entity);
+            }
+        });
+
+        disappearedEntities.forEach(entity => {
+            this.nearbyEntities.delete(entity);
+        });
+
+        return  { 
+            appearedEntities: appearedEntities, 
+            nearbyEntities: this.nearbyEntities, 
+            disappearedEntities: disappearedEntities
+        };
     }
 
     handlePlayerEntityDestroyed() {

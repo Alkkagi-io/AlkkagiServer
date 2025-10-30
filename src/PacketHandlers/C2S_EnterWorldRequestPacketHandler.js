@@ -1,4 +1,4 @@
-import { ServerPacketHandler } from './index.js';
+import { ServerPacketHandler } from './Base/ServerPacketHandler.js';
 import { PlayerHandle } from '../Core/PlayerHandle.js'
 import { Player } from '../Entity/index.js'
 import { S2C_EnterWorldResponsePacket } from '../../AlkkagiShared/Packets/index.js';

@@ -1,4 +1,6 @@
-import { Entity, Character, XPObject } from './index.js';
+import { Entity } from './Entity.js';
+import { Character } from './Character/Character.js';
+import { XPObject } from './XPObject.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { HealthComponent } from '../Component/index.js';
 import { EEntityType } from '../../AlkkagiShared/Datas/index.js';

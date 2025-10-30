@@ -1,4 +1,4 @@
-import { Entity } from './index.js';
+import { Entity } from './Entity.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { HealthComponent } from '../Component/index.js';
 import { EEntityType } from '../../AlkkagiShared/Datas/index.js';

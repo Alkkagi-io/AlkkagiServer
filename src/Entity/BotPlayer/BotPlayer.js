@@ -1,7 +1,7 @@
 import { FSMBrain } from '../../Component/FSM/index.js';
 import { EEntityType } from '../../../AlkkagiShared/Datas/index.js';
 import { BotPlayerAIData, BotPlayerIdleState, BotPlayerMoveState, BotPlayerAttackState, BotPlayerTargetConditionTransition } from './FSM/index.js';
-import { Character } from '../index.js';
+import { Character } from '../Character/Character.js';
 
 class BotPlayer extends Character {
     constructor(world, nickname, onDestroyedCallback) {
@@ -9,6 +9,10 @@ class BotPlayer extends Character {
 
         this.fsmBrain = this._buildFSM();
         this.onDestroyedCallback = onDestroyedCallback;
+    }
+
+    getEntityType() {
+        return EEntityType.BotPlayer;
     }
 
     onUpdate(deltaTime) {
@@ -48,4 +52,3 @@ class BotPlayer extends Character {
 }
 
 export { BotPlayer };
-

@@ -1,4 +1,4 @@
-import { ServerPacketHandler } from './index.js';
+import { ServerPacketHandler } from './Base/ServerPacketHandler.js';
 import { EMoveInput } from '../../AlkkagiShared/Datas/EMoveInput.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { StatConfig } from '../Stat/StatConfig.js';

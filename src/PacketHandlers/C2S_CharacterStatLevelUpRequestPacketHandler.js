@@ -1,4 +1,4 @@
-import { ServerPacketHandler } from './index.js';
+import { ServerPacketHandler } from './Base/ServerPacketHandler.js';
 import { S2C_CharacterStatLevelUpResponsePacket } from '../../AlkkagiShared/Packets/index.js';
 
 class C2S_CharacterStatLevelUpRequestPacketHandler extends ServerPacketHandler {

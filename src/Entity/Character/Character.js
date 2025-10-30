@@ -1,5 +1,5 @@
 import { StatManager } from '../../Stat/StatManager.js';
-import { Unit } from '../index.js';
+import { Unit } from '../Unit.js';
 import { CharacterAttack } from './CharacterAttack.js';
 import { CharacterLevel } from './CharacterLevel.js';
 import { HealthComponent, MoveComponent, EMoveState } from '../../Component/index.js';
@@ -29,10 +29,6 @@ class Character extends Unit {
         this.buffManager = new BuffManager(this);
         this.autoHealTimer = 0;
         this.gold = 0;
-    }
-
-    getEntityType() {
-        return EEntityType.Character;
     }
 
     getWeight() {

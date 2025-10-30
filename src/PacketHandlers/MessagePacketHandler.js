@@ -1,4 +1,4 @@
-import { ServerPacketHandler } from './index.js';
+import { ServerPacketHandler } from './Base/ServerPacketHandler.js';
 import { MessagePacket } from '../../AlkkagiShared/Packets/index.js';
 
 class MessagePacketHandler extends ServerPacketHandler {

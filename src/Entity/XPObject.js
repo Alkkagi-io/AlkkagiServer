@@ -1,4 +1,6 @@
-import { Character, Entity, Unit } from './index.js';
+import { Entity } from './Entity.js';
+import { Unit } from './Unit.js';
+import { Character } from './Character/Character.js';
 import { EEntityType } from '../../AlkkagiShared/Datas/index.js';
 import { SphereCollider } from '../Collision/Collider/SphereCollider.js';
 
@@ -36,4 +38,3 @@ class XPObject extends Entity {
 }
 
 export { XPObject };
-

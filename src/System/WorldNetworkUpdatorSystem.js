@@ -1,4 +1,4 @@
-import { System } from './index.js';
+import { System } from './System.js';
 import { S2C_UpdateWorldPacket } from '../../AlkkagiShared/Packets/index.js';
 import { Character } from '../Entity/index.js';
 
@@ -43,15 +43,10 @@ class WorldNetworkUpdatorSystem extends System {
             if (!client.playerHandle)
                 return;
 
-            // 주변 엔티티 가져오기
-            const nearbyEntities = [];
             const AABB = this._getEntityViewAABB(client.playerHandle.getEntityPosition());
-            this.world.entityTree.query(AABB, leaf => {
-                const entity = leaf.data;
-                nearbyEntities.push(entity);
-            });
+            const { appearedEntities, nearbyEntities, disappearedEntities } = client.playerHandle.updateVisibleEntities(AABB);
 
-            const packet = new S2C_UpdateWorldPacket(elapsedMS, nearbyEntities, client.playerHandle.playerEntity);
+            const packet = new S2C_UpdateWorldPacket(elapsedMS, client.playerHandle.playerEntity, appearedEntities, nearbyEntities, disappearedEntities);
             const buffer = packet.serialize();
             client.send(buffer);
         });

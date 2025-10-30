@@ -1,4 +1,4 @@
-import { Entity } from './index.js';
+import { Entity } from './Entity.js';
 import { Rigidbody } from '../Physics/Rigidbody.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { EMoveState } from '../Component/index.js';

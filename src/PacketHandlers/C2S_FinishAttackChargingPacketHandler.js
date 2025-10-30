@@ -1,4 +1,4 @@
-import { ServerPacketHandler } from './index.js';
+import { ServerPacketHandler } from './Base/ServerPacketHandler.js';
 
 class C2S_FinishAttackChargingPacketHandler extends ServerPacketHandler {
     handle(packet) {

@@ -1,4 +1,4 @@
-import { ClientPacketHandler } from './index.js';
+import { ClientPacketHandler } from './Base/ClientPacketHandler.js';
 
 class S2C_EnterWorldPacketHandler extends ClientPacketHandler {
     handle(packet) {
