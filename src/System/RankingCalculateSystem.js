@@ -1,8 +1,6 @@
 import { S2C_UpdateRankingPacket } from "../../AlkkagiShared/Packets/S2C_UpdateRankingPacket.js";
 import { System } from "./System.js";
 
-const RANKING_UPDATE_TICK = 10;
-
 class RankingCalculateSystem extends System {
     constructor(world, gameServer) {
         super(world);
@@ -16,7 +14,7 @@ class RankingCalculateSystem extends System {
     
     onPostUpdate(deltaTime) {
         this.counter++;
-        if(this.counter < RANKING_UPDATE_TICK)
+        if(this.counter < globalThis.gameConfig.rankingUpdateTick)
             return;
 
         const top5 = Array.from(this.gameServer.connectedClients)
@@ -24,7 +22,7 @@ class RankingCalculateSystem extends System {
             .sort((a, b) => b.playerHandle.playerEntity.score - a.playerHandle.playerEntity.score)
             .slice(0, 5)
             .map(c => c.playerHandle.playerEntity);
-            
+
         const packet = new S2C_UpdateRankingPacket(top5);
         const buffer = packet.serialize();
 
