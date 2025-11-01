@@ -1,4 +1,5 @@
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { S2C_RemovePlayerPacket } from '../../AlkkagiShared/Packets/S2C_RemovePlayerPacket.js';
 
 class PlayerHandle {
     constructor(gameServer, world, clientHandle) {
@@ -50,7 +51,7 @@ class PlayerHandle {
     handlePlayerEntityDestroyed() {
         if(this.playerEntity == null)
             return;
-
+        this.broadcastRemovePlayerEntity();
         this.lastPosition = this.playerEntity.position;
         this.playerEntity = null;
     }
@@ -61,8 +62,20 @@ class PlayerHandle {
 
         globalThis.logger.info('PlayerHandle', `Player entity removed by client disconnect. EntityID: ${this.playerEntity.entityID}`);
         this.lastPosition = this.playerEntity.position;
+        this.broadcastRemovePlayerEntity();
         this.world.removeEntity(this.playerEntity);
         this.playerEntity = null;
+    }
+
+    broadcastRemovePlayerEntity() {
+        const removePlayerPacket = new S2C_RemovePlayerPacket(this.playerEntity.entityID);
+        
+        for (const client of this.gameServer.connectedClients) {
+            if (!client.PlayerHandle || client.PlayerHandle == this)
+                continue;
+
+            client.send(removePlayerPacket);
+        }
     }
 }
 
