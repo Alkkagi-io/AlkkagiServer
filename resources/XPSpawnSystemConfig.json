@@ -17,6 +17,7 @@
                 "HPMax": 20,
                 "XPMin": 10,
                 "XPMax": 20,
+                "Scale": 1.5,
                 "Rate": 30
             },
             {
@@ -24,6 +25,7 @@
                 "HPMax": 40,
                 "XPMin": 30,
                 "XPMax": 40,
+                "Scale": 2.25,
                 "Rate": 10
             },
             {
@@ -31,6 +33,7 @@
                 "HPMax": 60,
                 "XPMin": 50,
                 "XPMax": 60,
+                "Scale": 3,
                 "Rate": 1
             }
         ],

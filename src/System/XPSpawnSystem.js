@@ -31,7 +31,9 @@ class XPSpawnSystem extends System {
 
         const xpAmount = Random.rangeInt(tableRow.XPMin, tableRow.XPMax + 1);
         const hp = Random.rangeInt(tableRow.HPMin, tableRow.HPMax + 1);
+        const scale = tableRow.Scale;
         const xpContainer = new XPContainer(this.world, xpAmount, hp, this.spawnXPContainer.bind(this));
+        xpContainer.scale = scale;
         xpContainer.position = this.getRandomPosition();
         this.world.addEntity(xpContainer);
     }
