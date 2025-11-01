@@ -4,7 +4,7 @@ import { StatConfig } from '../../Stat/StatConfig.js';
 import { Character } from './Character.js';
 import { EntityRule } from '../../Utils/Entity/EntityRule.js';
 
-const ATTACK_CHARGE_THRESHOLD = 1;
+const ATTACK_CHARGE_THRESHOLD = 0.5;
 
 class CharacterAttack {
     constructor(character) {
@@ -72,7 +72,7 @@ class CharacterAttack {
             return 0;
 
         const now = Date.now();
-        const elapsed = (now - this.chargingStartTime) * 0.001 + 2;
+        const elapsed = (now - this.chargingStartTime) * 0.001;
         const maxCharge = this.statManager.getValue(StatConfig.Type.MAX_CHARGE_LEN);
         const minCharge = ATTACK_CHARGE_THRESHOLD;
 
@@ -87,7 +87,7 @@ class CharacterAttack {
         if(this.moveComponent.moveState != EMoveState.Hold)
             return;
 
-        const chargingTime = (Date.now() - this.chargingStartTime) * 0.001 + 2; // tick to seconds
+        const chargingTime = (Date.now() - this.chargingStartTime) * 0.001; // tick to seconds
         if(chargingTime < ATTACK_CHARGE_THRESHOLD)
         {
             this.moveComponent.release();

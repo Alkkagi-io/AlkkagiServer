@@ -6,5 +6,6 @@
     "attackForceMultiplier": 30,
     "collideRestitution": 1,
     "characterAttackDamageFactor": 10,
-    "rankingUpdateTick": 10
+    "rankingUpdateTick": 10,
+    "worldUpdateTick": 3
 }

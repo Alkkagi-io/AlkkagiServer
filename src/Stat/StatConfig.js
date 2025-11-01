@@ -12,7 +12,7 @@ const DefaultValue = {
     [Type.MAX_HP]: 1000,
     [Type.ATK_COOLTIME]: 1,
     [Type.MAX_CHARGE_LEN]: 10,
-    [Type.MOVE_SPEED]: 1,
+    [Type.MOVE_SPEED]: 5,
     [Type.AUTO_HEAL]: 0
 };
 

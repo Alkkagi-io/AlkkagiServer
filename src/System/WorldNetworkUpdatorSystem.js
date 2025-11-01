@@ -6,7 +6,7 @@ import { Character } from '../Entity/index.js';
 // const WORLD_UPDATE_TICK = 6;
 
 // 10Hz
-const WORLD_UPDATE_TICK = 3;
+// const WORLD_UPDATE_TICK = 3;
 
 // 30Hz
 // const WORLD_UPDATE_TICK = 1;
@@ -30,7 +30,7 @@ class WorldNetworkUpdatorSystem extends System {
 
     onPostUpdate(deltaTime) {
         this.counter++;
-        if(this.counter < WORLD_UPDATE_TICK)
+        if(this.counter < globalThis.gameConfig.worldUpdateTick)
             return;
 
         this.counter = 0;
