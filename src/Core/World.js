@@ -131,15 +131,15 @@ class World extends EventEmitter {
         Object.values(this.systems).forEach(system => this.publishEvent(system, system.onPreUpdate, deltaTime));
 
         // entity update
-        Object.values(this.entities).forEach(entity => this.publishEvent(entity, entity.onPreUpdate, deltaTime));
-        Object.values(this.entities).forEach(entity => this.publishEvent(entity, entity.onUpdate, deltaTime));
-        Object.values(this.entities).forEach(entity => this.publishEvent(entity, entity.onPostUpdate, deltaTime));
+        Object.values(this.entities).forEach(entity => { if(entity.enabled == false) return; this.publishEvent(entity, entity.onPreUpdate, deltaTime) });
+        Object.values(this.entities).forEach(entity => { if(entity.enabled == false) return; this.publishEvent(entity, entity.onUpdate, deltaTime) });
+        Object.values(this.entities).forEach(entity => { if(entity.enabled == false) return; this.publishEvent(entity, entity.onPostUpdate, deltaTime) });
         
         // system post-update
         Object.values(this.systems).forEach(system => this.publishEvent(system, system.onPostUpdate, deltaTime));
 
         // entity late-update
-        Object.values(this.entities).forEach(entity => this.publishEvent(entity, entity.onLateUpdate, deltaTime));
+        Object.values(this.entities).forEach(entity => { if(entity.enabled == false) return; this.publishEvent(entity, entity.onLateUpdate, deltaTime) });
 
         // system late-update
         Object.values(this.systems).forEach(system => this.publishEvent(system, system.onLateUpdate, deltaTime));
@@ -188,8 +188,11 @@ class World extends EventEmitter {
                 continue;
 
             const entity = leaf.data;
+            if(entity.enabled == false)
+                continue;
+
             const collider = entity.collider;
-            if(collider == null || collider.enabled == false)
+            if(collider == null)
                 continue;
 
             const aabb = collider.getAABB();

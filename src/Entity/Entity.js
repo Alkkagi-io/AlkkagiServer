@@ -7,6 +7,8 @@ class Entity {
 
         this.entityID = 0;
         this.position = new Vector();
+
+        this.enabled = true;
     }
 
     getVelocity() {

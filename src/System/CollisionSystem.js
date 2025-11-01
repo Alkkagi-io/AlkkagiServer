@@ -26,12 +26,12 @@ class CollisionSystem extends System {
             if (!entityA || !entityB)
                 return;
 
+            if(entityA.enabled == false || entityB.enabled == false)
+                return;
+
             const colA = entityA.collider ?? null;
             const colB = entityB?.collider ?? null;
             if (!colA || !colB)
-                return;
-
-            if(colA.enabled == false || colB.enabled == false)
                 return;
 
             if (!colA.intersect(colB))
