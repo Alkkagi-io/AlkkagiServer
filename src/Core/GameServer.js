@@ -88,6 +88,11 @@ class GameServer {
         return this;
     }
 
+    app(callback) {
+        callback(this.expressApp);
+        return this;
+    }
+
     start() {
         if(this.server == null) {
             globalThis.logger.error('GameServer', 'Server is not built yet');

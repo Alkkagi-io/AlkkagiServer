@@ -47,34 +47,39 @@ world.startLoop();
 buildPacketManager(gameServer, world);
 
 // start game server
-gameServer.build();
-
 // 일단은 하나하나 넣자. RESTful 을 더 처리해야 할 상황이 생기면 그 땐 Controller를 만들어 라우트를 관리한다.
-gameServer.expressApp.use(express.static('public'));
-gameServer.expressApp.get('/data/:filename', (req, res) => {
-    const { filename } = req.params;
-
-    if (filename.includes('..')) {
-        return res.status(400).send('invalid filename');
-    }
-
-    const filePath = path.join(process.cwd(), 'AlkkagiData', filename);
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            res.status(err.status || 404).send('file not found');
-        }
-    });
-});
-gameServer.expressApp.get('/sharedbundle', (req, res) => {
-    const filePath = path.join(process.cwd(), 'AlkkagiShared', 'Output', 'SharedBundle.js');
-    res.sendFile(filePath, (err) => {
-        if (err) {
-            res.status(err.status || 404).send('file not found');
-        }
-    });
-});
-
-gameServer.start();
+gameServer
+    .build()
+    .app(app => {
+        app.use(express.static('public'));
+    })
+    .app(app => {
+        app.get('/data/:filename', (req, res) => {
+            const { filename } = req.params;
+        
+            if (filename.includes('..')) {
+                return res.status(400).send('invalid filename');
+            }
+        
+            const filePath = path.join(process.cwd(), 'AlkkagiData', filename);
+            res.sendFile(filePath, (err) => {
+                if (err) {
+                    res.status(err.status || 404).send('file not found');
+                }
+            });
+        });
+    })
+    .app(app => {
+        app.get('/sharedbundle', (req, res) => {
+            const filePath = path.join(process.cwd(), 'AlkkagiShared', 'Output', 'SharedBundle.js');
+            res.sendFile(filePath, (err) => {
+                if (err) {
+                    res.status(err.status || 404).send('file not found');
+                }
+            });
+        });
+    })
+    .start();
 
 // handle shutdown
 process.on('SIGTERM', () => {
