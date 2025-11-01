@@ -31,6 +31,9 @@ class CollisionSystem extends System {
             if (!colA || !colB)
                 return;
 
+            if(colA.enabled == false || colB.enabled == false)
+                return;
+
             if (!colA.intersect(colB))
                 return;
 

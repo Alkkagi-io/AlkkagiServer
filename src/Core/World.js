@@ -188,7 +188,11 @@ class World extends EventEmitter {
                 continue;
 
             const entity = leaf.data;
-            const aabb = entity.collider.getAABB();
+            const collider = entity.collider;
+            if(collider == null || collider.enabled == false)
+                continue;
+
+            const aabb = collider.getAABB();
             entity.refLeaf = this.entityTree.update(leaf, aabb);
         }
     }
