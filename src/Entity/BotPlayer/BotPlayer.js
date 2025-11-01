@@ -45,7 +45,7 @@ class BotPlayer extends Character {
         }));
 
         fsmBrain.aiData = new BotPlayerAIData(this, this.world);
-        fsmBrain.initialize(idleState, [idleState, moveState, attackState]);
+        // fsmBrain.initialize(idleState, [idleState, moveState, attackState]);
 
         return fsmBrain;
     }
