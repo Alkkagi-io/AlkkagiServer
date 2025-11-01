@@ -48,6 +48,8 @@ buildPacketManager(gameServer, world);
 
 // start game server
 gameServer.build();
+
+// 일단은 하나하나 넣자. RESTful 을 더 처리해야 할 상황이 생기면 그 땐 Controller를 만들어 라우트를 관리한다.
 gameServer.expressApp.use(express.static('public'));
 gameServer.expressApp.get('/data/:filename', (req, res) => {
     const { filename } = req.params;
