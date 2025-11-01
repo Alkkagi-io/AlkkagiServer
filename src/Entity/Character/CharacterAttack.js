@@ -18,10 +18,6 @@ class CharacterAttack {
     onCollisionEnter(other) {        
         const velocity = this.owner.getVelocity();
 
-        // if(other instanceof Character) {
-        //     globalThis.logger.debug('CharacterAttack', `onCollisionEnter this: ${this.owner.nickname}, other: ${other.nickname}, directionSimilarity: ${Vector.dot(propelDirection, targetDirection)}`);
-        // }
-
         if(EntityRule.isAttackMotion(velocity, this.owner.position, other.position) == false) {
             return;
         }

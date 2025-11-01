@@ -8,7 +8,7 @@ class EntityRule {
     }
 
     static isAttackMotion(velocity, currentPosition, targetPosition) {
-        if(velocity.x < 0.01 && velocity.y < 0.01) {
+        if(Math.abs(velocity.x) < 0.01 && Math.abs(velocity.y) < 0.01) {
             return false;
         }
 
