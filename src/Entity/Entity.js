@@ -6,6 +6,7 @@ class Entity {
         this.world = world;
 
         this.entityID = 0;
+        this.scale = 1;
         this.position = new Vector();
 
         this.enabled = true;
