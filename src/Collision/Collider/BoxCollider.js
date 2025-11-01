@@ -6,10 +6,14 @@ class BoxCollider extends Collider {
         super(owner);
         this.size = new Vector();
     }
+
+    getSize() {
+        return Vector.multiply(this.size, this.entity.scale);
+    }
     
     getAABB() {
         const pos = this.entity.position;
-        const hSize = Vector.divide(this.size, 2);
+        const hSize = Vector.divide(this.getSize(), 2);
         return {
             minX: pos.x - hSize.x,
             maxX: pos.x + hSize.x,

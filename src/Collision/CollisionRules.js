@@ -19,7 +19,7 @@ function registerCollisionRule() {
         const apos = a.entity.position;
         const bpos = b.entity.position;
         const dir = Vector.subtract(apos, bpos);
-        const r = a.radius + b.radius;
+        const r = a.getRadius() + b.getRadius();
         return dir.x * dir.x + dir.y * dir.y  <= r * r;
     });
     
@@ -32,7 +32,7 @@ function registerCollisionRule() {
             Math.max(A.minY, Math.min(p.y, A.maxY))
         );
         const dir = Vector.subtract(apos, closestPoint);
-        return dir.x * dir.x + dir.y * dir.y <= a.radius * a.radius;
+        return dir.x * dir.x + dir.y * dir.y <= a.getRadius() * a.getRadius();
     });
 }
 
