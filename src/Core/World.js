@@ -9,8 +9,7 @@ const createWorldOptions = (configPath) => {
     };
 
     try {
-        const configFilePath = path.join(process.cwd(), configPath);
-        if (fs.existsSync(configFilePath) == false) {
+        if (fs.existsSync(configPath) == false) {
             globalThis.logger?.warn('World', 'Config file not found, using default values');
             return defaultConfig;
         }

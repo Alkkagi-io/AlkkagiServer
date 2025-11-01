@@ -1,6 +1,7 @@
 // Libraries
 import express from 'express';
 import fs from 'fs';
+import path from 'path';
 
 // Modules
 import { logger } from '../AlkkagiShared/Modules/Logger.js';
@@ -14,20 +15,20 @@ import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem, GoldSpawnSys
 
 // global variables
 globalThis.logger = logger;
-globalThis.gameConfig = JSON.parse(fs.readFileSync('./config/game-config.json', 'utf8'));
+globalThis.gameConfig = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'config', 'game-config.json'), 'utf8'));
 
 // load resources
 const resourceManager = new ResourceManager();
 await resourceManager.load(true);
 
 // create world
-const worldOptions = createWorldOptions('./config/world-config.json');
+const worldOptions = createWorldOptions(path.join(process.cwd(), 'config', 'world-config.json'));
 const world = new World(worldOptions);
 
 // create game server
-const serverOptions = createServerOptions('./config/server-config.local.json');
-// const serverOptions = createServerOptions('./config/server-config.seh00n.json');
-// const serverOptions = createServerOptions('./config/server-config.live.json');
+const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.local.json'));
+// const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.seh00n.json'));
+// const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.live.json'));
 const gameServer = new GameServer(serverOptions, world);
 
 // setup systems
@@ -46,8 +47,32 @@ world.startLoop();
 buildPacketManager(gameServer, world);
 
 // start game server
-gameServer.start();
+gameServer.build();
 gameServer.expressApp.use(express.static('public'));
+gameServer.expressApp.get('/data/:filename', (req, res) => {
+    const { filename } = req.params;
+
+    if (filename.includes('..')) {
+        return res.status(400).send('invalid filename');
+    }
+
+    const filePath = path.join(process.cwd(), 'AlkkagiData', filename);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            res.status(err.status || 404).send('file not found');
+        }
+    });
+});
+gameServer.expressApp.get('/sharedbundle', (req, res) => {
+    const filePath = path.join(process.cwd(), 'AlkkagiShared', 'Output', 'SharedBundle.js');
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            res.status(err.status || 404).send('file not found');
+        }
+    });
+});
+
+gameServer.start();
 
 // handle shutdown
 process.on('SIGTERM', () => {

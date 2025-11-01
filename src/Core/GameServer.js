@@ -5,6 +5,7 @@ import http from 'http';
 import https from 'https';
 import fs from 'fs';
 import path from 'path';
+import cors from 'cors';
 
 // Projects
 import ClientHandle from './ClientHandle.js';
@@ -17,11 +18,11 @@ const createServerOptions = (configPath) => {
         maxConnections: 100,
         certPath: null,
         keyPath: null,
+        cors: null
     };
 
     try {
-        const configFilePath = path.join(process.cwd(), configPath);
-        if (fs.existsSync(configFilePath) == false) {
+        if (fs.existsSync(configPath) == false) {
             globalThis.logger?.warn('GameServer', 'Config file not found, using default values');
             return defaultConfig;
         }
@@ -34,6 +35,7 @@ const createServerOptions = (configPath) => {
             maxConnections: fileConfig.maxConnections || defaultConfig.maxConnections,
             certPath: fileConfig.certPath || defaultConfig.certPath,
             keyPath: fileConfig.keyPath || defaultConfig.keyPath,
+            cors: fileConfig.cors || defaultConfig.cors,
         };
     } catch (error) {
         globalThis.logger?.error('GameServer', `Error reading config file: ${error.message}`);
@@ -48,11 +50,15 @@ class GameServer {
         this.world = world;
     }
 
-    start() {
+    build() {
         this.clientCounter = 0;
 
         // create server
         this.expressApp = express();
+        if(this.serverOptions.cors) {
+            this.expressApp.use(cors(this.serverOptions.cors));
+            // this.expressApp.options('*', cors(this.serverOptions.cors));
+        }
 
         const key = this.serverOptions.keyPath ? fs.readFileSync(this.serverOptions.keyPath, 'utf8') : null;
         const cert = this.serverOptions.certPath ? fs.readFileSync(this.serverOptions.certPath, 'utf8') : null;
@@ -79,7 +85,15 @@ class GameServer {
             process.exit(1); 
         });
 
-        // start server
+        return this;
+    }
+
+    start() {
+        if(this.server == null) {
+            globalThis.logger.error('GameServer', 'Server is not built yet');
+            return;
+        }
+
         this.server.listen(this.serverOptions.port, () => {
             globalThis.logger.info('GameServer', `Game server started on port ${this.serverOptions.port} ${this.serverOptions.keyPath ? 'with SSL' : 'without SSL'}`);
         });

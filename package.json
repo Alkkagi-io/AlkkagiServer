@@ -11,6 +11,7 @@
     "buildSharedBundle": "npm run generateSharedBundleIndex && esbuild AlkkagiShared/Utils/BundleHelper/BundleIndex.js --bundle --platform=browser --format=iife --global-name=AlkkagiSharedBundle --outfile=AlkkagiShared/Output/SharedBundle.js --sourcemap --target=es2017 --minify"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "ws": "^8.14.2"
   },
