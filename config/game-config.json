@@ -1,7 +1,7 @@
 {
-    "worldWidth": 100,
-    "worldHeight": 100,
-    "botPlayerCount": 0,
+    "worldWidth": 10,
+    "worldHeight": 10,
+    "botPlayerCount": 1,
     "propelLocomotionThreshold": 2,
     "attackForceMultiplier": 30,
     "collideRestitution": 1,

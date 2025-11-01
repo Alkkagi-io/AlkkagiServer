@@ -16,6 +16,8 @@ import { Random } from '../../../AlkkagiShared/Modules/Random.js';
 const CHARACTER_XP_DROP_STEP = 10;
 const CHARACTER_XP_DROP_RADIUS = 10;
 
+const CHARACTER_DISSAPEAR_TIME = 1;
+
 class Character extends Unit {
     constructor(world, nickname) {
         super(world);
@@ -29,6 +31,8 @@ class Character extends Unit {
         this.buffManager = new BuffManager(this);
         this.autoHealTimer = 0;
         this.gold = 0;
+        this.isDead = false;
+        this.dissapearTimer = 0;
     }
 
     getWeight() {
@@ -48,6 +52,15 @@ class Character extends Unit {
 
     onUpdate(deltaTime) {
         super.onUpdate(deltaTime);
+
+        if (this.isDead) {
+            this.dissapearTimer += deltaTime;
+            if(this.dissapearTimer >= CHARACTER_DISSAPEAR_TIME) {
+                this.world.removeEntity(this);
+            }
+
+            return;
+        }
 
         if (this.buffManager) {
             this.buffManager.update(deltaTime);
@@ -69,11 +82,20 @@ class Character extends Unit {
 
     onCollide(other, contactPoint, normal, velocityReflected) {
         super.onCollide(other, contactPoint, normal, velocityReflected);
+
+        if (this.isDead) {
+            return;
+        }
+
         this.moveComponent.propel(velocityReflected);
     }
 
     onCollisionEnter(other) {
         super.onCollisionEnter(other);
+
+        if (this.isDead) {
+            return;
+        }
 
         if(this.moveStateBuffer == EMoveState.Propelled) {
             this.attackComponent.onCollisionEnter(other);
@@ -81,8 +103,15 @@ class Character extends Unit {
     }
 
     onHPChanged(performer, prevHP, currentHP) {
+        if (this.isDead) {
+            return;
+        }
+
         if(currentHP <= 0) {
-            this.world.removeEntity(this);
+            this.isDead = true;
+            this.collider.enabled = false;
+
+            // this.world.removeEntity(this);
 
             let xpCount = Math.floor(this.levelComponent.xpAmount / CHARACTER_XP_DROP_STEP);
             if(this.levelComponent.xpAmount % CHARACTER_XP_DROP_STEP >= CHARACTER_XP_DROP_STEP * 0.5) {
