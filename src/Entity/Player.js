@@ -15,7 +15,7 @@ class Player extends Character {
     }
 
     getEntityType() {
-        return EEntityType.Player;
+        return EEntityType.BotPlayer;
     }
 
     onLevelUp(prevLevel, currentLevel, currentStatPoint) {
