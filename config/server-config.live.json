@@ -1,0 +1,9 @@
+{
+    "port": 5996,
+    "maxConnections": 100,
+    "certPath": "./certs/alkkagi-io.plasticpipe.tube/fullchain.pem",
+    "keyPath": "./certs/alkkagi-io.plasticpipe.tube/privkey.pem",
+    "cors": {
+        "origin": "https://editor.oasisserver.link"
+    }
+}
