@@ -115,6 +115,10 @@ class Character extends Unit {
         const originMoveDirection = this.moveComponent.locomotionVelocity;
         const moveSpeed = this.statManager.getValue(StatConfig.Type.MOVE_SPEED);
         this.moveComponent.setLocomotionVelocity(originMoveDirection, moveSpeed);
+
+        const weightLevel = this.statLevelUpManager.getStatLevel(StatConfig.Type.WEIGHT);
+        this.scale = 1 + (0.1 * weightLevel);
+        logger.debug(weightLevel, this.scale);
     }
 }
 
