@@ -4,8 +4,6 @@ import { StatConfig } from '../../Stat/StatConfig.js';
 import { Character } from './Character.js';
 import { EntityRule } from '../../Utils/Entity/EntityRule.js';
 
-const ATTACK_CHARGE_THRESHOLD = 0.5;
-
 class CharacterAttack {
     constructor(character) {
         this.owner = character;
@@ -64,36 +62,33 @@ class CharacterAttack {
     }
 
     getChargingPer() {
-        if(this.moveComponent.moveState != EMoveState.Hold)
+        if(this.moveComponent.moveState != EMoveState.Hold) {
             return 0;
+        }
 
         const now = Date.now();
         const elapsed = (now - this.chargingStartTime) * 0.001;
-        const maxCharge = this.statManager.getValue(StatConfig.Type.MAX_CHARGE_LEN);
-        const minCharge = ATTACK_CHARGE_THRESHOLD;
+        const maxCharge = globalThis.gameConfig.attackChargeLimit;
+        const minCharge = globalThis.gameConfig.attackChargeThreshold;
 
         // 임계값 미만이면 0%
-        if (elapsed < minCharge) return 0;
+        if (elapsed < minCharge) {
+            return 0;
+        }
 
         const percent = (elapsed - minCharge) / (maxCharge - minCharge);
         return Math.min(Math.max(percent, 0), 1);
     }
 
     finishAttackCharging(direction) {
-        if(this.moveComponent.moveState != EMoveState.Hold)
-            return;
-
-        const chargingTime = (Date.now() - this.chargingStartTime) * 0.001; // tick to seconds
-        if(chargingTime < ATTACK_CHARGE_THRESHOLD)
-        {
+        const chargingRatio = this.getChargingPer();
+        if(chargingRatio <= 0.01) {
             this.moveComponent.release();
             return;
         }
 
-        const chargingPower = Math.min(chargingTime, this.statManager.getValue(StatConfig.Type.MAX_CHARGE_LEN));
-
-        let attackForce = Vector.normalize(direction);
-        attackForce.multiply(chargingPower * globalThis.gameConfig.attackForceMultiplier);
+        const chargingPower = chargingRatio * this.statManager.getValue(StatConfig.Type.POWER);
+        const attackForce = Vector.normalize(direction).multiply(chargingPower);
 
         this.lastAttackTime = Date.now();
         this.moveComponent.propel(attackForce);

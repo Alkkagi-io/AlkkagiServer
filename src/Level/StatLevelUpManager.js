@@ -43,7 +43,7 @@ class StatLevelUpManager {
         if(value == null)
             return null;
 
-        return { value: value, isPercentage: res.isPercentage() };
+        return { value: value, isPercentage: res.isPercentage };
     }
 }
 

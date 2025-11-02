@@ -9,6 +9,11 @@ class Player extends Character {
         this.onDestroyedCallback = onDestroyedCallback;
     }
 
+    onStart() {
+        // ------ debug ------
+        this.levelComponent.gainXP(62450);
+    }
+
     getEntityType() {
         return EEntityType.Player;
     }

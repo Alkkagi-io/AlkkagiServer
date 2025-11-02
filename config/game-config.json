@@ -3,9 +3,10 @@
     "worldHeight": 10,
     "botPlayerCount": 1,
     "propelLocomotionThreshold": 2,
-    "attackForceMultiplier": 30,
     "collideRestitution": 1,
     "characterAttackDamageFactor": 10,
     "rankingUpdateTick": 10,
-    "worldUpdateTick": 3
+    "worldUpdateTick": 3,
+    "attackChargeThreshold": 0.5,
+    "attackChargeLimit": 5
 }
