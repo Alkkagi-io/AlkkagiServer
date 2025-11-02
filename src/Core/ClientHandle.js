@@ -28,7 +28,7 @@ class ClientHandle extends EventEmitter {
                 const handler = PacketManager.createHandler(packetID, this);
                 handler.handle(packet);
             } catch (error) {
-                globalThis.logger.error('GameServer', `Error occurred while handling packet. PacketID: ${packetID}. Error: ${error}`);
+                globalThis.logger.error('GameServer', `Error occurred while handling packet. PacketID: ${packetID}.\n${error.stack}`);
             }
         });
 
