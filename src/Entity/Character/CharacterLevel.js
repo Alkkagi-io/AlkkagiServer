@@ -12,24 +12,36 @@ class CharacterLevel {
     }
 
     levelUpStat(type) {
-        if (this.statPoint <= 0)
+        if (this.statPoint <= 0) {
             return;
+        }
 
         var success = this.statLevelUpManager.levelUp(type);
-        if (success == false)
+        if (success == false) {
             return;
+        }
 
         this.statPoint--;
         this.onStatLevelUp?.(type);
     }
 
-    getStatLevel(type) {
-        return this.statLevelUpManager.getStatLevel(type);
+    getStatLevelByStatType(type) {
+        return this.statLevelUpManager.getStatLevelByStatType(type);
     }
-    
+
+    getStatLevelByStatLevelUpType(statLevelUpType) {
+        return this.statLevelUpManager.getStatLevelByStatLevelUpType(statLevelUpType);
+    }
+
     gainXP(xpAmount) {
         const prevXP = this.xpAmount;
         this.xpAmount += xpAmount;
+
+        // handle uint16 overflow
+        if(this.xpAmount > 65535) {
+            this.xpAmount = 65535;
+        }
+
         this.onGainXP?.(prevXP, this.xpAmount);
 
         const prevLevel = this.level;
