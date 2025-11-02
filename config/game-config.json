@@ -10,5 +10,13 @@
     "attackChargeThreshold": 0.5,
     "attackChargeLimit": 3,
     "weightMultiplier": 400,
-    "collideScaleMultiplier": 2
+    "collideScaleMultiplier": 2,
+    "viewSize": {
+        "width": 48,
+        "height": 27
+    },
+    "viewOffset": {
+        "x": 30,
+        "y": 30
+    }
 }

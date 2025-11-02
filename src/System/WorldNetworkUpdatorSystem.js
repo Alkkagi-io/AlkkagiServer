@@ -11,11 +11,6 @@ import { Character } from '../Entity/index.js';
 // 30Hz
 // const WORLD_UPDATE_TICK = 1;
 
-const VIEW_SIZE = {
-    width: 192 / 2,
-    height: 108 / 2
-}
-
 class WorldNetworkUpdatorSystem extends System {
     constructor(world, gameServer) {
         super(world);
@@ -55,8 +50,8 @@ class WorldNetworkUpdatorSystem extends System {
     }
 
     _getEntityViewAABB(position) {
-        const hw = VIEW_SIZE.width / 2;
-        const hh = VIEW_SIZE.height / 2;
+        const hw = globalThis.gameConfig.viewSize.width / 2 + globalThis.gameConfig.viewOffset.x;
+        const hh = globalThis.gameConfig.viewSize.height / 2 + globalThis.gameConfig.viewOffset.y;
 
         return {
             minX: position.x - hw,

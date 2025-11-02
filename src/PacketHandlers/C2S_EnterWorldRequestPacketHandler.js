@@ -2,6 +2,7 @@ import { ServerPacketHandler } from './Base/ServerPacketHandler.js';
 import { PlayerHandle } from '../Core/PlayerHandle.js'
 import { Character, Player } from '../Entity/index.js'
 import { S2C_AddPlayerPacket, S2C_EnterWorldResponsePacket } from '../../AlkkagiShared/Packets/index.js';
+import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 
 class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
     handle(packet) {
@@ -27,7 +28,7 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
             worldPlayers.push(entity);
         }
 
-        const res = new S2C_EnterWorldResponsePacket(playerEntity.entityID, worldPlayers);
+        const res = new S2C_EnterWorldResponsePacket(playerEntity.entityID, worldPlayers, new Vector(globalThis.gameConfig.viewSize.width, globalThis.gameConfig.viewSize.height));
         this.clientHandle.send(res);
     }
 }
