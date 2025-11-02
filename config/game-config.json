@@ -4,13 +4,13 @@
     "botPlayerCount": 1,
     "propelLocomotionThreshold": 2,
     "collideRestitution": 1,
-    "characterAttackDamageFactor": 10,
+    "characterAttackDamageFactor": 2.5,
     "rankingUpdateTick": 10,
     "worldUpdateTick": 3,
     "attackChargeThreshold": 0.5,
     "attackChargeLimit": 3,
-    "weightMultiplier": 400,
-    "collideScaleMultiplier": 2,
+    "weightMultiplier": 300,
+    "collideScaleMultiplier": 2.5,
     "viewSize": {
         "width": 48,
         "height": 27

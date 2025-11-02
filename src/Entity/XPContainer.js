@@ -7,7 +7,7 @@ import { EEntityType } from '../../AlkkagiShared/Datas/index.js';
 import { SphereCollider } from '../Collision/Collider/SphereCollider.js';
 import { Random } from '../../AlkkagiShared/Modules/Random.js';
 
-const SPAWN_RADIUS = 10;
+const SPAWN_RADIUS = 7;
 
 class XPContainer extends Entity {
     constructor(world, xpAmount, hp, onDestroyCallback) {
@@ -45,7 +45,7 @@ class XPContainer extends Entity {
         let leftXPAmount = xpAmount;
         while(leftXPAmount > 0) {
             const xp = Math.min(leftXPAmount, xpStep);
-            const randomPosition = Random.insideUnitCircle().multiply(SPAWN_RADIUS);
+            const randomPosition = Random.insideUnitCircle().multiply(SPAWN_RADIUS * this.scale);
             const position = Vector.add(this.position, randomPosition);
 
             const xpObject = new XPObject(this.world, xp);

@@ -204,35 +204,99 @@
         ],
         "SpawnTable": [
             {
-                "HPMin": 50,
-                "HPMax": 60,
-                "XPMin": 10,
-                "XPMax": 20,
+                "HPMin": 20,
+                "HPMax": 30,
+                "XPMin": 40,
+                "XPMax": 60,
                 "Scale": 1.5,
                 "Rate": 50
             },
             {
-                "HPMin": 150,
-                "HPMax": 200,
-                "XPMin": 30,
-                "XPMax": 40,
+                "HPMin": 40,
+                "HPMax": 50,
+                "XPMin": 80,
+                "XPMax": 100,
                 "Scale": 2,
+                "Rate": 50
+            },
+            {
+                "HPMin": 60,
+                "HPMax": 70,
+                "XPMin": 120,
+                "XPMax": 140,
+                "Scale": 2.5,
+                "Rate": 50
+            },
+            {
+                "HPMin": 160,
+                "HPMax": 170,
+                "XPMin": 320,
+                "XPMax": 340,
+                "Scale": 3,
                 "Rate": 25
             },
             {
-                "HPMin": 450,
-                "HPMax": 550,
-                "XPMin": 50,
-                "XPMax": 60,
-                "Scale": 2.5,
+                "HPMin": 180,
+                "HPMax": 190,
+                "XPMin": 360,
+                "XPMax": 380,
+                "Scale": 3.5,
+                "Rate": 25
+            },
+            {
+                "HPMin": 200,
+                "HPMax": 210,
+                "XPMin": 400,
+                "XPMax": 420,
+                "Scale": 4,
+                "Rate": 25
+            },
+            {
+                "HPMin": 440,
+                "HPMax": 450,
+                "XPMin": 880,
+                "XPMax": 900,
+                "Scale": 4.5,
                 "Rate": 5
             },
             {
-                "HPMin": 1000,
-                "HPMax": 1100,
-                "XPMin": 100,
-                "XPMax": 150,
-                "Scale": 3,
+                "HPMin": 460,
+                "HPMax": 470,
+                "XPMin": 920,
+                "XPMax": 940,
+                "Scale": 5,
+                "Rate": 5
+            },
+            {
+                "HPMin": 480,
+                "HPMax": 490,
+                "XPMin": 960,
+                "XPMax": 980,
+                "Scale": 5.5,
+                "Rate": 5
+            },
+            {
+                "HPMin": 500,
+                "HPMax": 510,
+                "XPMin": 1000,
+                "XPMax": 1020,
+                "Scale": 6,
+                "Rate": 1
+            },
+            {
+                "HPMin": 520,
+                "HPMax": 530,
+                "XPMin": 1040,
+                "XPMax": 1060,
+                "Scale": 6.5,
+                "Rate": 1
+            },
+            {
+                "HPMin": 540,
+                "HPMax": 550,
+                "XPMin": 1080,
+                "XPMax": 1100,
+                "Scale": 7,
                 "Rate": 1
             }
         ],
