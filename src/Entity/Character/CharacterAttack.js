@@ -43,7 +43,6 @@ class CharacterAttack {
             return;
 
         const attackCooldown = (Date.now() - this.lastAttackTime) * 0.001; // tick to seconds
-        globalThis.logger.debug('CharacterAttack', `startAttackCharging [attackCooldown: ${attackCooldown}, atkCooltime: ${this.statManager.getValue(StatConfig.Type.ATK_COOLTIME)}]`);
         if(attackCooldown < this.statManager.getValue(StatConfig.Type.ATK_COOLTIME))
             return;
 

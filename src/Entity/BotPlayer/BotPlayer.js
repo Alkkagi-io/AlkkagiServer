@@ -40,12 +40,12 @@ class BotPlayer extends Character {
                 case EEntityType.XPObject: // xp object는 끝까지 붙는다.
                     return -1;
                 default: // 나머지는 공격대상 어느정도 거리가 있으면 공격태세
-                    return 5;
+                    return 10;
             }
         }));
 
         fsmBrain.aiData = new BotPlayerAIData(this, this.world);
-        // fsmBrain.initialize(idleState, [idleState, moveState, attackState]);
+        fsmBrain.initialize(idleState, [idleState, moveState, attackState]);
 
         return fsmBrain;
     }

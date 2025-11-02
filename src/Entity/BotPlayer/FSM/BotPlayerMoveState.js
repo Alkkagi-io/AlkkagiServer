@@ -4,7 +4,7 @@ import { FSMState } from '../../../Component/FSM/index.js';
 
 const UPDATE_INTERVAL = 0.5;
 const DIRECTION_CHANGE_INTERVAL = 0.25;
-const TIGHT_CHASE_RADIUS = 5;
+const TIGHT_CHASE_RADIUS = 10;
 const SIMILARITY_THRESHOLD = 0.700; // cos(sqrt(2)/2) => 0.707 (45도. 8방향중 인접하다면 방향을 바꾸지 않는다.)
 
 const DIRECTIONS = [
@@ -71,7 +71,7 @@ class BotPlayerMoveState extends FSMState {
         }
 
         this.lastDirectionIndex = currentDirectionIndex;
-        owner.moveComponent.setLocomotionVelocity(currentDirection, owner.statManager.getValue(StatConfig.Type.MOVE_SPEED) * 5);
+        owner.moveComponent.setLocomotionVelocity(currentDirection, owner.statManager.getValue(StatConfig.Type.MOVE_SPEED));
         this.lastDirectionChangeTime = aiData.world.time;
     }
 
