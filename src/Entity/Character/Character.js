@@ -3,7 +3,7 @@ import { Unit } from '../Unit.js';
 import { CharacterAttack } from './CharacterAttack.js';
 import { CharacterLevel } from './CharacterLevel.js';
 import { HealthComponent, MoveComponent, EMoveState } from '../../Component/index.js';
-import { StatConfig } from '../../Stat/StatConfig.js';
+import { StatConfig } from '../../../AlkkagiShared/Configs/StatConfig.js';
 import { StatLevelUpManager } from '../../Level/StatLevelUpManager.js';
 import { BuffManager } from '../../Buff/BuffManager.js';
 import { EEntityType } from '../../../AlkkagiShared/Datas/index.js';

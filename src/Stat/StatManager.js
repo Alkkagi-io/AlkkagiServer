@@ -1,4 +1,4 @@
-import { StatConfig } from "./StatConfig.js";
+import { StatConfig } from "../../AlkkagiShared/Configs/StatConfig.js";
 
 class StatManager {
     constructor(character) {

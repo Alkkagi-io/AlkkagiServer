@@ -1,7 +1,7 @@
 import { ServerPacketHandler } from './Base/ServerPacketHandler.js';
 import { EMoveInput } from '../../AlkkagiShared/Datas/EMoveInput.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
-import { StatConfig } from '../Stat/StatConfig.js';
+import { StatConfig } from '../../AlkkagiShared/Configs/StatConfig.js';
 
 class C2S_MoveInputPacketHandler extends ServerPacketHandler {
     handle(packet) {

@@ -1,7 +1,7 @@
 import { Character } from '../../index.js';
 import { FSMState } from '../../../Component/FSM/index.js';
 import { Vector } from '../../../../AlkkagiShared/Modules/Vector.js';
-import { StatConfig } from '../../../Stat/StatConfig.js';
+import { StatConfig } from '../../../../AlkkagiShared/Configs/StatConfig.js';
 import { Random } from '../../../../AlkkagiShared/Modules/Random.js';
 
 const UPDATE_INTERVAL = 1;

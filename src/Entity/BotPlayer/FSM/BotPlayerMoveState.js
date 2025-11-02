@@ -1,4 +1,4 @@
-import { StatConfig } from '../../../Stat/StatConfig.js';
+import { StatConfig } from '../../../../AlkkagiShared/Configs/StatConfig.js';
 import { Vector } from '../../../../AlkkagiShared/Modules/Vector.js';
 import { FSMState } from '../../../Component/FSM/index.js';
 

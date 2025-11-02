@@ -1,6 +1,6 @@
 import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
 import { EMoveState } from '../../Component/index.js';
-import { StatConfig } from '../../Stat/StatConfig.js';
+import { StatConfig } from '../../../AlkkagiShared/Configs/StatConfig.js';
 import { Character } from './Character.js';
 import { EntityRule } from '../../Utils/Entity/EntityRule.js';
 
