@@ -51,17 +51,6 @@ class CharacterAttack {
         this.moveComponent.hold();
     }
 
-    getRemainAttackCooltimePer() {
-        const now = Date.now();
-        const elapsed = (now - this.lastAttackTime) * 0.001;
-        const cooldown = this.statManager.getValue(StatConfig.Type.ATK_COOLTIME);
-
-        const remain = Math.max(cooldown - elapsed, 0);
-        const percent = remain / cooldown;
-
-        return percent;
-    }
-
     getChargingPer() {
         if(this.moveComponent.moveState != EMoveState.Hold) {
             return 0;
