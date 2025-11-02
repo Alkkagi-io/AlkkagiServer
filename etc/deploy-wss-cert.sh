@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DOMAIN="alkkagidev.plasticpipe.tube"
+DOMAIN="alkkagi-io.plasticpipe.tube"
 SRC="/etc/letsencrypt/live/${DOMAIN}"
 DST="${PWD}/certs/${DOMAIN}"
 
