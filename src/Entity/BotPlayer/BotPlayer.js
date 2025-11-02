@@ -22,7 +22,7 @@ class BotPlayer extends Character {
 
     onDestroy() {
         super.onDestroy();
-        this.onDestroyedCallback?.();
+        this.onDestroyedCallback?.(this);
     }
 
     _buildFSM() {

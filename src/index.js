@@ -37,7 +37,7 @@ world.addSystem(new RankingCalculateSystem(world, gameServer));
 world.addSystem(new CollisionSystem(world));
 world.addSystem(new XPSpawnSystem(world));
 // world.addSystem(new GoldSpawnSystem(world));
-world.addSystem(new BotPlayerSpawnSystem(world));
+world.addSystem(new BotPlayerSpawnSystem(world, gameServer));
 world.addSystem(new DiagnosticsSystem(world));
 
 // start world loop
