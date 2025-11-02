@@ -10,12 +10,13 @@ import { Random } from '../../AlkkagiShared/Modules/Random.js';
 const SPAWN_RADIUS = 7;
 
 class XPContainer extends Entity {
-    constructor(world, xpAmount, hp, onDestroyCallback) {
+    constructor(world, xpAmount, hp, xpUnit, onDestroyCallback) {
         super(world);
 
         this.collider = new SphereCollider(this);
 
         this.xpAmount = xpAmount;
+        this.xpUnit = xpUnit;
         this.onDestroyCallback = onDestroyCallback;
 
         this.healthComponent = new HealthComponent(() => hp, this.onHPChanged.bind(this));
@@ -40,15 +41,13 @@ class XPContainer extends Entity {
     }
 
     spawnXPObject(xpAmount) {
-        const xpStep = 1;
-        
         let leftXPAmount = xpAmount;
         while(leftXPAmount > 0) {
-            const xp = Math.min(leftXPAmount, xpStep);
+            const xp = Math.min(leftXPAmount, this.xpUnit);
             const randomPosition = Random.insideUnitCircle().multiply(SPAWN_RADIUS * this.scale);
             const position = Vector.add(this.position, randomPosition);
 
-            const xpObject = new XPObject(this.world, xp);
+            const xpObject = new XPObject(this.world, xp, Random.range(globalThis.gameConfig.xpObjectLifeTimeMin, globalThis.gameConfig.xpObjectLifeTimeMax + 1));
             xpObject.position = position;
             
             this.world.addEntity(xpObject);

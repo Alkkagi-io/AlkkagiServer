@@ -7,11 +7,12 @@ import { SphereCollider } from '../Collision/Collider/SphereCollider.js';
 const XP_OBJECT_SCALE = 0.3;
 
 class XPObject extends Entity {
-    constructor(world, xpAmount) {
+    constructor(world, xpAmount, lifeTime) {
         super(world);
 
         this.collider = new SphereCollider(this);
         this.scale = XP_OBJECT_SCALE;
+        this.lifeTime = lifeTime;
 
         this.xpAmount = xpAmount; // non-serialzed property
     }
@@ -22,6 +23,13 @@ class XPObject extends Entity {
 
     getEntityType() {
         return EEntityType.XPObject;
+    }
+
+    onUpdate(deltaTime) {
+        this.lifeTime -= deltaTime;
+        if(this.lifeTime <= 0) {
+            this.world.removeEntity(this);
+        }
     }
 
     onCollisionEnter(other) {

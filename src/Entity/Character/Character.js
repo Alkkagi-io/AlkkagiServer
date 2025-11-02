@@ -100,7 +100,7 @@ class Character extends Unit {
             }
 
             for(let i = 0; i < xpCount; i++) {
-                const xpObject = new XPObject(this.world, CHARACTER_XP_DROP_STEP * (i + 1));
+                const xpObject = new XPObject(this.world, CHARACTER_XP_DROP_STEP * (i + 1), Random.range(globalThis.gameConfig.xpObjectLifeTimeMin, globalThis.gameConfig.xpObjectLifeTimeMax + 1));
                 const randomPosition = Random.insideUnitCircle().multiply(CHARACTER_XP_DROP_RADIUS);
                 xpObject.position = Vector.add(this.position, randomPosition);
                 

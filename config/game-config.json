@@ -9,8 +9,10 @@
     "worldUpdateTick": 3,
     "attackChargeThreshold": 0.5,
     "attackChargeLimit": 3,
-    "weightMultiplier": 300,
-    "collideScaleMultiplier": 2.5,
+    "weightMultiplier": 400,
+    "collideScaleMultiplier": 2,
+    "xpObjectLifeTimeMin": 10,
+    "xpObjectLifeTimeMax": 15,
     "viewSize": {
         "width": 48,
         "height": 27
