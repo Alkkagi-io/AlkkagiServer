@@ -8,5 +8,7 @@
     "rankingUpdateTick": 10,
     "worldUpdateTick": 3,
     "attackChargeThreshold": 0.5,
-    "attackChargeLimit": 5
+    "attackChargeLimit": 3,
+    "weightMultiplier": 400,
+    "collideScaleMultiplier": 2
 }

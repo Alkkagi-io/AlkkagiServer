@@ -8,11 +8,11 @@ const Type = {
 };
 
 const DefaultValue = {
-    [Type.WEIGHT]: 100,
+    [Type.WEIGHT]: 1,
     [Type.MAX_HP]: 100,
-    [Type.ATK_COOLTIME]: 1,
-    [Type.POWER]: 50,
-    [Type.MOVE_SPEED]: 2,
+    [Type.ATK_COOLTIME]: 2,
+    [Type.POWER]: 15,
+    [Type.MOVE_SPEED]: 3,
     [Type.AUTO_HEAL]: 0
 };
 

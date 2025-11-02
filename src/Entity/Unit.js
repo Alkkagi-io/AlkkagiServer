@@ -39,8 +39,8 @@ class Unit extends Entity {
             return;
         }
 
-        const weight = this.getWeight();
-        const otherWeight = other.getWeight();
+        const weight = this.getWeight() * globalThis.gameConfig.weightMultiplier;
+        const otherWeight = other.getWeight() * globalThis.gameConfig.weightMultiplier;
 
         if(weight == 0 || otherWeight == 0) {
             return;
@@ -77,7 +77,7 @@ class Unit extends Entity {
         const velocityTangentReflected = velocityTangent;
 
         // Velocity Reflected
-        const velocityReflected = Vector.add(Vector.multiply(normal, velocityNormalReflected), Vector.multiply(tangent, velocityTangentReflected));
+        const velocityReflected = Vector.add(Vector.multiply(normal, velocityNormalReflected), Vector.multiply(tangent, velocityTangentReflected)).multiply(globalThis.gameConfig.collideScaleMultiplier);
 
         this.onCollide(other, contactPoint, normal, velocityReflected);
     }

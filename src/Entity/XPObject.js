@@ -4,11 +4,14 @@ import { Character } from './Character/Character.js';
 import { EEntityType } from '../../AlkkagiShared/Datas/index.js';
 import { SphereCollider } from '../Collision/Collider/SphereCollider.js';
 
+const XP_OBJECT_SCALE = 0.3;
+
 class XPObject extends Entity {
     constructor(world, xpAmount) {
         super(world);
 
         this.collider = new SphereCollider(this);
+        this.scale = XP_OBJECT_SCALE;
 
         this.xpAmount = xpAmount; // non-serialzed property
     }

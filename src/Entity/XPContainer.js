@@ -22,7 +22,7 @@ class XPContainer extends Entity {
     }
 
     getWeight() {
-        return 10000;
+        return this.scale;
     }
 
     getEntityType() {

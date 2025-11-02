@@ -18,6 +18,10 @@ const CHARACTER_XP_DROP_RADIUS = 10;
 
 const CHARACTER_DISSAPEAR_TIME = 1;
 
+const CHARACTER_DEFAULT_SCALE = 0.75;
+
+const CHARACTER_AUTO_HEAL_INTERVAL = 0.1;
+
 class Character extends Unit {
     constructor(world, nickname) {
         super(world);
@@ -31,10 +35,13 @@ class Character extends Unit {
         this.buffManager = new BuffManager(this);
         this.autoHealTimer = 0;
         this.gold = 0;
+
+        this.scale = this._getScaleByWeight(this.statManager.getValue(StatConfig.Type.WEIGHT));
     }
 
     getWeight() {
-        return this.statManager.getValue(StatConfig.Type.WEIGHT);
+        // return this.statManager.getValue(StatConfig.Type.WEIGHT);
+        return this.scale;
     }
 
     onAwake() {
@@ -60,11 +67,11 @@ class Character extends Unit {
         }
 
         this.autoHealTimer += deltaTime;
-        if(this.autoHealTimer >= 1)
+        if(this.autoHealTimer >= CHARACTER_AUTO_HEAL_INTERVAL)
         {
-            this.autoHealTimer = this.autoHealTimer - 1;
+            this.autoHealTimer = this.autoHealTimer - CHARACTER_AUTO_HEAL_INTERVAL;
             if (this.healthComponent) {
-                this.healthComponent.heal(this, this.statManager.getValue(StatConfig.Type.AUTO_HEAL));
+                this.healthComponent.heal(this, this.statManager.getValue(StatConfig.Type.AUTO_HEAL) * CHARACTER_AUTO_HEAL_INTERVAL);
             }
         }
     }
@@ -116,8 +123,14 @@ class Character extends Unit {
         const moveSpeed = this.statManager.getValue(StatConfig.Type.MOVE_SPEED);
         this.moveComponent.setLocomotionVelocity(originMoveDirection, moveSpeed);
 
-        const weightLevel = this.statLevelUpManager.getStatLevelByStatType(StatConfig.Type.WEIGHT);
-        this.scale = 1 + (0.1 * weightLevel);
+        // const weightLevel = this.statLevelUpManager.getStatLevelByStatType(StatConfig.Type.WEIGHT);
+        // this.scale = 1 + (0.1 * weightLevel);
+        const weight = this.statManager.getValue(StatConfig.Type.WEIGHT);
+        this.scale = this._getScaleByWeight(weight);
+    }
+
+    _getScaleByWeight(weight) {
+        return CHARACTER_DEFAULT_SCALE + (weight * 0.1);
     }
 }
 

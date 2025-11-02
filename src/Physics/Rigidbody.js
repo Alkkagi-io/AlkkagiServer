@@ -6,7 +6,7 @@ class Rigidbody {
         this.mass = 1;
         this.k1 = 2.0; // 선형 감쇠(점성 마찰)
         this.k2 = 0.0; // 속도제곱 감쇠(고속 제동)
-        this.maxSpeed = 10;
+        // this.maxSpeed = 10; // maxSpeed는 사용하지 않는다.
         this.velocity = new Vector(0, 0);
         this.force = new Vector(0, 0);
     }
@@ -32,10 +32,11 @@ class Rigidbody {
 
         v.add(Vector.multiply(a, deltaTime));
 
-        const sp = v.getMagnitude();
-        if (sp > this.maxSpeed) {
-            v.multiply(this.maxSpeed / sp);
-        }
+        // maxSpeed는 사용하지 않는다.
+        // const sp = v.getMagnitude();
+        // if (sp > this.maxSpeed) {
+        //     v.multiply(this.maxSpeed / sp);
+        // }
 
         this.entity.position.add(Vector.multiply(v, deltaTime));
 

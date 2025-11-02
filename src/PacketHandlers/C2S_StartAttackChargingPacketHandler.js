@@ -8,6 +8,9 @@ class C2S_StartAttackChargingPacketHandler extends ServerPacketHandler {
 
         const attackComponent = playerHandle.playerEntity.attackComponent;
         attackComponent.startAttackCharging();
+
+
+        playerHandle.playerEntity.healthComponent.damage(playerHandle.playerEntity, 10);
     }
 }
 
