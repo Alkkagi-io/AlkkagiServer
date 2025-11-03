@@ -19,7 +19,7 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
         const isAdmin = this._isAdmin(packet.nickname);
         if(isAdmin) {
             playerEntity.nickname = '알까기';
-            playerEntity.isAdmin = true;
+            playerHandle.isAdmin = true;
         }
         
         const addPlayerPacket = new S2C_AddPlayerPacket(playerEntity);
@@ -39,7 +39,7 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
         }
 
         const viewSize = new Vector(globalThis.gameConfig.viewSize.width, globalThis.gameConfig.viewSize.height);
-        if(playerEntity.isAdmin) {
+        if(playerHandle.isAdmin) {
             viewSize.multiply(3);
         }
 

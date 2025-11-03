@@ -38,7 +38,7 @@ class WorldNetworkUpdatorSystem extends System {
             if (!client.playerHandle)
                 return;
 
-            const AABB = this._getEntityViewAABB(client.playerHandle.getEntityPosition());
+            const AABB = this._getEntityViewAABB(client.playerHandle.getEntityPosition(), client.playerHandle.isAdmin);
             const { appearedEntities, nearbyEntities, disappearedEntities } = client.playerHandle.updateVisibleEntities(AABB);
 
             const packet = new S2C_UpdateWorldPacket(elapsedMS, client.playerHandle.playerEntity, appearedEntities, nearbyEntities, disappearedEntities);
@@ -49,9 +49,14 @@ class WorldNetworkUpdatorSystem extends System {
         // globalThis.logger.debug('WorldNetworkUpdatorSystem', `elapsedMS: ${elapsedMS}`);
     }
 
-    _getEntityViewAABB(position) {
-        const hw = globalThis.gameConfig.viewSize.width / 2 + globalThis.gameConfig.viewOffset.x;
-        const hh = globalThis.gameConfig.viewSize.height / 2 + globalThis.gameConfig.viewOffset.y;
+    _getEntityViewAABB(position, isAdmin) {
+        let hw = globalThis.gameConfig.viewSize.width / 2 + globalThis.gameConfig.viewOffset.x;
+        let hh = globalThis.gameConfig.viewSize.height / 2 + globalThis.gameConfig.viewOffset.y;
+
+        if (isAdmin) {
+            hw *= 3;
+            hh *= 3;
+        }
 
         return {
             minX: position.x - hw,
