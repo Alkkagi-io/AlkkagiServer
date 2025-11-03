@@ -32,7 +32,7 @@ class BotPlayerAttackState extends FSMState {
         }
         
         this.timer += deltaTime;
-        if(this.timer >= 1) {
+        if(this.timer >= 2.5) {
             this.brain.setAsDefaultState();
             return;
         }
