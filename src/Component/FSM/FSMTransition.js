@@ -1,27 +1,30 @@
 class FSMTransition {
-    constructor(targetState) {
+    constructor(targetState, decisions) {
         this.brain = null;
         this.currentState = null;
         this.targetState = targetState;
-        this.isReverse = false;
+        this.decisions = decisions;
     }
 
     initialize(brain, currentState) {
         this.brain = brain;
         this.currentState = currentState;
+        for(const decision of this.decisions) {
+            decision.initialize(brain, this);
+        }
     }
 
     isTriggered() {
+        for(const decision of this.decisions) {
+            if(decision.decide() == false)
+                return false;
+        }
+
         return true;
     }
 
     getTargetState() {
         return this.targetState;
-    }
-    
-    setReverse(reverse) {
-        this.isReverse = reverse;
-        return this;
     }
 }
 

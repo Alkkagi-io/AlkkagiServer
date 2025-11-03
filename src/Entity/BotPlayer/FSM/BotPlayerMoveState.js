@@ -4,7 +4,7 @@ import { FSMState } from '../../../Component/FSM/index.js';
 
 const UPDATE_INTERVAL = 0.5;
 const DIRECTION_CHANGE_INTERVAL = 0.25;
-const TIGHT_CHASE_RADIUS = 10;
+const TIGHT_CHASE_RADIUS = 30;
 const SIMILARITY_THRESHOLD = 0.700; // cos(sqrt(2)/2) => 0.707 (45도. 8방향중 인접하다면 방향을 바꾸지 않는다.)
 
 const DIRECTIONS = [
@@ -19,11 +19,12 @@ const DIRECTIONS = [
 ];
 
 class BotPlayerMoveState extends FSMState {
-    constructor() {
+    constructor(keepingDistanceProvider) {
         super();
         this.timer = 0;
         this.lastDirectionIndex = 0;
         this.lastDirectionChangeTime = 0;
+        this.keepingDistanceProvider = keepingDistanceProvider;
     }
 
     onEnterState() {
@@ -59,7 +60,12 @@ class BotPlayerMoveState extends FSMState {
         }
     
         const targetDirection = Vector.subtract(target.position, owner.position);
-        const normalizedTargetDirection = targetDirection.normalize();
+        const normalizedTargetDirection = Vector.normalize(targetDirection);
+
+        const keepingDistance = this.keepingDistanceProvider(target);
+        if(keepingDistance > 0 && targetDirection.getSqrMagnitude() < keepingDistance * keepingDistance) {
+            normalizedTargetDirection.multiply(-1);
+        }
 
         const currentDirectionIndex = this._getSimilarDirectionIndex(normalizedTargetDirection);
         let currentDirection = DIRECTIONS[currentDirectionIndex];

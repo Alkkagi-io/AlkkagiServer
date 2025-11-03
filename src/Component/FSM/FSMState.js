@@ -1,11 +1,15 @@
+import { FSMTransition } from './FSMTransition.js';
+
 class FSMState {
     constructor() {
         this.brain = null;
         this.transitions = [];
     }
 
-    addTransition(transition) {
+    addTransition(targetState, decisions) {
+        const transition = new FSMTransition(targetState, decisions);
         this.transitions.push(transition);
+        return transition;
     }
 
     initialize(brain) {
@@ -29,7 +33,7 @@ class FSMState {
 
         for(const transition of this.transitions) {
             const isTriggered = transition.isTriggered();
-            if(isTriggered == transition.isReverse)
+            if(isTriggered == false)
                 continue;
 
             this.brain.changeState(transition.getTargetState());

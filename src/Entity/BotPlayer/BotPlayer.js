@@ -1,7 +1,8 @@
 import { FSMBrain } from '../../Component/FSM/index.js';
 import { EEntityType } from '../../../AlkkagiShared/Datas/index.js';
-import { BotPlayerAIData, BotPlayerIdleState, BotPlayerMoveState, BotPlayerAttackState, BotPlayerTargetConditionTransition } from './FSM/index.js';
+import { BotPlayerAIData, BotPlayerIdleState, BotPlayerMoveState, BotPlayerAttackState, BotPlayerTargetConditionDecision, BotPlayerMoveStateDecision } from './FSM/index.js';
 import { Character } from '../Character/Character.js';
+import { EMoveState } from '../../Component/index.js';
 
 class BotPlayer extends Character {
     constructor(world, nickname, onDestroyedCallback) {
@@ -29,20 +30,40 @@ class BotPlayer extends Character {
         const fsmBrain = new FSMBrain();
 
         const idleState = new BotPlayerIdleState();
-        const moveState = new BotPlayerMoveState();
+        const moveState = new BotPlayerMoveState((target) => {
+            switch(target.getEntityType()) {
+                case EEntityType.XPObject:
+                    return -1;
+                default: 
+                    return 5 + target.scale * 0.5;
+            }
+        });
         const attackState = new BotPlayerAttackState(moveState);
 
-        idleState.addTransition(new BotPlayerTargetConditionTransition(moveState, null));
+        idleState.addTransition(moveState, [new BotPlayerTargetConditionDecision(null, null)]);
 
-        moveState.addTransition(new BotPlayerTargetConditionTransition(idleState, null).setReverse(true)); 
-        moveState.addTransition(new BotPlayerTargetConditionTransition(attackState, (target) => {
-            switch(target.getEntityType()) {
-                case EEntityType.XPObject: // xp object는 끝까지 붙는다.
-                    return -1;
-                default: // 나머지는 공격대상 어느정도 거리가 있으면 공격태세
-                    return 15;
-            }
-        }));
+        moveState.addTransition(idleState, [new BotPlayerTargetConditionDecision(null, null).setReverse(true)]); 
+        moveState.addTransition(attackState, [
+            new BotPlayerTargetConditionDecision(
+                (target) => {
+                    switch(target.getEntityType()) {
+                        case EEntityType.XPObject:
+                            return -1;
+                        default:
+                            return 10 + target.scale * 0.5;
+                    }
+                },
+                (target) => {
+                    switch(target.getEntityType()) {
+                        case EEntityType.XPObject:
+                            return -1;
+                        default:
+                            return 5 + target.scale * 0.5;
+                    }
+                },
+            ),
+            new BotPlayerMoveStateDecision(EMoveState.Propelled).setReverse(true)
+        ]);
 
         fsmBrain.aiData = new BotPlayerAIData(this, this.world);
         fsmBrain.initialize(idleState, [idleState, moveState, attackState]);

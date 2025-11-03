@@ -12,6 +12,7 @@ class BotPlayerAttackState extends FSMState {
     onEnterState() {
         super.onEnterState();
         this.brain.aiData.owner.attackComponent.startAttackCharging();
+        this.brain.aiData.owner.moveComponent.setLocomotionVelocity(Vector.Zero(), 0);
         this.timer = 0;
     }
 
