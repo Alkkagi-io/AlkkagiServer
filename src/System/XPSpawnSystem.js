@@ -92,7 +92,7 @@ class XPSpawnSystem extends System {
 
     getRandomPosition(slotIndex) {
         const position = this.config.positionList[slotIndex];
-        const jitter = Vector.multiply(Vector.One(), Random.range(-3, 3));
+        const jitter = Vector.multiply(Vector.One(), Random.range(-1.5, 1.5));
 
         return Vector.add(new Vector(position.x, position.y), jitter);
     }
