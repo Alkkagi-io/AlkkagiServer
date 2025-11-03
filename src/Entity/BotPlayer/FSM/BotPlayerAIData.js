@@ -7,7 +7,7 @@ class BotPlayerAIData {
         this.world = world;
         this.options = options || { 
             sight: 30,
-            characterDetectRadius: 30
+            characterDetectRadius: 20
         };
         this.currentTargetEntityID = -1;
     }
