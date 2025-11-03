@@ -59,12 +59,12 @@ class BotPlayerIdleState extends FSMState {
         const options = aiData.options;
         const world = aiData.world;
 
-        if(aiData.currentTargetEntityID != -1) {
-            const currentTargetEntity = world.getEntity(aiData.currentTargetEntityID);
-            if(currentTargetEntity != null) {
-                return;
-            }
-        }
+        // if(aiData.currentTargetEntityID != -1) {
+        //     const currentTargetEntity = world.getEntity(aiData.currentTargetEntityID);
+        //     if(currentTargetEntity != null) {
+        //         return;
+        //     }
+        // }
 
         const AABB = {
             minX: aiData.owner.position.x - options.sight * 0.5,
