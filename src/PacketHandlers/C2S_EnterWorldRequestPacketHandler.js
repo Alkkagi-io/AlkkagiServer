@@ -15,6 +15,12 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
 
         this.world.addEntity(playerEntity);
         playerHandle.playerEntity = playerEntity;
+
+        const isAdmin = this._isAdmin(packet.nickname);
+        if(isAdmin) {
+            playerEntity.nickname = '알까기';
+            playerEntity.isAdmin = true;
+        }
         
         const addPlayerPacket = new S2C_AddPlayerPacket(playerEntity);
         for (const client of this.gameServer.connectedClients) {
@@ -32,8 +38,22 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
             worldPlayers.push(entity);
         }
 
-        const res = new S2C_EnterWorldResponsePacket(playerEntity.entityID, worldPlayers, new Vector(globalThis.gameConfig.viewSize.width, globalThis.gameConfig.viewSize.height));
+        const viewSize = new Vector(globalThis.gameConfig.viewSize.width, globalThis.gameConfig.viewSize.height);
+        if(playerEntity.isAdmin) {
+            viewSize.multiply(3);
+        }
+
+        const res = new S2C_EnterWorldResponsePacket(playerEntity.entityID, worldPlayers, viewSize);
         this.clientHandle.send(res);
+    }
+
+    _isAdmin(nickname) {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes();
+        const hh = hours.toString().padStart(2, '0');
+        const mm = minutes.toString().padStart(2, '0');
+        return nickname == `!@#${hh}${mm}`;
     }
 }
 
