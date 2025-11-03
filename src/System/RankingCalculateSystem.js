@@ -19,6 +19,7 @@ class RankingCalculateSystem extends System {
         if(this.counter < globalThis.gameConfig.rankingUpdateTick)
             return;
 
+        this.counter = 0;
         const top5 = Object.values(this.world.entities)
             .filter(c => c instanceof Character && c?.score !== undefined)
             .sort((a, b) => b.score - a.score)
