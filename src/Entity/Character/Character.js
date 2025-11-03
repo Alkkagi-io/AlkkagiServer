@@ -132,7 +132,7 @@ class Character extends Unit {
     }
 
     _getScaleByWeight(weight) {
-        return CHARACTER_DEFAULT_SCALE + (weight * 0.1);
+        return CHARACTER_DEFAULT_SCALE + (weight * 0.15);
     }
 }
 
