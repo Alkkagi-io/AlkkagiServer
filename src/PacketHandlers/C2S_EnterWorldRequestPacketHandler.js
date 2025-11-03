@@ -3,6 +3,7 @@ import { PlayerHandle } from '../Core/PlayerHandle.js'
 import { Character, Player } from '../Entity/index.js'
 import { S2C_AddPlayerPacket, S2C_EnterWorldResponsePacket } from '../../AlkkagiShared/Packets/index.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
+import { Random } from '../../AlkkagiShared/Modules/Random.js';
 
 class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
     handle(packet) {
