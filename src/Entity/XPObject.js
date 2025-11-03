@@ -11,10 +11,11 @@ class XPObject extends Entity {
         super(world);
 
         this.collider = new SphereCollider(this);
-        this.scale = XP_OBJECT_SCALE;
         this.lifeTime = lifeTime;
-
+        
         this.xpAmount = xpAmount; // non-serialzed property
+        
+        this.scale = XP_OBJECT_SCALE + 0.02 * xpAmount;
     }
 
     getWeight() {
