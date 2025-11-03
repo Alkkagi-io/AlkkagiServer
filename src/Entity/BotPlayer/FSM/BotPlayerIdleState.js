@@ -5,6 +5,7 @@ import { StatConfig } from '../../../../AlkkagiShared/Configs/StatConfig.js';
 import { Random } from '../../../../AlkkagiShared/Modules/Random.js';
 
 const UPDATE_INTERVAL = 1;
+const TARGET_DETECTION_INTERVAL = 2;
 
 // patrolling
 class BotPlayerIdleState extends FSMState {
@@ -12,6 +13,7 @@ class BotPlayerIdleState extends FSMState {
         super();
         this.timer = 0;
         this.isRedirectioned = false;
+        this.lastTargetDetectionTime = Date.now();
     }
 
     onEnterState() {
@@ -59,12 +61,15 @@ class BotPlayerIdleState extends FSMState {
         const options = aiData.options;
         const world = aiData.world;
 
-        // if(aiData.currentTargetEntityID != -1) {
-        //     const currentTargetEntity = world.getEntity(aiData.currentTargetEntityID);
-        //     if(currentTargetEntity != null) {
-        //         return;
-        //     }
-        // }
+        const currentTime = Date.now();
+        if(currentTime - this.lastTargetDetectionTime < TARGET_DETECTION_INTERVAL * 1000) {
+            if(aiData.currentTargetEntityID != -1) {
+                const currentTargetEntity = world.getEntity(aiData.currentTargetEntityID);
+                if(currentTargetEntity != null) {
+                    return;
+                }
+            }
+        }
 
         const AABB = {
             minX: aiData.owner.position.x - options.sight * 0.5,
@@ -112,6 +117,7 @@ class BotPlayerIdleState extends FSMState {
         
         if(targetEntities.length > 0) {
             aiData.currentTargetEntityID = targetEntities[0].getID();
+            this.lastTargetDetectionTime = currentTime;
         }
     }
 }
