@@ -9,7 +9,8 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
         const playerHandle = this.clientHandle.playerHandle;
         const playerEntity = new Player(this.world, this.clientHandle, packet.nickname, playerHandle.handlePlayerEntityDestroyed.bind(playerHandle));
 
-        playerEntity.position = new Vector(Math.random() * gameConfig.worldWith, Math.random() * gameConfig.worldHeight);
+        // playerEntity.position = new Vector(Math.random() * gameConfig.worldWith, Math.random() * gameConfig.worldHeight);
+        playerEntity.position = new Vector(Random.range(-globalThis.gameConfig.worldWidth * 0.5, globalThis.gameConfig.worldWidth * 0.5), Random.range(-globalThis.gameConfig.worldHeight * 0.5, globalThis.gameConfig.worldHeight * 0.5));
 
         this.world.addEntity(playerEntity);
         playerHandle.playerEntity = playerEntity;
