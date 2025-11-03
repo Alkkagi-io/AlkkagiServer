@@ -60,6 +60,11 @@ class GameServer {
             // this.expressApp.options('*', cors(this.serverOptions.cors));
         }
 
+        this.expressApp.use((req, res, next) => {
+            res.setHeader('Permissions-Policy', 'xr-spatial-tracking=(self)');
+            next();
+        });
+
         const key = this.serverOptions.keyPath ? fs.readFileSync(this.serverOptions.keyPath, 'utf8') : null;
         const cert = this.serverOptions.certPath ? fs.readFileSync(this.serverOptions.certPath, 'utf8') : null;
 
