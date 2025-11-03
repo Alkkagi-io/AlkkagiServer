@@ -22,6 +22,18 @@ class StatLevelUpManager {
         return true;
     }
 
+    setLevel(levelUpType, level) {
+        const res = ResourceStatLevelUp.get(levelUpType);
+        if(res == null)
+            return false;
+
+        if (this.levels[levelUpType] >= res.maxLevel)
+            return false;
+
+        this.levels[levelUpType] = level;
+        return true;
+    }
+
     getStatLevelByStatType(statType) {
         const res = ResourceStatLevelUp.getByStatType(statType);
         if(res == null)
