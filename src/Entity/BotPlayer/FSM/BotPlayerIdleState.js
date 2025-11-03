@@ -3,6 +3,7 @@ import { FSMState } from '../../../Component/FSM/index.js';
 import { Vector } from '../../../../AlkkagiShared/Modules/Vector.js';
 import { StatConfig } from '../../../../AlkkagiShared/Configs/StatConfig.js';
 import { Random } from '../../../../AlkkagiShared/Modules/Random.js';
+import { EMoveState } from '../../../Component/index.js';
 
 const UPDATE_INTERVAL = 1;
 
@@ -24,6 +25,9 @@ class BotPlayerIdleState extends FSMState {
 
     onUpdateState(deltaTime) {
         super.onUpdateState(deltaTime);
+
+        if(this.brain.aiData.owner.moveComponent.moveState == EMoveState.Propelled)
+            return;
 
         this.timer -= deltaTime;
         if(this.timer > 0)
