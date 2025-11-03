@@ -14,7 +14,8 @@ import { CharacterWallet } from './CharacterWallet.js';
 import { Random } from '../../../AlkkagiShared/Modules/Random.js';
 
 const CHARACTER_XP_DROP_STEP = 10;
-const CHARACTER_XP_DROP_RADIUS = 10;
+const CHARACTER_XP_DROP_INNER_RADIUS = 10;
+const CHARACTER_XP_DROP_OUTER_RADIUS = 30;
 
 const CHARACTER_DISSAPEAR_TIME = 1;
 
@@ -94,7 +95,7 @@ class Character extends Unit {
             this.enabled = false;
             setTimeout(() => this.world.removeEntity(this), CHARACTER_DISSAPEAR_TIME * 1000);
 
-            const xpUnit = Math.floor(Math.log10(this.levelComponent.xpAmount)) + 1;
+            const xpUnit = Math.pow(10, Math.floor(Math.log10(this.levelComponent.xpAmount)) + 1);
             let xpCount = Math.floor(this.levelComponent.xpAmount / xpUnit);
             if(this.levelComponent.xpAmount % xpUnit >= xpUnit * 0.5) {
                 xpCount++;
@@ -102,7 +103,7 @@ class Character extends Unit {
 
             for(let i = 0; i < xpCount; i++) {
                 const xpObject = new XPObject(this.world, xpUnit, Random.range(globalThis.gameConfig.xpObjectLifeTimeMin, globalThis.gameConfig.xpObjectLifeTimeMax + 1));
-                const randomPosition = Random.insideUnitCircle().multiply(CHARACTER_XP_DROP_RADIUS);
+                const randomPosition = Random.insideUnitCircle().multiply(Random.range(CHARACTER_XP_DROP_INNER_RADIUS, CHARACTER_XP_DROP_OUTER_RADIUS));
                 xpObject.position = Vector.add(this.position, randomPosition);
                 
                 this.world.addEntity(xpObject);
