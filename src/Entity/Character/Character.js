@@ -94,13 +94,14 @@ class Character extends Unit {
             this.enabled = false;
             setTimeout(() => this.world.removeEntity(this), CHARACTER_DISSAPEAR_TIME * 1000);
 
-            let xpCount = Math.floor(this.levelComponent.xpAmount / CHARACTER_XP_DROP_STEP);
-            if(this.levelComponent.xpAmount % CHARACTER_XP_DROP_STEP >= CHARACTER_XP_DROP_STEP * 0.5) {
+            const xpUnit = Math.floor(Math.log10(this.levelComponent.xpAmount)) + 1;
+            let xpCount = Math.floor(this.levelComponent.xpAmount / xpUnit);
+            if(this.levelComponent.xpAmount % xpUnit >= xpUnit * 0.5) {
                 xpCount++;
             }
 
             for(let i = 0; i < xpCount; i++) {
-                const xpObject = new XPObject(this.world, CHARACTER_XP_DROP_STEP, Random.range(globalThis.gameConfig.xpObjectLifeTimeMin, globalThis.gameConfig.xpObjectLifeTimeMax + 1));
+                const xpObject = new XPObject(this.world, xpUnit, Random.range(globalThis.gameConfig.xpObjectLifeTimeMin, globalThis.gameConfig.xpObjectLifeTimeMax + 1));
                 const randomPosition = Random.insideUnitCircle().multiply(CHARACTER_XP_DROP_RADIUS);
                 xpObject.position = Vector.add(this.position, randomPosition);
                 
