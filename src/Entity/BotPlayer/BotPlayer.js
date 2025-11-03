@@ -6,6 +6,8 @@ import { EMoveState } from '../../Component/index.js';
 import { Random } from '../../../AlkkagiShared/Modules/Random.js';
 
 const generateLevel = 15;
+const TARGET_SCORE_MIN = 2000;
+const TARGET_SCORE_MAX = 3000;
 
 class BotPlayer extends Character {
     constructor(world, nickname, onDestroyedCallback) {
@@ -13,6 +15,7 @@ class BotPlayer extends Character {
 
         this.fsmBrain = this._buildFSM();
         this.onDestroyedCallback = onDestroyedCallback;
+        this.targetScore = Random.rangeInt(TARGET_SCORE_MIN, TARGET_SCORE_MAX + 1);
     }
 
     getEntityType() {
@@ -51,6 +54,13 @@ class BotPlayer extends Character {
     onDestroy() {
         super.onDestroy();
         this.onDestroyedCallback?.(this);
+    }
+
+    onGainXP(prevXP, currentXP) {
+        super.onGainXP(prevXP, currentXP);
+        if (this.score >= this.targetScore) {
+            this.world.removeEntity(this);
+        }
     }
 
     _buildFSM() {
