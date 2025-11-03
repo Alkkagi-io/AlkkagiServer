@@ -8,7 +8,9 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
     handle(packet) {
         const playerHandle = this.clientHandle.playerHandle;
         const playerEntity = new Player(this.world, this.clientHandle, packet.nickname, playerHandle.handlePlayerEntityDestroyed.bind(playerHandle));
-    
+
+        playerEntity.position = new Vector(Math.random() * gameConfig.worldWith, Math.random() * gameConfig.worldHeight);
+
         this.world.addEntity(playerEntity);
         playerHandle.playerEntity = playerEntity;
         
