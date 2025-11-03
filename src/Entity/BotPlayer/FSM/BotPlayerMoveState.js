@@ -1,13 +1,11 @@
 import { StatConfig } from '../../../../AlkkagiShared/Configs/StatConfig.js';
 import { Vector } from '../../../../AlkkagiShared/Modules/Vector.js';
 import { FSMState } from '../../../Component/FSM/index.js';
-import { EMoveState } from '../../../Component/index.js';
 
 const UPDATE_INTERVAL = 0.5;
 const DIRECTION_CHANGE_INTERVAL = 0.25;
-const TIGHT_CHASE_RADIUS = 15;
+const TIGHT_CHASE_RADIUS = 10;
 const SIMILARITY_THRESHOLD = 0.700; // cos(sqrt(2)/2) => 0.707 (45도. 8방향중 인접하다면 방향을 바꾸지 않는다.)
-const TARGET_MIN_DISTANCE = 10;
 
 const DIRECTIONS = [
     Vector.Up(),
@@ -36,9 +34,6 @@ class BotPlayerMoveState extends FSMState {
     onUpdateState(deltaTime) {
         super.onUpdateState(deltaTime);
         
-        if(this.brain.aiData.owner.moveComponent.moveState == EMoveState.Propelled)
-            return;
-
         this.timer -= deltaTime;
 
         // 로봇처럼 방향을 확확 바꾸는 걸 방지하기 위해 인터벌을 걸자.
@@ -62,12 +57,8 @@ class BotPlayerMoveState extends FSMState {
             this.brain.setAsDefaultState();
             return;
         }
-
-        let targetDirection = Vector.subtract(target.position, owner.position);
-        if(targetDirection.getSqrMagnitude() < TARGET_MIN_DISTANCE * TARGET_MIN_DISTANCE) {
-            targetDirection.multiply(-1);
-        }
-
+    
+        const targetDirection = Vector.subtract(target.position, owner.position);
         const normalizedTargetDirection = targetDirection.normalize();
 
         const currentDirectionIndex = this._getSimilarDirectionIndex(normalizedTargetDirection);
