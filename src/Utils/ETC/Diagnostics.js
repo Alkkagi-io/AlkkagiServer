@@ -67,6 +67,10 @@ class Diagnostics {
         Diagnostics._clientNetworkUsageMap.clear();
         Diagnostics._packetNetworkUsageMap.clear();
     }
+
+    static logConnectionCount(gameServer) {
+        globalThis.logger.info('Diagnostics::ConnectionCount', `Connections: ${gameServer.connectedClients.size}`);
+    }
 }
 
 export { Diagnostics };
