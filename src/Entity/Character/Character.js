@@ -95,7 +95,7 @@ class Character extends Unit {
             this.enabled = false;
             setTimeout(() => this.world.removeEntity(this), CHARACTER_DISSAPEAR_TIME * 1000);
 
-            const xpUnit = Math.pow(10, Math.floor(Math.log10(this.levelComponent.xpAmount)) + 1);
+            const xpUnit = Math.pow(10, Math.floor(Math.log10(this.levelComponent.xpAmount)));
             let xpCount = Math.floor(this.levelComponent.xpAmount / xpUnit);
             if(this.levelComponent.xpAmount % xpUnit >= xpUnit * 0.5) {
                 xpCount++;

@@ -5,6 +5,7 @@ import { EEntityType } from '../../AlkkagiShared/Datas/index.js';
 import { SphereCollider } from '../Collision/Collider/SphereCollider.js';
 
 const XP_OBJECT_SCALE = 0.3;
+const XP_OBJECT_SCALE_MAX = 0.65;
 
 class XPObject extends Entity {
     constructor(world, xpAmount, lifeTime) {
@@ -15,7 +16,7 @@ class XPObject extends Entity {
         
         this.xpAmount = xpAmount; // non-serialzed property
         
-        this.scale = XP_OBJECT_SCALE + 0.02 * xpAmount;
+        this.scale = Math.min(XP_OBJECT_SCALE + 0.02 * xpAmount, XP_OBJECT_SCALE_MAX);
     }
 
     getWeight() {
