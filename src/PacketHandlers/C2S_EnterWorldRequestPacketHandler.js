@@ -29,8 +29,7 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
             if (!client.playerHandle || client.playerHandle == playerHandle)
                 continue;
             
-            client.send(buffer);
-            Diagnostics.recordNetworkSendTraffic(client, addPlayerPacket, buffer.byteLength / 1024);
+            client.send(buffer, addPlayerPacket.constructor.name);
         }
 
         const worldPlayers = [];        

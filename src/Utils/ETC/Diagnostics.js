@@ -19,12 +19,12 @@ class Diagnostics {
     static _clientNetworkUsageMap = new Map();
     static _packetNetworkUsageMap = new Map();
     static _lastLogTime = Date.now();
-    static recordNetworkSendTraffic(clientHandle, packet, sizeKB) {
+    static recordNetworkSendTraffic(clientHandle, packetType, sizeKB) {
         const currentUsage = Diagnostics._clientNetworkUsageMap.get(clientHandle.clientID) ?? 0;
         Diagnostics._clientNetworkUsageMap.set(clientHandle.clientID, currentUsage + sizeKB);
         
-        const currentPacketUsage = Diagnostics._packetNetworkUsageMap.get(packet.constructor.name) ?? 0;
-        Diagnostics._packetNetworkUsageMap.set(packet.constructor.name, currentPacketUsage + sizeKB);
+        const currentPacketUsage = Diagnostics._packetNetworkUsageMap.get(packetType) ?? 0;
+        Diagnostics._packetNetworkUsageMap.set(packetType, currentPacketUsage + sizeKB);
     }
 
     static logNetworkSendTraffic() {

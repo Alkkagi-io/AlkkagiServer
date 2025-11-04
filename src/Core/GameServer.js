@@ -73,7 +73,7 @@ class GameServer {
 
         // regist socket server event
         this.socketServer.on('connection', (socket, req) => {
-            globalThis.logger.info('GameServer', 'Socket connection established');
+            globalThis.logger.info('GameServer', `Socket connection established.`);
             this.handleServerConnection(socket, req);
         });
 
@@ -118,7 +118,7 @@ class GameServer {
 
     handleServerConnection(socket, request) {
         if(this.connectedClients.size >= this.serverOptions.maxConnections) {
-            globalThis.logger.info('GameServer', 'Max connections reached. Connection rejected.');
+            globalThis.logger.info('GameServer', `Max connections reached. Connection rejected. Connections: ${this.connectedClients.size}`);
             socket.close();
             return;
         }
@@ -128,11 +128,11 @@ class GameServer {
 
         clientHandle.on('disconnect', () => {
             this.connectedClients.delete(clientHandle);
-            globalThis.logger.info('GameServer', 'Client disconnected');
+            globalThis.logger.info('GameServer', `Client disconnected. Connections: ${this.connectedClients.size}`);
         });
 
         this.connectedClients.add(clientHandle);
-        globalThis.logger.info('GameServer', 'Client connected');
+        globalThis.logger.info('GameServer', `Client connected. Connections: ${this.connectedClients.size}`);
 
         // return response about connected successfully
         clientHandle.send(new MessagePacket('Connected successfully'));

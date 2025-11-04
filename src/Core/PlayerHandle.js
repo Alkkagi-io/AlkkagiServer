@@ -76,8 +76,7 @@ class PlayerHandle {
             if (!client.PlayerHandle || client.PlayerHandle == this)
                 continue;
 
-            client.send(buffer);
-            Diagnostics.recordNetworkSendTraffic(client, removePlayerPacket, buffer.byteLength / 1024);
+            client.send(buffer, removePlayerPacket.constructor.name);
         }
     }
 }

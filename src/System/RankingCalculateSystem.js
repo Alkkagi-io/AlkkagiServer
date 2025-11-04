@@ -32,8 +32,7 @@ class RankingCalculateSystem extends System {
             if (!client.playerHandle)
                 return;
 
-            client.send(buffer);
-            Diagnostics.recordNetworkSendTraffic(client, packet, buffer.byteLength / 1024);
+            client.send(buffer, packet.constructor.name);
         });
     }    
 }

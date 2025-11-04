@@ -26,8 +26,8 @@ const worldOptions = createWorldOptions(path.join(process.cwd(), 'config', 'worl
 const world = new World(worldOptions);
 
 // create game server
-const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.local.json'));
-// const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.seh00n.json'));
+// const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.local.json'));
+const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.seh00n.json'));
 // const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.live.json'));
 const gameServer = new GameServer(serverOptions, world);
 
@@ -55,6 +55,7 @@ gameServer
     })
     .app(app => {
         app.get('/data/:filename', (req, res) => {
+            globalThis.logger.info('GameServer', `GET /data/: ${req.params.filename}`);
             const { filename } = req.params;
         
             if (filename.includes('..')) {
@@ -71,6 +72,8 @@ gameServer
     })
     .app(app => {
         app.get('/sharedbundle', (req, res) => {
+            globalThis.logger.info('GameServer', `GET /sharedbundle`);
+
             const filePath = path.join(process.cwd(), 'AlkkagiShared', 'Output', 'SharedBundle.js');
             res.sendFile(filePath, (err) => {
                 if (err) {

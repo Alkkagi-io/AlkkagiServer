@@ -137,22 +137,24 @@ class BotPlayerSpawnSystem extends System {
             this.world.addEntity(botPlayer);
 
             const addPlayerPacket = new S2C_AddPlayerPacket(botPlayer);
+            const addPlayerPacketBuffer = addPlayerPacket.serialize();
             for (const client of this.gameServer.connectedClients) {
                 if (!client.playerHandle)
                     continue;
             
-                client.send(addPlayerPacket);
+                client.send(addPlayerPacketBuffer, addPlayerPacket.constructor.name);
             }
         }, delayMilliseconds);
     }
 
     onBotPlayerDead(entity) {
         const removePlayerPacket = new S2C_RemovePlayerPacket(entity.entityID);
+        const removePlayerPacketBuffer = removePlayerPacket.serialize();
         for (const client of this.gameServer.connectedClients) {
             if (!client.playerHandle)
                 continue;
             
-            client.send(removePlayerPacket);
+            client.send(removePlayerPacketBuffer, removePlayerPacket.constructor.name);
         }
         this.spawnBotPlayer();
     }
