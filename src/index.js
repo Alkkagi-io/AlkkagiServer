@@ -55,7 +55,7 @@ gameServer
     })
     .app(app => {
         app.get('/data/:filename', (req, res) => {
-            globalThis.logger.info('GameServer', `GET /data/: ${req.params.filename}`);
+            globalThis.logger.info('GameServer', `GET /data/${req.params.filename}`);
             const { filename } = req.params;
         
             if (filename.includes('..')) {
