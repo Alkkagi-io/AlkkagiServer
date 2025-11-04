@@ -53,7 +53,7 @@ class BotPlayerIdleState extends FSMState {
     }
 
     _redirection() {
-        this.brain.aiData.owner.moveComponent.setLocomotionVelocity(Random.direction(), this.brain.aiData.owner.statManager.getValue(StatConfig.Type.MOVE_SPEED) * 5);
+        this.brain.aiData.owner.moveComponent.setLocomotionVelocity(Random.direction(), this.brain.aiData.owner.statManager.getValue(StatConfig.Type.MOVE_SPEED));
     }
 
     _findTarget() {

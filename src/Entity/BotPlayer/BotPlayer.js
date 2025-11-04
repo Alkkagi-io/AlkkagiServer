@@ -5,7 +5,7 @@ import { Character } from '../Character/Character.js';
 import { EMoveState } from '../../Component/index.js';
 import { Random } from '../../../AlkkagiShared/Modules/Random.js';
 
-const generateLevel = 15;
+const generateLevel = 11;
 const TARGET_SCORE_MIN = 2000;
 const TARGET_SCORE_MAX = 3000;
 
@@ -72,7 +72,7 @@ class BotPlayer extends Character {
                 case EEntityType.XPObject:
                     return -1;
                 default: 
-                    return 5 + target.scale * 0.5;
+                    return 4 + target.scale * 0.5 + this.scale * 0.5;
             }
         });
         const attackState = new BotPlayerAttackState(moveState);
@@ -87,7 +87,7 @@ class BotPlayer extends Character {
                         case EEntityType.XPObject:
                             return -1;
                         default:
-                            return 10 + target.scale * 0.5;
+                            return 8 + target.scale * 0.5 + this.scale * 0.5;
                     }
                 },
                 (target) => {
@@ -95,7 +95,7 @@ class BotPlayer extends Character {
                         case EEntityType.XPObject:
                             return -1;
                         default:
-                            return 5 + target.scale * 0.5;
+                            return 4 + target.scale * 0.5 + this.scale * 0.5;
                     }
                 },
             ),
