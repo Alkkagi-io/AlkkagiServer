@@ -4,6 +4,7 @@ import { Character, Player } from '../Entity/index.js'
 import { S2C_AddPlayerPacket, S2C_EnterWorldResponsePacket } from '../../AlkkagiShared/Packets/index.js';
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { Random } from '../../AlkkagiShared/Modules/Random.js';
+import { Diagnostics } from '../Utils/ETC/Diagnostics.js';
 
 class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
     handle(packet) {
@@ -23,11 +24,13 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
         }
         
         const addPlayerPacket = new S2C_AddPlayerPacket(playerEntity);
+        const buffer = addPlayerPacket.serialize();
         for (const client of this.gameServer.connectedClients) {
             if (!client.playerHandle || client.playerHandle == playerHandle)
                 continue;
             
-            client.send(addPlayerPacket);
+            client.send(buffer);
+            Diagnostics.recordNetworkSendTraffic(client, addPlayerPacket, buffer.byteLength / 1024);
         }
 
         const worldPlayers = [];        

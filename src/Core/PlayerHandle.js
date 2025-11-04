@@ -1,5 +1,6 @@
 import { Vector } from '../../AlkkagiShared/Modules/Vector.js';
 import { S2C_RemovePlayerPacket } from '../../AlkkagiShared/Packets/S2C_RemovePlayerPacket.js';
+import { Diagnostics } from '../Utils/ETC/Diagnostics.js';
 
 class PlayerHandle {
     constructor(gameServer, world, clientHandle) {
@@ -69,12 +70,14 @@ class PlayerHandle {
 
     broadcastRemovePlayerEntity() {
         const removePlayerPacket = new S2C_RemovePlayerPacket(this.playerEntity.entityID);
-        
+        const buffer = removePlayerPacket.serialize();
+
         for (const client of this.gameServer.connectedClients) {
             if (!client.PlayerHandle || client.PlayerHandle == this)
                 continue;
 
-            client.send(removePlayerPacket);
+            client.send(buffer);
+            Diagnostics.recordNetworkSendTraffic(client, removePlayerPacket, buffer.byteLength / 1024);
         }
     }
 }
