@@ -26,7 +26,7 @@ class ClientHandle extends EventEmitter {
                 const packet = PacketManager.createPacket(packetID, buffer);
                 const handler = PacketManager.createHandler(packetID, this);
                 handler.handle(packet);
-                globalThis.logger.info('GameServer', `Packet received. ClientID: ${this.clientID}, PacketType: ${packet.constructor.name}, Size: ${buffer.byteLength / 1024}KB`);
+                globalThis.logger.info('GameServer', `Packet received. ClientID: ${this.clientID}, PacketType: ${packet.constructor.name}`);
             } catch (error) {
                 globalThis.logger.error('GameServer', `Error occurred while handling packet. ClientID: ${this.clientID}, PacketType: ${packet.constructor.name}.\n${error.stack}`);
             }
@@ -58,7 +58,7 @@ class ClientHandle extends EventEmitter {
         
         this.socket.send(buffer, { binary: true });
         Diagnostics.recordNetworkSendTraffic(this, packetType, buffer.byteLength / 1024);
-        // globalThis.logger.info('GameServer', `Packet sent. ClientID: ${this.clientID}, PacketType: ${packetType}, Size: ${buffer.byteLength / 1024}KB`);
+        // globalThis.logger.info('GameServer', `Packet sent. ClientID: ${this.clientID}, PacketType: ${packetType}`);
     }
 
     disconnect() {

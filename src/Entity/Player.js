@@ -9,10 +9,13 @@ class Player extends Character {
         this.onDestroyedCallback = onDestroyedCallback;
     }
 
-    // onStart() {
-    //     // ------ debug ------
-    //     this.levelComponent.gainXP(62450);
-    // }
+    onStart() {
+        // ------ debug ------
+        if(this.clientHandle.playerHandle?.isAdmin) {
+            this.levelComponent.gainXP(62450);
+            this.score = 0;
+        }
+    }
 
     getEntityType() {
         return EEntityType.BotPlayer;

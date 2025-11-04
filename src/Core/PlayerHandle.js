@@ -61,7 +61,7 @@ class PlayerHandle {
         if(this.playerEntity == null)
             return;
 
-        globalThis.logger.info('PlayerHandle', `Player entity removed by client disconnect. EntityID: ${this.playerEntity.entityID}`);
+        globalThis.logger.info('PlayerHandle', `Player entity removed by client disconnect. ClientID: ${this.clientHandle.clientID}, EntityID: ${this.playerEntity.entityID}`);
         this.lastPosition = this.playerEntity.position;
         this.broadcastRemovePlayerEntity();
         this.world.removeEntity(this.playerEntity);
