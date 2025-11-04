@@ -14,8 +14,8 @@
     "xpObjectLifeTimeMin": 10,
     "xpObjectLifeTimeMax": 15,
     "viewSize": {
-        "width": 48,
-        "height": 27
+        "width": 36,
+        "height": 20.25
     },
     "viewOffset": {
         "x": 30,
