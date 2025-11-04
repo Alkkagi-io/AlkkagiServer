@@ -27,13 +27,12 @@ const createWorldOptions = (configPath) => {
 };
 
 class World extends EventEmitter {
-    static entityCounter = 0;
-
     constructor(worldOptions) {
         super()
 
         this.worldOptions = worldOptions;
 
+        this.entityCounter = 0;
         this.time = 0;
         this.tickRate = worldOptions.tickRate;
         this.tick = 1000 / this.tickRate;
@@ -53,7 +52,7 @@ class World extends EventEmitter {
     }
 
     addEntity(entity) {
-        entity.entityID = World.entityCounter++;
+        entity.entityID = this.entityCounter++;
         // if(this.entities[entity.entityID] !== undefined || this.entityAddQueue.some(e => e.entityID === entity.entityID)) {
         //     globalThis.logger.error('World', `Entity ${entity.constructor.name}(${entity.getID()}) already exists`);
         //     return;
