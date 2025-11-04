@@ -26,8 +26,8 @@ const worldOptions = createWorldOptions(path.join(process.cwd(), 'config', 'worl
 const world = new World(worldOptions);
 
 // create game server
-// const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.local.json'));
-const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.seh00n.json'));
+const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.local.json'));
+// const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.seh00n.json'));
 // const serverOptions = createServerOptions(path.join(process.cwd(), 'config', 'server-config.live.json'));
 const gameServer = new GameServer(serverOptions, world);
 
