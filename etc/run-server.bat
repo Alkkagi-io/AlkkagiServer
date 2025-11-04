@@ -1,1 +1,1 @@
-pm2 start src/index.js --name alkkagi-server --no-daemon -cron "0 6 * * *"
+pm2 start src/index.js --name alkkagi-server --no-daemon --cron "0 6 * * *"
