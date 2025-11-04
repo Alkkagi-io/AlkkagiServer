@@ -11,15 +11,17 @@ class BotPlayerTargetConditionDecision extends FSMDecision {
     onDecide() {
         const aiData = this.brain.aiData;
         const currentTargetEntity = aiData.world.getEntity(aiData.currentTargetEntityID);
-        if(currentTargetEntity == null)
+        if(currentTargetEntity == null) {
             return false;
+        }
 
         const sqrDistance = Vector.subtract(currentTargetEntity.position, aiData.owner.position).getSqrMagnitude();
 
         if(this.targetDistanceOptionProvider != null) {
             const targetDistanceOption = this.targetDistanceOptionProvider(currentTargetEntity);
-            if(sqrDistance > targetDistanceOption * targetDistanceOption)
+            if(sqrDistance > targetDistanceOption * targetDistanceOption) {
                 return false;
+            }
         }
 
         if(this.targetKeepingDistanceProvider != null) {
@@ -28,7 +30,7 @@ class BotPlayerTargetConditionDecision extends FSMDecision {
                 return false;
             }
         }
-
+        
         return true;
     }
 }

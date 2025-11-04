@@ -95,14 +95,18 @@ class BotPlayerIdleState extends FSMState {
         });
 
         targetCharacters.sort((a, b) => {
-            const aSqrDistance = Vector.subtract(a.position, aiData.owner.position).getSqrMagnitude();
-            const bSqrDistance = Vector.subtract(b.position, aiData.owner.position).getSqrMagnitude();
+            const aDistanceGap = aiData.owner._getDistanceGap(a);
+            const bDistanceGap = aiData.owner._getDistanceGap(b);
+
+            const aSqrDistance = Math.max(0, Vector.subtract(a.position, aiData.owner.position).getSqrMagnitude() - aDistanceGap * aDistanceGap);
+            const bSqrDistance = Math.max(0, Vector.subtract(b.position, aiData.owner.position).getSqrMagnitude() - bDistanceGap * bDistanceGap);
             return aSqrDistance - bSqrDistance;
         });
 
         if(targetCharacters.length > 0) {
             const targetCharacter = targetCharacters[0];
-            const sqrDistance = Vector.subtract(targetCharacter.position, aiData.owner.position).getSqrMagnitude();
+            const distanceGap = aiData.owner._getDistanceGap(targetCharacter);
+            const sqrDistance = Math.max(0, Vector.subtract(targetCharacter.position, aiData.owner.position).getSqrMagnitude() - distanceGap * distanceGap);
             if(sqrDistance < options.characterDetectRadius * options.characterDetectRadius) {
                 aiData.currentTargetEntityID = targetCharacter.getID();
                 return;
@@ -110,8 +114,11 @@ class BotPlayerIdleState extends FSMState {
         }
         
         targetEntities.sort((a, b) => {
-            const aSqrDistance = Vector.subtract(a.position, aiData.owner.position).getSqrMagnitude();
-            const bSqrDistance = Vector.subtract(b.position, aiData.owner.position).getSqrMagnitude();
+            const aDistanceGap = aiData.owner._getDistanceGap(a);
+            const bDistanceGap = aiData.owner._getDistanceGap(b);
+
+            const aSqrDistance = Math.max(0, Vector.subtract(a.position, aiData.owner.position).getSqrMagnitude() - aDistanceGap * aDistanceGap);
+            const bSqrDistance = Math.max(0, Vector.subtract(b.position, aiData.owner.position).getSqrMagnitude() - bDistanceGap * bDistanceGap);
             return aSqrDistance - bSqrDistance;
         });
         

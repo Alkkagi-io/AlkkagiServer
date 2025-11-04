@@ -72,14 +72,28 @@ class BotPlayer extends Character {
                 case EEntityType.XPObject:
                     return -1;
                 default: 
-                    return 4 + target.scale * 0.5 + this.scale * 0.5;
+                    return 3 + this._getDistanceGap(target);
             }
         });
-        const attackState = new BotPlayerAttackState(moveState);
+        const attackState = new BotPlayerAttackState();
 
         idleState.addTransition(moveState, [new BotPlayerTargetConditionDecision(null, null)]);
 
-        moveState.addTransition(idleState, [new BotPlayerTargetConditionDecision(null, null).setReverse(true)]); 
+        moveState.addTransition(idleState, [
+            new BotPlayerTargetConditionDecision(
+                (target) => {
+                    switch(target.getEntityType()) {
+                        case EEntityType.BotPlayer:
+                        case EEntityType.Player:
+                            return 18 + this._getDistanceGap(target);
+                        default:
+                            return 10000000;
+                    }
+                }, 
+                // null,
+                null
+            ).setReverse(true)
+        ]); 
         moveState.addTransition(attackState, [
             new BotPlayerTargetConditionDecision(
                 (target) => {
@@ -87,7 +101,7 @@ class BotPlayer extends Character {
                         case EEntityType.XPObject:
                             return -1;
                         default:
-                            return 8 + target.scale * 0.5 + this.scale * 0.5;
+                            return 8 + this._getDistanceGap(target);
                     }
                 },
                 (target) => {
@@ -95,7 +109,7 @@ class BotPlayer extends Character {
                         case EEntityType.XPObject:
                             return -1;
                         default:
-                            return 4 + target.scale * 0.5 + this.scale * 0.5;
+                            return 3 + this._getDistanceGap(target);
                     }
                 },
             ),
@@ -106,6 +120,10 @@ class BotPlayer extends Character {
         fsmBrain.initialize(idleState, [idleState, moveState, attackState]);
 
         return fsmBrain;
+    }
+
+    _getDistanceGap(target) {
+        return target.scale * 0.5 + this.scale * 0.5;
     }
 }
 
