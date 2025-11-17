@@ -27,13 +27,13 @@ function applyAbility(character, res) {
     const buffData = res.getAbilityValue('Buff');
     if (!buffData) {
         const {
-            Icon = '',
+            Type = 0,
             Time = 0,
             IsPerminent = false,
-            Params = {}
+            Value = 0
         } = buffData;
 
-        character.buffManager.addBuff(new Buff(Icon, Time, IsPerminent, Params));
+        character.buffManager.addBuff(new Buff(Type, Time, IsPerminent, Value));
     }
 }
 

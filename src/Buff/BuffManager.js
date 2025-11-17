@@ -37,6 +37,10 @@ class BuffManager {
         }
     }
 
+    getTypeBuffs(type) {
+        return this.getBuffs(buff => buff.type == type);
+    }
+
     getBuffs(filter) {
         return this.buffs.filter(buff => buff.live && filter(buff));
     }
