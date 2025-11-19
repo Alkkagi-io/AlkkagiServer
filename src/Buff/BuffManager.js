@@ -1,6 +1,9 @@
+import { S2C_AddBuffPacket } from "../../AlkkagiShared/Packets/S2C_AddBuffPacket.js";
+import { S2C_RemoveBuffPacket } from "../../AlkkagiShared/Packets/S2C_RemoveBuffPacket.js";
+
 class BuffManager {
-    constructor(character) {
-        this.character = character;
+    constructor(player) {
+        this.player = player;
 
         this.buffs = [];
         this.removeBuffs = [];
@@ -16,11 +19,17 @@ class BuffManager {
 
         this.buffs.push(buff);
         buff.start();
+
+        const res = new S2C_AddBuffPacket(buff.toData());
+        this.player.clientHandle.send(res);
     }
 
     removeBuff(buff) {
         buff.end();
         this.removeBuffs.push(buff);
+
+        const res = new S2C_RemoveBuffPacket(buff.type);
+        this.player.clientHandle.send(res);
     }
 
     update(dt) {

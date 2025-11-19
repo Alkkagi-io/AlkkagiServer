@@ -1,3 +1,6 @@
+import { EBuffType } from "../../AlkkagiShared/Datas/EBuffType.js";
+import { BuffData } from "../../AlkkagiShared/Modules/BuffData.js";
+
 class Buff {
     constructor(type, time, isPerminent, value) {
         this.type = type;
@@ -12,8 +15,12 @@ class Buff {
     }
 
     update(dt) {
-        if (this.isPerminent)
+        if (this.isPerminent) {
+            if (this.type == EBuffType.Shield) {
+                return this.value > 0;
+            }
             return true;
+        }
 
         if (this.time >= 0) {
             this.time -= dt;
@@ -30,6 +37,10 @@ class Buff {
             return;
 
         this.live = false;
+    }
+
+    toData() {
+        return new BuffData(this.type, this.isPerminent ? -1 : this.time, this.value);
     }
 }
 
