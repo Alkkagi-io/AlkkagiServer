@@ -12,6 +12,7 @@ import { Vector } from '../../../AlkkagiShared/Modules/Vector.js';
 import { XPObject } from '../XPObject.js';
 import { CharacterWallet } from './CharacterWallet.js';
 import { Random } from '../../../AlkkagiShared/Modules/Random.js';
+import { CharacterAbility } from './CharacterAbility.js';
 
 const CHARACTER_XP_DROP_STEP = 10;
 const CHARACTER_XP_DROP_INNER_RADIUS = 10;
@@ -54,6 +55,7 @@ class Character extends Unit {
 
         this.attackComponent = new CharacterAttack(this);
         this.levelComponent = new CharacterLevel(this, this.onGainXP.bind(this), this.onLevelUp.bind(this), this.onStatLevelUp.bind(this));
+        this.abilityComponent = new CharacterAbility(this);
     }
 
     onUpdate(deltaTime) {
@@ -74,6 +76,18 @@ class Character extends Unit {
             if (this.healthComponent) {
                 this.healthComponent.heal(this, this.statManager.getValue(StatConfig.Type.AUTO_HEAL) * CHARACTER_AUTO_HEAL_INTERVAL);
             }
+        }
+
+        if(this.abilityComponent) {
+            this.abilityComponent.onUpdate(deltaTime);
+        }
+    }
+
+    onLateUpdate(deltaTime) {
+        super.onLateUpdate(deltaTime);
+
+        if(this.abilityComponent) {
+            this.abilityComponent.onLateUpdate(deltaTime);
         }
     }
 
