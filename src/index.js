@@ -125,3 +125,15 @@ process.on('SIGINT', () => {
 // const botPlayer = new BotPlayer(world, 'BotPlayer');
 // world.addEntity(botPlayer);
 // botPlayer.position.set(0, 0);
+
+// ----- debug -----
+
+import { AbilityContainer, AbilityEvolutionContainer } from './Entity/index.js';
+
+const abilityContainer = new AbilityContainer(world);
+world.addEntity(abilityContainer);
+abilityContainer.position.set(-5, 0);
+
+const abilityEvolutionContainer = new AbilityEvolutionContainer(world);
+world.addEntity(abilityEvolutionContainer);
+abilityEvolutionContainer.position.set(5, 0);
