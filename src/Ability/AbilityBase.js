@@ -1,6 +1,8 @@
 class AbilityBase {
-    constructor(owner, word) {
-        throw new Error('AbilityBase is an abstract class');
+    constructor(owner, world, abilityID) {
+        this.owner = owner;
+        this.world = world;
+        this.abilityID = abilityID;
     }
 
     onActive() {

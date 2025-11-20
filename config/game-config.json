@@ -20,5 +20,9 @@
     "viewOffset": {
         "x": 30,
         "y": 30
-    }
+    },
+    "abilityContainerInteractionRadius": 10,
+    "abilityContainerInteractionGoldCost": 100,
+    "abilityEvolutionContainerInteractionRadius": 10,
+    "abilityEvolutionContainerInteractionGoldCost": 1000
 }

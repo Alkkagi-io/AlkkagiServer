@@ -1,6 +1,7 @@
 import { System } from './System.js';
 import { S2C_UpdateWorldPacket } from '../../AlkkagiShared/Packets/index.js';
 import { Character } from '../Entity/index.js';
+import { getEntityViewAABB } from '../Utils/Entity/GetEntityViewAABB.js';
 
 // 5Hz
 // const WORLD_UPDATE_TICK = 6;
@@ -38,7 +39,7 @@ class WorldNetworkUpdatorSystem extends System {
             if (!client.playerHandle)
                 return;
 
-            const AABB = this._getEntityViewAABB(client.playerHandle.getEntityPosition(), client.playerHandle.isAdmin);
+            const AABB = getEntityViewAABB(client.playerHandle.getEntityPosition(), client.playerHandle.isAdmin);
             const { appearedEntities, nearbyEntities, disappearedEntities } = client.playerHandle.updateVisibleEntities(AABB);
 
             const packet = new S2C_UpdateWorldPacket(elapsedMS, client.playerHandle.playerEntity, appearedEntities, nearbyEntities, disappearedEntities);
@@ -47,23 +48,6 @@ class WorldNetworkUpdatorSystem extends System {
 
         // globalThis.logger.debug('WorldNetworkUpdatorSystem', `entity updated. entity count : ${entities.length}, client count : ${this.gameServer.connectedClients.size}`)
         // globalThis.logger.debug('WorldNetworkUpdatorSystem', `elapsedMS: ${elapsedMS}`);
-    }
-
-    _getEntityViewAABB(position, isAdmin) {
-        let hw = globalThis.gameConfig.viewSize.width / 2 + globalThis.gameConfig.viewOffset.x;
-        let hh = globalThis.gameConfig.viewSize.height / 2 + globalThis.gameConfig.viewOffset.y;
-
-        if (isAdmin) {
-            hw *= 3;
-            hh *= 3;
-        }
-
-        return {
-            minX: position.x - hw,
-            minY: position.y - hh,
-            maxX: position.x + hw,
-            maxY: position.y + hh
-        };
     }
 }
 

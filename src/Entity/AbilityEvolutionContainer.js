@@ -15,6 +15,11 @@ class AbilityEvolutionContainer extends Entity {
     getEntityType() {
         return EEntityType.AbilityEvolutionContainer;
     }
+
+    getEvolvedAbility(playerEntity) {
+        // TODO: 어빌리티 진화 처리
+        return null;
+    }
 }
 
 export { AbilityEvolutionContainer };

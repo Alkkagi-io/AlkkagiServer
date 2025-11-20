@@ -15,6 +15,11 @@ class AbilityContainer extends Entity {
     getEntityType() {
         return EEntityType.AbilityContainer;
     }
+
+    getRandomAbility(playerEntity) {
+        // TODO: 어빌리티 랜덤 소환해서 반환하기
+        return null;
+    }
 }
 
 export { AbilityContainer };

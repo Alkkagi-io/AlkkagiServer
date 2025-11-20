@@ -10,6 +10,8 @@ function buildPacketManager(gameServer, world) {
     PacketManager.on(Packets.EPacketID.C2S_StartAttackCharging, Packets.C2S_StartAttackChargingPacket, PacketHandlers.C2S_StartAttackChargingPacketHandler);
     PacketManager.on(Packets.EPacketID.C2S_FinishAttackCharging, Packets.C2S_FinishAttackChargingPacket, PacketHandlers.C2S_FinishAttackChargingPacketHandler);
     PacketManager.on(Packets.EPacketID.C2S_CharacterStatLevelUpRequest, Packets.C2S_CharacterStatLevelUpRequestPacket, PacketHandlers.C2S_CharacterStatLevelUpRequestPacketHandler);
+    PacketManager.on(Packets.EPacketID.C2S_InteractAbilityContainerRequestPacket, Packets.C2S_InteractAbilityContainerRequestPacket, PacketHandlers.C2S_InteractAbilityContainerRequestPacketHandler);
+    PacketManager.on(Packets.EPacketID.C2S_InteractAbilityEvolutionContainerRequestPacket, Packets.C2S_InteractAbilityEvolutionContainerRequestPacket, PacketHandlers.C2S_InteractAbilityEvolutionContainerRequestPacketHandler);
 
     // inject game server
     PacketManager.injectHandlerArgs(gameServer, world);
