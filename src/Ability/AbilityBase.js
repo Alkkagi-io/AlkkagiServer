@@ -4,6 +4,10 @@ class AbilityBase {
         this.world = world;
         this.abilityID = abilityID;
     }
+    
+    getAbilityType() {
+        throw new Error('AbilityBase is an abstract class');
+    }
 
     onActive() {
         throw new Error('AbilityBase is an abstract class');

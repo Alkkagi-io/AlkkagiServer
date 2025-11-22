@@ -1,6 +1,9 @@
 import { Entity } from './Entity.js';
 import { EEntityType } from '../../AlkkagiShared/Datas/index.js';
 import { SphereCollider } from '../Collision/Collider/SphereCollider.js';
+import { ResourceAbilityInfo } from '../../AlkkagiShared/Resource/ResourceAbilityInfo.js';
+import { Random } from '../../AlkkagiShared/Modules/Random.js';
+import { AbilityFactory } from '../Ability/AbilityFactory.js';
 
 class AbilityContainer extends Entity {
     constructor(world) {
@@ -17,8 +20,19 @@ class AbilityContainer extends Entity {
     }
 
     getRandomAbility(playerEntity) {
-        // TODO: 어빌리티 랜덤 소환해서 반환하기
-        return null;
+        const entryAbilityInfos = ResourceAbilityInfo.getEntryAbilityInfos();
+        if(entryAbilityInfos == null || entryAbilityInfos.length == 0) {
+            return null;
+        }
+
+        const randomIndex = Random.rangeInt(0, entryAbilityInfos.length);
+        const randomAbilityInfo = entryAbilityInfos[randomIndex];
+        if(randomAbilityInfo == null) {
+            return null;
+        }
+
+        const ability = AbilityFactory.createAbility(randomAbilityInfo.abilityType);
+        return ability;
     }
 }
 

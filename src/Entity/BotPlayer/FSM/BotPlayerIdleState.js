@@ -3,6 +3,7 @@ import { FSMState } from '../../../Component/FSM/index.js';
 import { Vector } from '../../../../AlkkagiShared/Modules/Vector.js';
 import { StatConfig } from '../../../../AlkkagiShared/Configs/StatConfig.js';
 import { Random } from '../../../../AlkkagiShared/Modules/Random.js';
+import { EEntityType } from '../../../../AlkkagiShared/Datas/index.js';
 
 const UPDATE_INTERVAL = 1;
 const TARGET_DETECTION_INTERVAL = 2;
@@ -86,6 +87,10 @@ class BotPlayerIdleState extends FSMState {
                 return;
             
             if(entity == aiData.owner)
+                return;
+        
+            const entityType = entity.getEntityType();
+            if(entityType == EEntityType.AbilityContainer || entityType == EEntityType.AbilityEvolutionContainer)
                 return;
 
             if(entity instanceof Character)

@@ -6,3 +6,5 @@ export { GoldSpawnSystem } from "./GoldSpawnSystem.js";
 export { BotPlayerSpawnSystem } from "./BotPlayerSpawnSystem.js";
 export { RankingCalculateSystem } from "./RankingCalculateSystem.js";
 export { DiagnosticsSystem } from "./DiagnosticsSystem.js";
+export { AbilityContainerSpawnSystem } from "./AbilityContainerSpawnSystem.js";
+export { AbilityEvolutionContainerSpawnSystem } from "./AbilityEvolutionContainerSpawnSystem.js";

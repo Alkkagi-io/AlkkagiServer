@@ -11,7 +11,7 @@ import { ResourceManager } from './Resource/ResourceManager.js'
 import { GameServer, createServerOptions } from './Core/GameServer.js';
 import { World, createWorldOptions } from './Core/World.js';
 import { buildPacketManager } from './Core/PacketManager.js';
-import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem, GoldSpawnSystem, BotPlayerSpawnSystem, RankingCalculateSystem, DiagnosticsSystem } from './System/index.js';
+import { WorldNetworkUpdatorSystem, CollisionSystem, XPSpawnSystem, GoldSpawnSystem, BotPlayerSpawnSystem, RankingCalculateSystem, DiagnosticsSystem, AbilityContainerSpawnSystem, AbilityEvolutionContainerSpawnSystem } from './System/index.js';
 
 // global variables
 globalThis.logger = logger;
@@ -37,6 +37,8 @@ world.addSystem(new RankingCalculateSystem(world, gameServer));
 world.addSystem(new CollisionSystem(world));
 world.addSystem(new XPSpawnSystem(world));
 // world.addSystem(new GoldSpawnSystem(world));
+world.addSystem(new AbilityContainerSpawnSystem(world));
+world.addSystem(new AbilityEvolutionContainerSpawnSystem(world));
 world.addSystem(new BotPlayerSpawnSystem(world, gameServer));
 world.addSystem(new DiagnosticsSystem(world, gameServer));
 
@@ -128,12 +130,12 @@ process.on('SIGINT', () => {
 
 // ----- debug -----
 
-import { AbilityContainer, AbilityEvolutionContainer } from './Entity/index.js';
+// import { AbilityContainer, AbilityEvolutionContainer } from './Entity/index.js';
 
-const abilityContainer = new AbilityContainer(world);
-world.addEntity(abilityContainer);
-abilityContainer.position.set(-5, 0);
+// const abilityContainer = new AbilityContainer(world);
+// world.addEntity(abilityContainer);
+// abilityContainer.position.set(-5, 0);
 
-const abilityEvolutionContainer = new AbilityEvolutionContainer(world);
-world.addEntity(abilityEvolutionContainer);
-abilityEvolutionContainer.position.set(5, 0);
+// const abilityEvolutionContainer = new AbilityEvolutionContainer(world);
+// world.addEntity(abilityEvolutionContainer);
+// abilityEvolutionContainer.position.set(5, 0);

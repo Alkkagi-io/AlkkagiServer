@@ -3,6 +3,9 @@ import { ResourceShopItem } from "../../AlkkagiShared/Resource/ResourceShopItem.
 import { ResourceCharacterLevel } from "../../AlkkagiShared/Resource/ResourceCharacterLevel.js";
 import { ResourceXPSpawnSystemConfig } from "./ResourceXPSpawnSystemConfig.js";
 import { ResourceGoldSpawnSystemConfig } from "./ResourceGoldSpawnSystemConfig.js";
+import { ResourceAbilityContainerSpawnSystemConfig } from "./ResourceAbilityContainerSpawnSystemConfig.js";
+import { ResourceAbilityEvolutionContainerSpawnSystemConfig } from "./ResourceAbilityEvolutionContainerSpawnSystemConfig.js";
+import { ResourceAbilityInfo } from "../../AlkkagiShared/Resource/ResourceAbilityInfo.js";
 import path from "node:path";
 import fs from "node:fs/promises";
 import fss from "node:fs";
@@ -22,10 +25,16 @@ class ResourceManager {
         ResourceStatLevelUp.load(await this._getJsonData('StatLevelUps.json'));
         ResourceShopItem.load(await this._getJsonData('ShopItems.json'));
         ResourceCharacterLevel.load(await this._getJsonData('CharacterLevels.json'));
+        ResourceAbilityInfo.load(await this._getJsonData('AbilityInfos.json'));
 
         // server data load
         ResourceXPSpawnSystemConfig.load(await this._getJsonData('XPSpawnSystemConfig.json', 'resources'));
         ResourceGoldSpawnSystemConfig.load(await this._getJsonData('GoldSpawnSystemConfig.json', 'resources'));
+        ResourceAbilityContainerSpawnSystemConfig.load(await this._getJsonData('AbilityContainerSpawnSystemConfig.json', 'resources'));
+        ResourceAbilityEvolutionContainerSpawnSystemConfig.load(await this._getJsonData('AbilityEvolutionContainerSpawnSystemConfig.json', 'resources'));
+
+        // indexing
+        ResourceAbilityInfo.indexing();
 
         this.loaded = true;
 
