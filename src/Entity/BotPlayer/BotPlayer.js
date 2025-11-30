@@ -58,8 +58,12 @@ class BotPlayer extends Character {
 
     onGainXP(prevXP, currentXP) {
         super.onGainXP(prevXP, currentXP);
+
+        if (this.enabled == false)
+            return;
+
         if (this.score >= this.targetScore) {
-            this.world.removeEntity(this);
+            this.destroy();
         }
     }
 
@@ -68,10 +72,10 @@ class BotPlayer extends Character {
 
         const idleState = new BotPlayerIdleState();
         const moveState = new BotPlayerMoveState((target) => {
-            switch(target.getEntityType()) {
+            switch (target.getEntityType()) {
                 case EEntityType.XPObject:
                     return -1;
-                default: 
+                default:
                     return 3 + this._getDistanceGap(target);
             }
         });
@@ -82,22 +86,22 @@ class BotPlayer extends Character {
         moveState.addTransition(idleState, [
             new BotPlayerTargetConditionDecision(
                 (target) => {
-                    switch(target.getEntityType()) {
+                    switch (target.getEntityType()) {
                         case EEntityType.BotPlayer:
                         case EEntityType.Player:
                             return 18 + this._getDistanceGap(target);
                         default:
                             return 10000000;
                     }
-                }, 
+                },
                 // null,
                 null
             ).setReverse(true)
-        ]); 
+        ]);
         moveState.addTransition(attackState, [
             new BotPlayerTargetConditionDecision(
                 (target) => {
-                    switch(target.getEntityType()) {
+                    switch (target.getEntityType()) {
                         case EEntityType.XPObject:
                             return -1;
                         default:
@@ -105,7 +109,7 @@ class BotPlayer extends Character {
                     }
                 },
                 (target) => {
-                    switch(target.getEntityType()) {
+                    switch (target.getEntityType()) {
                         case EEntityType.XPObject:
                             return -1;
                         default:

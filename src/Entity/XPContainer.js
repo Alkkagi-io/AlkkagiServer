@@ -31,13 +31,21 @@ class XPContainer extends Entity {
     }
 
     onHPChanged(performer, prevHP, currentHP) {
+        if(this.enabled == false) {
+            return;
+        }
+
         if(currentHP > 0) {
             return;
         }
 
         this.spawnXPObject(this.xpAmount);
+        this.destroy();
+    }
+
+    onDestroy() {
+        super.onDestroy();
         this.onDestroyCallback?.();
-        this.world.removeEntity(this);
     }
 
     spawnXPObject(xpAmount) {

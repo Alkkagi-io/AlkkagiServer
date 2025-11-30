@@ -40,6 +40,11 @@ class Entity {
     onCollisionEnter(other) { }    // called once when collision with another entity begins
     onCollisionStay(other) { }      // called every frame while colliding with another entity
     onCollisionExit(other) { }      // called once when collision with another entity ends
+
+    destroy() {
+        this.enabled = false;
+        this.world.removeEntity(this);
+    }
 }
 
 export { Entity };

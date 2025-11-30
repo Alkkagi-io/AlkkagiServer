@@ -39,12 +39,12 @@ class World extends EventEmitter {
         this.next = Date.now();
         
         this.entities = {}; // <entityID, entity>
-        this.entityAddQueue = [];
-        this.entityRemoveQueue = [];
+        this.entityAddQueue = new Set();
+        this.entityRemoveQueue = new Set();
         
         this.systems = {}; // <systemID, system>
-        this.systemAddQueue = [];
-        this.systemRemoveQueue = [];
+        this.systemAddQueue = new Set();
+        this.systemRemoveQueue = new Set();
 
         this.entityTree = new DynamicAABBTree({ fatMargin: 2 });
 
@@ -53,20 +53,31 @@ class World extends EventEmitter {
 
     addEntity(entity) {
         entity.entityID = this.entityCounter++;
-        // if(this.entities[entity.entityID] !== undefined || this.entityAddQueue.some(e => e.entityID === entity.entityID)) {
-        //     globalThis.logger.error('World', `Entity ${entity.constructor.name}(${entity.getID()}) already exists`);
-        //     return;
-        // }
-        this.entityAddQueue.push(entity);
+        if(this.entities[entity.entityID] != null) {
+            globalThis.logger.error('World', `Entity ${entity.constructor.name}(${entity.getID()}) already exists`);
+            return;
+        }
+
+        if(this.entityAddQueue.has(entity)) {
+            globalThis.logger.error('World', `Entity ${entity.constructor.name}(${entity.getID()}) is already in add queue`);
+            return;
+        }
+
+        this.entityAddQueue.add(entity);
     }
 
     removeEntity(entity) {
-        if(this.entities[entity.entityID] === undefined && !this.entityRemoveQueue.some(e => e.entityID === entity.entityID)) {
+        if(this.entities[entity.entityID] == null) {
             globalThis.logger.error('World', `Entity ${entity.constructor.name}(${entity.getID()}) does not exist`);
             return;
         }
-        
-        this.entityRemoveQueue.push(entity);
+
+        if(this.entityRemoveQueue.has(entity)) {
+            globalThis.logger.error('World', `Entity ${entity.constructor.name}(${entity.getID()}) is already in remove queue`);
+            return;
+        }
+
+        this.entityRemoveQueue.add(entity);
     }
 
     getEntity(entityID) {
@@ -74,21 +85,31 @@ class World extends EventEmitter {
     }
 
     addSystem(system) {
-        if(this.systems[system.getSystemID()] !== undefined || this.systemAddQueue.some(s => s.getSystemID() === system.getSystemID())) {
+        if(this.systems[system.getSystemID()] != null) {
             globalThis.logger.error('World', `System ${system.constructor.name}(${system.getID()}) already exists`);
             return;
         }
 
-        this.systemAddQueue.push(system);
+        if(this.systemAddQueue.has(system)) {
+            globalThis.logger.error('World', `System ${system.constructor.name}(${system.getID()}) is already in add queue`);
+            return;
+        }
+
+        this.systemAddQueue.add(system);
     }
 
     removeSystem(system) {
-        if(this.systems[system.getSystemID()] === undefined && !this.systemRemoveQueue.some(s => s.getSystemID() === system.getSystemID())) {
+        if(this.systems[system.getSystemID()] == null) {
             globalThis.logger.error('World', `System ${system.constructor.name}(${system.getID()}) does not exist`);
             return;
         }
 
-        this.systemRemoveQueue.push(system);
+        if(this.systemRemoveQueue.has(system)) {
+            globalThis.logger.error('World', `System ${system.constructor.name}(${system.getID()}) is already in remove queue`);
+            return;
+        }
+
+        this.systemRemoveQueue.add(system);
     }
 
     getSystem(systemID) {
@@ -151,30 +172,26 @@ class World extends EventEmitter {
 
         const entityAddQueue = this.entityAddQueue;
         const systemAddQueue = this.systemAddQueue;
-        this.entityAddQueue = [];
-        this.systemAddQueue = [];
+        this.entityAddQueue = new Set();
+        this.systemAddQueue = new Set();
 
-        for(let i = 0; i < entityAddQueue.length; i++) {
-            const entity = entityAddQueue[i];
+        for(const entity of entityAddQueue) {
             this.publishEvent(entity, entity.onAwake);
             this.entities[entity.entityID] = entity;
             entity.refLeaf = this.entityTree.insert(entity, entity.collider.getAABB());
             this.emit('addEntity', entity);
         }
 
-        for(let i = 0; i < systemAddQueue.length; i++) {
-            const system = systemAddQueue[i];
+        for(const system of systemAddQueue) {
             this.publishEvent(system, system.onAwake);
             this.systems[system.getSystemID()] = system;
         }
 
-        for(let i = 0; i < entityAddQueue.length; i++) {
-            const entity = entityAddQueue[i];
+        for(const entity of entityAddQueue) {
             this.publishEvent(entity, entity.onStart);
         }
 
-        for(let i = 0; i < systemAddQueue.length; i++) {
-            const system = systemAddQueue[i];
+        for(const system of systemAddQueue) {
             this.publishEvent(system, system.onStart);
         }
     }
@@ -202,19 +219,17 @@ class World extends EventEmitter {
     { 
         const entityRemoveQueue = this.entityRemoveQueue;
         const systemRemoveQueue = this.systemRemoveQueue;
-        this.entityRemoveQueue = [];
-        this.systemRemoveQueue = [];
+        this.entityRemoveQueue = new Set();
+        this.systemRemoveQueue = new Set();
 
-        for(let i = 0; i < entityRemoveQueue.length; i++) {
-            const entity = entityRemoveQueue[i];
+        for(const entity of entityRemoveQueue) {
             this.publishEvent(entity, entity.onDestroy);
             this.entityTree.remove(entity.refLeaf);
             this.emit('removeEntity', entity);
             delete this.entities[entity.entityID];
         }
 
-        for(let i = 0; i < systemRemoveQueue.length; i++) {
-            const system = systemRemoveQueue[i];
+        for(const system of systemRemoveQueue) {
             this.publishEvent(system, system.onDestroy);
             delete this.systems[system.getSystemID()];
         }

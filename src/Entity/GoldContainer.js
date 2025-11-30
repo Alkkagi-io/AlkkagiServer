@@ -34,8 +34,12 @@ class GoldContainer extends Entity {
             walletComponent.gainGold(this.goldAmount);
         }
 
+        this.destroy();
+    }
+
+    onDestroy() {
+        super.onDestroy();
         this.onDestroyCallback?.();
-        this.world.removeEntity(this);
     }
 }
 

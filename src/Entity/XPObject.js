@@ -30,7 +30,7 @@ class XPObject extends Entity {
     onUpdate(deltaTime) {
         this.lifeTime -= deltaTime;
         if(this.lifeTime <= 0) {
-            this.world.removeEntity(this);
+            this.destroy();
         }
     }
 
@@ -46,7 +46,7 @@ class XPObject extends Entity {
             levelComponent.gainXP(this.xpAmount);
         }
 
-        this.world.removeEntity(this);
+        this.destroy();
     }
 }
 
