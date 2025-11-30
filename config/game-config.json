@@ -17,6 +17,10 @@
         "width": 36,
         "height": 20.25
     },
+    "mobileViewSize": {
+        "width": 20.25,
+        "height": 36
+    },
     "viewOffset": {
         "x": 30,
         "y": 30

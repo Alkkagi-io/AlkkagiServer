@@ -40,7 +40,8 @@ class C2S_EnterWorldRequestPacketHandler extends ServerPacketHandler {
             worldPlayers.push(entity);
         }
 
-        const viewSize = new Vector(globalThis.gameConfig.viewSize.width, globalThis.gameConfig.viewSize.height);
+        const viewSizeConfig = packet.isMobile ? globalThis.gameConfig.mobileViewSize : globalThis.gameConfig.viewSize;
+        const viewSize = new Vector(viewSizeConfig.width, viewSizeConfig.height);
         if(playerHandle.isAdmin) {
             viewSize.multiply(3);
         }
